@@ -63,7 +63,7 @@
 
                     <br>
                     
-                    <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.html">START</a>
+                    <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.php">START</a>
                   
                    </form>
           

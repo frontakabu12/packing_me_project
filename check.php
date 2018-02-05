@@ -1,3 +1,55 @@
+<?php
+session_start();
+
+require('dbconnect.php');
+
+if (isset($_POST) && !empty($_POST)) {
+    //変数に入力された値を代入して扱いやすいようにする
+    $nick_name = $_SESSION['name'];
+    $email = $_SESSION['email'];
+    $password = $_SESSION['password'];
+
+
+    try {
+    //DBに会員情報を登録するSQL文を作成
+      // now() MySQLが用意してくれている関数。現在日時を取得できる
+      $sql = "INSERT INTO `packingme_users`(`user_name`, `email`, `password`, `created`, `modifide`) VALUES (?,?,?,now(),now())";
+
+    //SQL文を実行
+      // sha1 暗号化を行う関数
+      $data = array($nick_name,$email,sha1($password));
+      $stmt = $dbh->prepare($sql);
+      $stmt->execute($data);
+
+    //$_SESSIONの情報を削除
+      // unset 指定した変数を削除するという意味。SESSIONじゃなくても使える
+      //unset($_SESSION["join"]);
+
+    //thanks.phpへ遷移
+      header('Location: thanks.php');
+      exit();
+      
+    } catch (Exception $e) {
+      //tryで囲まれた処理でエラーが発生したときに、やりたい処理を記述する場所
+      echo 'SQL実行エラー:'.$e->getMessage();
+      exit();
+      
+    }
+
+    
+
+  }
+
+
+
+
+
+
+
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,11 +119,11 @@
                 <!-- 登録内容を表示 -->
                 <tr>
                   <td><div class="col-lg-12 text-center">Name</div></td>
-                  <td><div class="text-center"></div></td>
+                  <td><div class="text-center"><?php echo $_SESSION['name']; ?></div></td>
                 </tr>
                 <tr>
                   <td><div class="col-lg-12 text-center">Email</div></td>
-                  <td><div class="text-center"></div></td>
+                  <td><div class="text-center"><?php echo $_SESSION['email']; ?> </div></td>
                 </tr>
                 <tr>
                   <td><div class="col-lg-12 text-center">password</div></td>
@@ -83,15 +135,15 @@
               </tbody>
             </table>
                 
+              <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="signin.php?action=rewrite">BACK</a> 
+              <input type="submit" class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" value="OK">   
           </div>
         </form>
               
               
               
       </div>
-            <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="signin.html">BACK</a>
-              <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="thanks.html">OK</a>   
-                 
+            
 
 
     </div>

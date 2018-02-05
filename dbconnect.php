@@ -1,7 +1,7 @@
 <?php 
 	// 開発環境用
 	// ステップ1 データベースに接続する
-	$dsn = 'mysql:dbname=seed_sns;host=localhost';
+	$dsn = 'mysql:dbname=packing_me;host=localhost';
 
 	// $user データベース接続用ユーザー名
 	// $password データベース接続用ユーザーのパスワード
