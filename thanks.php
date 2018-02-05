@@ -1,3 +1,18 @@
+<?php
+  session_start();
+  require('dbconnect.php');
+
+  // userのIDを取得するsql
+  $sql = "SELECT * FROM`packingme_users`WHERE`user_name`=?";
+  // sql実行
+  $data = array($_SESSION["name"]);
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute($data);
+// フェッチ
+  $user = $stmt->fetch(PDO::FETCH_ASSOC);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,7 +78,7 @@
 
                     <br>
                     
-                    <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.php">START</a>
+                    <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.php?id=<?php echo $user["id"]; ?>">START</a>
                   
                    </form>
           

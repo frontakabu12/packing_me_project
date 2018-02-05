@@ -80,7 +80,7 @@
               <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php?id=<?php echo $_GET["id"];?>">My Page</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
@@ -153,8 +153,8 @@
 <!-- ここまで -->
 
           <div class="profile-container">
-            <a class="profile-link" href="mypage.html">
-              <img  class="image-with-link" src="zakiyama.png">
+            <a class="profile-link" href="mypage.php">
+              <img  class="image-with-link" src="img/zakiyama.png">
               <span class="name-with-link">zakiyama</span>
             </a>
           </div>
@@ -165,7 +165,7 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="zaki.png" alt="">
+              <img class="img-fluid" src="img/zaki.png" alt="">
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"><span>200,000 like</span></i>
@@ -366,7 +366,7 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/agency.min.js"></script>
-    <script src="packing_me.js"></script>
+    <script src="../packing_me.js"></script>
   </body>
 
 </html>

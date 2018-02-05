@@ -1,9 +1,9 @@
 <?php
-session_start();
+  session_start();
 
-require('dbconnect.php');
+  require('dbconnect.php');
 
-if (isset($_POST) && !empty($_POST)) {
+  if (isset($_POST) && !empty($_POST)) {
     //変数に入力された値を代入して扱いやすいようにする
     $nick_name = $_SESSION['name'];
     $email = $_SESSION['email'];
@@ -13,7 +13,6 @@ if (isset($_POST) && !empty($_POST)) {
     try {
     //DBに会員情報を登録するSQL文を作成
       // now() MySQLが用意してくれている関数。現在日時を取得できる
-      $sql = "INSERT INTO `packingme_users`(`user_name`, `email`, `password`, `created`, `modifide`) VALUES (?,?,?,now(),now())";
       $sql = "INSERT INTO `packingme_users`(`user_name`, `email`, `password`) VALUES (?,?,?)";
 
     //SQL文を実行
@@ -33,22 +32,9 @@ if (isset($_POST) && !empty($_POST)) {
     } catch (Exception $e) {
       //tryで囲まれた処理でエラーが発生したときに、やりたい処理を記述する場所
       echo 'SQL実行エラー:'.$e->getMessage();
-      exit();
-      
+      exit(); 
     }
-
-    
-
   }
-
-
-
-
-
-
-
-
-
 
 ?>
 <!DOCTYPE html>

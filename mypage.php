@@ -1,3 +1,19 @@
+<?php
+  require('dbconnect.php');
+
+  if(isset($_GET)){
+    // 一行データ取得するsql
+    $sql = "SELECT * FROM`packingme_users`WHERE`id`=".$_GET["id"];
+    // sql実行
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+    // フェッチ
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+  }
+?> 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,8 +81,8 @@
     <div class="right-right">
       <div class="right-caram">
         <div class="profile-imgs">
-          <div class="top-image"><img src="naoki2.png"></div>
-          <h3>Naoki</h3>
+          <div class="top-image"><img src="picture_path/<?php echo $user["picture_path"];?>"></div>
+          <h3><?php echo $user["user_name"];?></h3>
         </div>
         <br>
         <!-- <div class="profile-texts">
@@ -74,14 +90,12 @@
         </div> -->
         
         <div class="profile-texts">
-          <p>Hello,everyone!good afternoon.
-            I LOVE TRAVEL TOO MUCH!lets go travel with us.
-            See you in the world.
-            Thank you.
+          <p>
+          <?php echo $user["self_intro"];?>
           </p>
         </div>
         <div class="profile-texts">
-          <span>https://seizetheday.jp/about-me/</span>
+          <span><?php echo $user["web_site"];?></span>
         </div>
           <div class="buttons">
             <div class="be-center"><a href="like.html"><button class="like-button">いいね一覧</button></a></div>
@@ -101,6 +115,9 @@
           </div>
         </div>
         <div class="row">
+
+
+
           <div class="col-md-6 col-sm-6 portfolio-item">
             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
               <div class="portfolio-hover">
@@ -108,13 +125,15 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="packing.png" alt="">
+              <img class="img-fluid" src="img/packing.png" alt="">
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"> 10 like</i>
               <!-- <p class="text-muted">more</p> -->
             </div>
           </div>
+
+
           <div class="col-md-6 col-sm-6 portfolio-item">
             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
               <div class="portfolio-hover">
@@ -122,12 +141,15 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="inside4.png" alt="">
+              <img class="img-fluid" src="img/inside4.png" alt="">
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"> 10 like</i>
             </div>
           </div>
+
+
+
           <div class="col-md-6 col-sm-6 portfolio-item">
             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3">
               <div class="portfolio-hover">
@@ -135,13 +157,15 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="naonao.png" alt="">
+              <img class="img-fluid" src="img/naonao.png" alt="">
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"> 1000 like</i>
               <!-- <p class="text-muted">more</p> -->
             </div>
           </div>
+
+
           <div class="col-md-6 col-sm-6 portfolio-item">
             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal4">
               <div class="portfolio-hover">
@@ -149,13 +173,16 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="inside3.png" alt="">
+              <img class="img-fluid" src="img/inside3.png" alt="">
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"> 15 like</i>
               <!-- <p class="text-muted">more</p> -->
             </div>
           </div>
+
+
+
           <div class="col-md-6 col-sm-6 portfolio-item">
             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal5">
               <div class="portfolio-hover">
@@ -163,13 +190,16 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="inside4.png" alt="">
+              <img class="img-fluid" src="img/inside4.png" alt="">
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"> 10 like</i>
               <!-- <p class="text-muted">more</p> -->
             </div>
           </div>
+
+
+
           <div class="col-md-6 col-sm-6 portfolio-item">
             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal6">
               <div class="portfolio-hover">
@@ -177,13 +207,15 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="inside5.jpg" alt="">
+              <img class="img-fluid" src="img/inside5.jpg" alt="">
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"> 10 like</i>
               <!-- <p class="text-muted">more</p> -->
             </div>
           </div>
+
+          
           <div id="load" style="margin:0 auto;">
             <div ><i class="fa fa-spinner fa-pulse fa-3x"></i></div>
             <!-- <span class="sr-only">Loading...</span> -->
@@ -309,7 +341,7 @@
           <div class="col-md-4">
             <ul class="list-inline quicklinks">
               <li class="list-inline-item">
-                <a href="privacy_policy.html">Privacy Policy</a>
+                <a href="privacy_policy.php">Privacy Policy</a>
               </li>
             </ul>
           </div>
@@ -330,7 +362,7 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/agency.min.js"></script>
-    <script src="packing_me.js"></script>
+    <script src="../packing_me.js"></script>
   </body>
 
 </html>
