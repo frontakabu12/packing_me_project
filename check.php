@@ -14,6 +14,7 @@ if (isset($_POST) && !empty($_POST)) {
     //DBに会員情報を登録するSQL文を作成
       // now() MySQLが用意してくれている関数。現在日時を取得できる
       $sql = "INSERT INTO `packingme_users`(`user_name`, `email`, `password`, `created`, `modifide`) VALUES (?,?,?,now(),now())";
+      $sql = "INSERT INTO `packingme_users`(`user_name`, `email`, `password`) VALUES (?,?,?)";
 
     //SQL文を実行
       // sha1 暗号化を行う関数

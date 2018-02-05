@@ -63,8 +63,8 @@
       <div class="intro-text">
           <div class="intro-lead-in"></div>
           <div class="intro-heading text-uppercase">Packing me!</div>
-          <a class="signIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="signin.html">SIGN IN</a>
-          <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="login.html">LOG IN</a>
+          <a class="signIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="signin.php">SIGN IN</a>
+          <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="login.php">LOG IN</a>
         </div>
       </div>
     </header>
@@ -123,7 +123,7 @@
           <div class="col-md-4">
             <ul class="list-inline quicklinks">
               <li class="list-inline-item">
-                <a href="privacy_policy.html">Privacy Policy</a>
+                <a href="privacy_policy.php">Privacy Policy</a>
               </li>
             </ul>
           </div>
