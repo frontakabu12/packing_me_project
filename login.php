@@ -33,9 +33,9 @@
 
     <style>
      *, ::after, ::before {
-  box-sizing: border-box;
-  margin: 0 auto;
-}
+      box-sizing: border-box;
+      margin: 0 auto;
+    }
 
 
     </style>
