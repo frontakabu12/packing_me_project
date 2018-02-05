@@ -1,3 +1,13 @@
+<?php 
+
+  if(isset($_POST)){
+  $picture_name = date('Ymdhis') .$_FILES['picture_path']['name'];
+  move_uploaded_file($_FILES['picture_path']['tmp_name'], 'picture_path/'.$picture_name);
+  }
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +41,7 @@
     <!-- ヘッダー固定部分 -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="home.html">Packing me!</a>
+        <a class="navbar-brand js-scroll-trigger" href="home.php">Packing me!</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
@@ -44,16 +54,16 @@
               </a>
             </div>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="home.html">Home</a>
+              <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.html">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="post.html">投稿する</a>
+              <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="top.html">Log out</a>
+              <a class="nav-link js-scroll-trigger" href="top.php">Log out</a>
             </li>
           </ul>
         </div>
@@ -62,32 +72,35 @@
 <!-- ヘッダーここまで -->
     <div class="profile-edit">
       <div class="container">
-        <div class="profile-img">
-          <img src="naoki2.png">
-          <h2>aaagon</h2>
-          <input type="file" id="file" style="display:none;" onchange="$('#fake_input_file').val($(this).val())">
-          <button onClick="$('#file').click();">プロフィール画像を変更する</button>
-        </div>
-        <br>
-        <div class="profile-text">
-          <span>名前  </span>
-          <input type="" name="" placeholder="Naoki">
-        </div>
-        <div class="profile-text">
-          <span>メールアドレス</span>
-          <input type="" name="" placeholder="naoki-love-massagel@gmail.com">
-        </div>
-        <div class="profile-text">
-          <span>ウェブサイト</span>
-          <input type="" name="" placeholder="https://seizetheday.jp/about-me/">
-        </div>
-        <div class="profile-textarea">
-          <span>自己紹介</span>
-          <textarea>Hello, lets go travel with us.
-            See you in the world. Thank you.
-          </textarea>
-        </div>
-        <div class="editButton"><a href="mypage.html"><button>変更する</button></a>
+        <form method="post" action"" class="form-horizontal" role="form" enctype="multipart/form-data">
+          <div class="profile-img">
+            <img src="naoki2.png">
+            <h2>aaagon</h2>
+            <input type="file" id="file" name="picture_path" style="">
+            <!-- <button onClick="$('#file').click();">プロフィール画像を変更する</button> -->
+          </div>
+          <br>
+          <div class="profile-text">
+            <span>名前  </span>
+            <input type="" name="name" placeholder="Naoki">
+          </div>
+          <div class="profile-text">
+            <span>メールアドレス</span>
+            <input type="" name="email" placeholder="naoki-love-massagel@gmail.com">
+          </div>
+          <div class="profile-text">
+            <span>ウェブサイト</span>
+            <input type="" name="website" placeholder="https://seizetheday.jp/about-me/">
+          </div>
+          <div class="profile-textarea">
+            <span>自己紹介</span>
+            <textarea>Hello, lets go travel with us.
+              See you in the world. Thank you.
+            </textarea>
+          </div>
+          <div class="editButton"><a href="mypage.php"><button type="submit">変更する</button></a>
+        </form>
+          
         </div>
       </div>
     </div>

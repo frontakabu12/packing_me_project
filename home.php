@@ -1,3 +1,36 @@
+<?php
+  require('dbconnect.php');
+
+  // 投稿を取得するsql
+  $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` FROM`packingme_posts` INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`ORDER BY `packingme_posts`.`modified` DESC";
+  // sql実行
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+  // フェッチ
+  $post_list = array();
+
+  while(1){
+  $one_post = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if($one_post == false){
+      break;
+    }
+  $post_list[] = $one_post;
+  }
+// ここまで
+  // ここからLIke数をカウントするSql
+  $like_sql = "SELECT COUNT(*)as`like_count` FROM `packingme_likes` WHERE `post_id`=1";
+  // sql実行
+  $like_stmt = $dbh->prepare($like_sql);
+  $like_stmt->execute();
+  // フェッチ
+  $like_number = $like_stmt->fetch(PDO::FETCH_ASSOC);
+  $one_post["like_count"] = $like_number["like_count"];
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +64,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
       <div class="container">
 
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Packing Me!</a>
+        <a class="navbar-brand js-scroll-trigger" href="home.php">Packing Me!</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
@@ -39,21 +72,21 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav text-uppercase ml-auto">
             <div class="crown-icon">
-              <a href="ranking.html">
+              <a href="ranking.php">
                 <img src="img/portfolio/crown.png">
               </a>
             </div>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="home.html">Home</a>
+              <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.html">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="post.html">投稿する</a>
+              <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="top.html">Log out</a>
+              <a class="nav-link js-scroll-trigger" href="top.php">Log out</a>
             </li>
           </ul>
         </div>
@@ -80,22 +113,27 @@
     </div>
         <!--ここまで右側固定部分  -->
 
+
+
 <!-- 投稿画像表示部分 -->
     <section class="bg-light mypage-home" id="portfolio">
       <div class="container">
 
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">Timeline</h2>
+            <h2 class="section-heading text-uppercase">Timeline<?php echo $one_post["like_count"]; ?></h2>
             <h3 class="section-subheading text-muted"></h3>
           </div>
         </div>
 
+<!-- 繰り返す部分 -->
+        <?php foreach($post_list as $one_post){?>
+
         <div class="row">
           <div class="profile-container">
-            <a class="profile-link" href="mypage.html">
-              <img  class="image-with-link" src="naoki2.png">
-              <span class="name-with-link">Naoki</span>
+            <a class="profile-link" href="mypage.php">
+              <img  class="image-with-link" src="picture_path/<?php echo $one_post["picture_path"];?>">
+              <span class="name-with-link"><?php echo $one_post["user_name"];?></span>
             </a>
           </div>
           <div class="col-md-12 col-sm-12 portfolio-item">
@@ -105,32 +143,14 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid  change-img-size" src="packing.png" alt="">
+              <img class="img-fluid  change-img-size" src="picture_path/<?php echo $one_post["pic"];?>" alt="">
             </a>
             <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 100 like</i>
+              <i class="fa fa-suitcase fa-2x"> like</i>
             </div>
           </div>
-
-          <div class="profile-container">
-            <a class="profile-link" href="someone_mypage.html">
-              <img  class="image-with-link" src="ryo2.png">
-              <span class="name-with-link">ryo</span>
-            </a>
-          </div>
-          <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="inside1.png" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 10 like</i>
-            </div>
-          </div>
+          <?php } ?>
+<!-- ここまで -->
 
           <div class="profile-container">
             <a class="profile-link" href="mypage.html">
@@ -152,66 +172,7 @@
               <!-- <p class="text-muted">more</p> -->
             </div>
           </div>
-          <div class="profile-container">
-            <a class="profile-link" href="mypage.html">
-              <img  class="image-with-link" src="naoki.jpg">
-              <span class="name-with-link">aaagon</span>
-            </a>
-          </div>
-          <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal4">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="inside5.jpg" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 10 like</i>
-              <!-- <p class="text-muted">more</p> -->
-            </div>
-          </div>
-          <div class="profile-container">
-            <a class="profile-link" href="mypage.html">
-              <img  class="image-with-link" src="naoki.jpg">
-              <span class="name-with-link">aaagon</span>
-            </a>
-          </div>
-          <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal5">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="inside2.png" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 10 like</i>
-              <!-- <p class="text-muted">more</p> -->
-            </div>
-          </div>
-          <div class="profile-container">
-            <a class="profile-link" href="mypage.html">
-              <img  class="image-with-link" src="naoki.jpg">
-              <span class="name-with-link">aaagon</span>
-            </a>
-          </div>
-          <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal6">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="inside3.png" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 10 like</i>
-              <!-- <p class="text-muted">more</p> -->
-            </div>
-          </div>
+          
           <div id="load" style="margin:0 auto;">
             <div ><i class="fa fa-spinner fa-pulse fa-3x"></i></div>
             <!-- <span class="sr-only">Loading...</span> -->
@@ -240,25 +201,32 @@
                   <img class="img-fluid d-block mx-auto" src="packing.png" alt="">
                   <div class="mypage-texts">
                     <span>Type</span>
-                    <p>Traveler</p>
+                    <p><?php echo $one_post["user_name"];?></p>
                     <!-- <p></p> -->
                     <span>Category</span>
-                    <p>2週間以内</p>
+                    <p><?php echo $one_post["user_name"];?></p>
                     <!-- <p></p> -->
                     <span>場所</span>
-                    <p>フィリピン　セブ島</p>
+                    <p><?php echo $one_post["user_name"];?></p>
                     <span>期間</span>
-                    <p>４日間</p>
+                    <p><?php echo $one_post["user_name"];?></p>
                     <span>backpack</span>
-                    <p>the north face Caelus 35L</p>
+                    <p><?php echo $one_post["user_name"];?></p>
                     <span>重量</span>
-                    <p>13kg</p>
+                    <p><?php echo $one_post["user_name"];?></p>
                     <span>中身詳細</span>
-                    <p>mackbookpro, dji spark, omd-em5 mark2, t-shirt 3, pant 3</p>
+                    <p><?php echo $one_post["user_name"];?></p>
                   </div>
                   <!-- <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p> -->
                   <ul class="list-inline">
-                    <li>29 January 2018</li>
+                    <li>
+                      <?php 
+                        $modify_date = $one_post["modified"];
+                        // strtotime 文字型のデータを日時型に変換できる
+                        $modify_date = date("Y-m-d H:i",strtotime($modify_date));
+                        echo $modify_date;   
+                      ?>
+                    </li>
                   </ul>
                   <!-- <div class="edit-delete">
                     <button class="delete-button">delete</button>
@@ -377,7 +345,7 @@
           <div class="col-md-4">
             <ul class="list-inline quicklinks">
               <li class="list-inline-item">
-                <a href="privacy_policy.html">Privacy Policy</a>
+                <a href="privacy_policy.php">Privacy Policy</a>
               </li>
             </ul>
           </div>
