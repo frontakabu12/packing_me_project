@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
   session_start();
   require('dbconnect.php');
@@ -30,13 +29,9 @@
   // $post_list[] = $one_post;
 ?> 
 
-=======
->>>>>>> 35d6d1dbac305930a01cf7c044b81808f511da09
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ja">
   <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -59,7 +54,6 @@
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous"> -->
 
   </head>
-
   <body id="page-top">
 
     <!-- ヘッダー固定部分 -->
@@ -364,7 +358,7 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/agency.min.js"></script>
-    <script src="packing_me.js"></script>
+    <script src="../packing_me.js"></script>
   </body>
 
 </html>

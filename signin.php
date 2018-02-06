@@ -145,7 +145,7 @@ if(isset($_POST) && !empty($_POST)){
                     <div class="col-lg-12">
                       <label>Name</label>
                       <div class="form-group">
-                        <input type="user_name" name="user_name" id="user_name" class="form-control" placeholder="" value="">
+                        <input type="user_name" name="user_name" id="user_name" class="form-control" placeholder="" value="<?php echo $user_name; ?>">
                         <?php if((isset($error["user_name"])) && ($error['user_name'] == 'blank')){ ?>
                         <p clas>* ニックネームを入力してください。</p>
                         <?php } ?>
@@ -155,7 +155,7 @@ if(isset($_POST) && !empty($_POST)){
                     <div class="col-lg-12">
                         <label>Email</label>
                         <div class="form-group">
-                      <input type="email" name="email" id="email" class="form-control" placeholder="" value="">
+                      <input type="email" name="email" id="email" class="form-control" placeholder="" value="<?php echo $email; ?>">
                       <?php if((isset($error["email"])) && ($error['email'] == 'blank')) { ?>
                         <p>* メールアドレスを入力してください。</p>
                         <?php } ?>
@@ -169,7 +169,7 @@ if(isset($_POST) && !empty($_POST)){
                     <div class="col-lg-12">
                         <label>Password</label>
                         <div class="form-group">
-                      <input type="password" name="password" id="password" class="form-control" placeholder="" >
+                      <input type="password" name="password" id="password" class="form-control" placeholder="" value="<?php echo $password; ?>" >
                       <?php if((isset($error["password"])) && ($error['password'] == 'blank')) { ?>
                         <p>* パスワードを入力してください。</p>
                         <?php } ?>

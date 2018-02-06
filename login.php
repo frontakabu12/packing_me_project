@@ -37,7 +37,7 @@ if(isset($_POST) && !empty($_POST)){
       }else{
       //認証成功
       //1,セッション変数に会員idを保存
-      $_SESSION["id"] = $member["user_id"];
+      $_SESSION["id"] = $member["id"];
 
       //2,ログインした時間をセッション変数に保存 
       $_SESSION["time"] = time();
@@ -116,7 +116,8 @@ if(isset($_POST) && !empty($_POST)){
               <div class="col-lg-6 col-lg-offset-3">
                <div class="login-box">
                   <h1>Login</h1>
-                  <form role="form" method="post" >
+
+                  <form role="form" method="post" action="">
                     <div class="col-lg-12">
                       <label>Email</label>
                       <div class="form-group">
@@ -162,7 +163,7 @@ if(isset($_POST) && !empty($_POST)){
           <div class="col-md-4">
             <ul class="list-inline quicklinks">
               <li class="list-inline-item">
-                <a href="#">Privacy Policy</a>
+                <a href="privacy_policy.php">Privacy Policy</a>
               </li>
             </ul>
           </div>

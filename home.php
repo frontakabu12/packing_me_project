@@ -1,5 +1,24 @@
+<?php 
+  session_start();
+  require('dbconnect.php');
+
+  // ログインユーザーIDからMembersテーブルとPostテーブルを結合して全件取得するsql
+  $sql = "SELECT `packingme_post`.*,`packingme_users`.`user_name`,`picture_path` 
+          FROM`packingme_post` 
+          INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`  
+          ORDER BY `pic`.`modified` DESC";
+  // 実行
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+  // フェッチ
+
+
+
+
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
   <head>
 
@@ -92,6 +111,8 @@
         </div>
 
         <div class="row">
+
+<!-- 繰り返し部分 -->    
           <div class="profile-container">
             <a class="profile-link" href="mypage.html">
               <img  class="image-with-link" src="naoki2.png">
@@ -112,29 +133,12 @@
             </div>
           </div>
 
-          <div class="profile-container">
-            <a class="profile-link" href="someone_mypage.html">
-              <img  class="image-with-link" src="ryo2.png">
-              <span class="name-with-link">ryo</span>
-            </a>
-          </div>
-          <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="inside1.png" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 10 like</i>
-            </div>
-          </div>
+<!-- ここまで繰り返し -->
 
+        
           <div class="profile-container">
             <a class="profile-link" href="mypage.html">
-              <img  class="image-with-link" src="zakiyama.png">
+              <img  class="image-with-link" src="img/zakiyama.png">
               <span class="name-with-link">zakiyama</span>
             </a>
           </div>
@@ -145,73 +149,14 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="zaki.png" alt="">
+              <img class="img-fluid" src="img/zaki.png" alt="">
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"><span>200,000 like</span></i>
               <!-- <p class="text-muted">more</p> -->
             </div>
           </div>
-          <div class="profile-container">
-            <a class="profile-link" href="mypage.html">
-              <img  class="image-with-link" src="naoki.jpg">
-              <span class="name-with-link">aaagon</span>
-            </a>
-          </div>
-          <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal4">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="inside5.jpg" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 10 like</i>
-              <!-- <p class="text-muted">more</p> -->
-            </div>
-          </div>
-          <div class="profile-container">
-            <a class="profile-link" href="mypage.html">
-              <img  class="image-with-link" src="naoki.jpg">
-              <span class="name-with-link">aaagon</span>
-            </a>
-          </div>
-          <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal5">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="inside2.png" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 10 like</i>
-              <!-- <p class="text-muted">more</p> -->
-            </div>
-          </div>
-          <div class="profile-container">
-            <a class="profile-link" href="mypage.html">
-              <img  class="image-with-link" src="naoki.jpg">
-              <span class="name-with-link">aaagon</span>
-            </a>
-          </div>
-          <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal6">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="inside3.png" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 10 like</i>
-              <!-- <p class="text-muted">more</p> -->
-            </div>
-          </div>
+
           <div id="load" style="margin:0 auto;">
             <div ><i class="fa fa-spinner fa-pulse fa-3x"></i></div>
             <!-- <span class="sr-only">Loading...</span> -->
@@ -398,7 +343,7 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/agency.min.js"></script>
-    <script src="packing_me.js"></script>
+    <script src="../packing_me.js"></script>
   </body>
 
 </html>
