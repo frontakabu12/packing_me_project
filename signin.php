@@ -33,10 +33,10 @@ if(isset($_POST) && !empty($_POST)){
   }
   // password
   // strlen 文字の長さ（文字数）を数字で返しえてくれる関数
-  if ($_POST["password2"]==''){
-    $error['password2'] = 'blank';
-  } elseif (strlen($_POST["password2"]) < 4){
-    $error["password2"] = 'length';
+  if ($_POST["password"]==''){
+    $error['password'] = 'blank';
+  } elseif (strlen($_POST["password"]) < 4){
+    $error["password"] = 'length';
   }
 
   // 入力チェック後、エラーが何もなければ、check.phpに移動
@@ -74,7 +74,7 @@ if(isset($_POST) && !empty($_POST)){
     // POST送信された情報をjoinというキー指定で保存
      $_SESSION["name"] = $_POST["name"];
      $_SESSION["email"] = $_POST["email"];
-     $_SESSION["password"] = $_POST["password2"];
+     $_SESSION["password"] = $_POST["password"];
     
      // check.phpに移動
     header('Location: check.php');
@@ -169,7 +169,7 @@ if(isset($_POST) && !empty($_POST)){
                     <div class="col-lg-12">
                         <label>Name</label>
                         <div class="form-group">
-                        <input type="name" name="name" id="email" class="form-control" placeholder="" value="<?php echo $user_name;?>">
+                        <input type="name" name="name" id="email" class="form-control" placeholder="" value=>
                         <?php if((isset($error["name"])) && ($error['name'] == 'blank')){ ?>
                         <p clas>* ニックネームを入力してください。</p>
                         <?php } ?>
@@ -179,7 +179,7 @@ if(isset($_POST) && !empty($_POST)){
                     <div class="col-lg-12">
                         <label>Email</label>
                         <div class="form-group">
-                      <input type="email" name="email" id="email" class="form-control" placeholder="" value="<?php echo $email; ?>">
+                      <input type="email" name="email" id="email" class="form-control" placeholder="" value=>
                       <?php if((isset($error["email"])) && ($error['email'] == 'blank')) { ?>
                         <p>* メールアドレスを入力してください。</p>
                         <?php } ?>
@@ -193,11 +193,11 @@ if(isset($_POST) && !empty($_POST)){
                     <div class="col-lg-12">
                         <label>Password</label>
                         <div class="form-group">
-                      <input type="password" name="password2" id="password2" class="form-control" placeholder="" value="<?php echo $password ?>">
-                      <?php if((isset($error["password2"])) && ($error['password2'] == 'blank')) { ?>
+                      <input type="password" name="password" id="password" class="form-control" placeholder="" >
+                      <?php if((isset($error["password"])) && ($error['password'] == 'blank')) { ?>
                         <p>* パスワードを入力してください。</p>
                         <?php } ?>
-                        <?php if((isset($error["password2"])) && ($error['password2'] == 'length')) { ?>
+                        <?php if((isset($error["password"])) && ($error['password'] == 'length')) { ?>
                         <p>* パスワードは４文字以上を入力してください。</p>
                       <?php } ?>
                       </div>

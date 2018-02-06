@@ -1,3 +1,69 @@
+<?php 
+session_start();
+
+//クッキー情報が存在してたら（自動ログイン）
+//
+if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
+  $_POST["email"] = $_COOKIE["email"];
+  $_POST["password"] = $_COOKIE["password"];
+  $_POST["save"] = "on";
+}
+
+require('dbconnect.php');
+
+
+if(isset($_POST) && !empty($_POST)){
+  //認証処理
+  try {
+      //メンバーズテーブルでテーブルの中からメールアドレスとパスワードが入力された
+     //データを収得
+    $sql = "SELECT * FROM `packingme_users` WHERE `email`=? AND `password`=? ";
+
+    //sql文実行
+    //パスワードは入力されたものを暗号化した上使用＄$-
+    $data = array($_POST["email"],sha1($_POST["password"]));
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute($data);
+    //一行取得
+    $member = $stmt->fetch(PDO::FETCH_ASSOC);
+    // echo "<pre>";
+    // var_dump($member);
+    // echo "</pre>";
+
+    if($member == false){
+      //認証失敗
+      $error["login"] = "failed";
+      }else{
+      //認証成功
+      //1,セッション変数に会員idを保存
+      $_SESSION["id"] = $member["user_id"];
+
+      //2,ログインした時間をセッション変数に保存 
+      $_SESSION["time"] = time();
+
+      //3自動ロギングの処理
+      if ($_POST["save"] = "on"){
+        //クッキーに保存
+        setcookie('email',$_POST["email"],time()+60*60*24*14);
+        setcookie('password',$_POST["password"],time()+60*60*24*14);
+
+      }
+
+      //４、ログイン後の画面に移動
+      header("Location: home.php");
+      exit();
+     }
+      
+     }catch (Exception $e) {
+       
+    }  
+
+}
+
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +115,7 @@
               <div class="col-lg-6 col-lg-offset-3">
                <div class="login-box">
                   <h1>Login</h1>
-                  <form role="form">
+                  <form role="form" method="post" >
                     <div class="col-lg-12">
                       <label>Email</label>
                       <div class="form-group">
@@ -65,13 +131,14 @@
                     <div class="control-group">
                       <div class="controls">
                         <label class="checkbox" for="save_card">
-                          <input type="checkbox" id="save_card" value="option1">
+                          <input type="checkbox" name="save" id="save_card" value="option1">
                           Save card on file?
                         </label>
                       </div>
                     </div>
                     <br>
-                    <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.html" style="margin-bottom: 100px;">LOG IN</a>
+                    <input type="submit" class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" value="LOG IN" style="margin-bottom: 100px;">
+                    
                    </form>
                 </div>  
               </div>

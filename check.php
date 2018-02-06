@@ -23,7 +23,9 @@ if (isset($_POST) && !empty($_POST)) {
 
     //$_SESSIONの情報を削除
       // unset 指定した変数を削除するという意味。SESSIONじゃなくても使える
-      //unset($_SESSION["join"]);
+      // unset($_SESSION["name"]);
+      // unset($_SESSION["email"]);
+      // unset($_SESSION["password"]);
 
     //thanks.phpへ遷移
       header('Location: thanks.php');
@@ -36,17 +38,7 @@ if (isset($_POST) && !empty($_POST)) {
       
     }
 
-    
-
   }
-
-
-
-
-
-
-
-
 
 
 ?>
@@ -94,9 +86,6 @@ if (isset($_POST) && !empty($_POST)) {
     padding: 10px 40px;
     margin: 10px;
     }
-
-    
-
 
     </style>
     <header class="masthead">
@@ -150,13 +139,6 @@ if (isset($_POST) && !empty($_POST)) {
   </div>
 
 
-             
-                       
-
-                   
-                   
-
-
 
               </div>  
             
@@ -165,13 +147,6 @@ if (isset($_POST) && !empty($_POST)) {
        </div>
 
 
-
-
-
-
-
-
-          
         </div>
       </div>
     </header>
