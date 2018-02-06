@@ -5,7 +5,7 @@
 
   if (isset($_POST) && !empty($_POST)) {
     //変数に入力された値を代入して扱いやすいようにする
-    $nick_name = $_SESSION['name'];
+    $user_name = $_SESSION['user_name'];
     $email = $_SESSION['email'];
     $password = $_SESSION['password'];
 
@@ -13,11 +13,11 @@
     try {
     //DBに会員情報を登録するSQL文を作成
       // now() MySQLが用意してくれている関数。現在日時を取得できる
-      $sql = "INSERT INTO `packingme_users`(`user_name`, `email`, `password`) VALUES (?,?,?)";
+      $sql = "INSERT INTO `packingme_users`(`user_name`, `email`, `password`, `created`) VALUES (?,?,?,now())";
 
     //SQL文を実行
       // sha1 暗号化を行う関数
-      $data = array($nick_name,$email,sha1($password));
+      $data = array($user_name,$email,sha1($password));
       $stmt = $dbh->prepare($sql);
       $stmt->execute($data);
 
@@ -37,6 +37,8 @@
   }
 
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,7 +100,7 @@
    <div class="container">
     <div class="row">
       <div class="col-lg-4 col-lg-offset-4 content-margin-top">
-        <form method="post" action="" class="form-horizontal" role="form">
+        <form method="POST" action="" class="form-horizontal" role="form">
           <input type="hidden" name="action" value="submit">
             <h1>PLEASE CHECK</h1>
             <table class="table table-striped table-condensed">
@@ -106,7 +108,7 @@
                 <!-- 登録内容を表示 -->
                 <tr>
                   <td><div class="col-lg-12 text-center">Name</div></td>
-                  <td><div class="text-center"><?php echo $_SESSION['name']; ?></div></td>
+                  <td><div class="text-center"><?php echo $_SESSION['user_name']; ?></div></td>
                 </tr>
                 <tr>
                   <td><div class="col-lg-12 text-center">Email</div></td>
