@@ -10,6 +10,8 @@
   $stmt->execute($data);
 // フェッチ
   $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  $_SESSION["id"] = $user["id"];
 ?>
 
 
@@ -59,43 +61,22 @@
         <div class="intro-text" >
           <div class="intro-lead-in"></div>
           <div class="intro-heading text-uppercase">Packing me!</div>
-         <br>
-         <br>
-
-
-
-
-
-        <div class="login">
-           <div class="container">
+          <br>
+          <br>
+  
+          <div class="login">
+            <div class="container">
               <div class="col-lg-6 col-lg-offset-3">
-             
-               <div class="login-box">
-                   <h1>Registration Successful!</h1>
-                   <h1>Thank you !</h1>
-                   
-                    
+                <div class="login-box">
+                  <h1>Registration Successful!</h1>
+                  <h1>Thank you !</h1>
+                    <br>               
+                  <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.php">START</a>
 
-                    <br>
-                    
-                    <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.php?id=<?php echo $user["id"]; ?>">START</a>
-                  
-                   </form>
-          
-              </div>  
-            
+                </div>     
+              </div>
             </div>
-         </div>
-       </div>
-
-
-      
-
-
-
-
-
-          
+          </div>          
         </div>
       </div>
     </header>

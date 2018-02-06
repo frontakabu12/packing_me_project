@@ -1,17 +1,32 @@
 <?php
+  session_start();
   require('dbconnect.php');
 
-  if(isset($_GET)){
+  if(!empty($_SESSION)){
     // 一行データ取得するsql
-    $sql = "SELECT * FROM`packingme_users`WHERE`id`=".$_GET["id"];
+    $one_sql = "SELECT * FROM`packingme_users`WHERE`id`=".$_SESSION["id"];
     // sql実行
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute();
+    $one_stmt = $dbh->prepare($one_sql);
+    $one_stmt->execute();
     // フェッチ
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
+    $user = $one_stmt->fetch(PDO::FETCH_ASSOC);
   }
+  // 個人の投稿を取得するsql
+  // $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` FROM`packingme_posts` INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`WHERE`user_id`=? ORDER BY `packingme_posts`.`modified` DESC";
+  // // sql実行
+  // $data = array($_SESSION["id"]);
+  // $stmt = $dbh->prepare($sql);
+  // $stmt->execute($data);
+  // // フェッチ
+  // $post_list = array();
+
+  // while(1){
+  // $one_post = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  //   if($one_post == false){
+  //     break;
+  //   }
+  // $post_list[] = $one_post;
 ?> 
 
 <!DOCTYPE html>

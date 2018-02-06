@@ -1,4 +1,5 @@
 <?php
+  session_start();
   require('dbconnect.php');
 
   // 投稿を取得するsql
@@ -19,7 +20,7 @@
   }
 // ここまで
   // ここからLIke数をカウントするSql
-  $like_sql = "SELECT COUNT(*)as`like_count` FROM `packingme_likes` WHERE `post_id`=1";
+  $like_sql = "SELECT COUNT(*)as`like_count` FROM `packingme_likes` WHERE `post_id`=".$_SESSION["id"];
   // sql実行
   $like_stmt = $dbh->prepare($like_sql);
   $like_stmt->execute();
@@ -80,7 +81,7 @@
               <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.php?id=<?php echo $_GET["id"];?>">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
