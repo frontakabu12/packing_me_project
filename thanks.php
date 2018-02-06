@@ -1,3 +1,20 @@
+
+<?php
+  session_start();
+  require('dbconnect.php');
+
+  // userのIDを取得するsql
+  $sql = "SELECT * FROM`packingme_users`WHERE`user_name`=?";
+  // sql実行
+  $data = array($_SESSION["name"]);
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute($data);
+// フェッチ
+  $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  $_SESSION["id"] = $user["id"];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,17 +61,19 @@
         <div class="intro-text" >
           <div class="intro-lead-in"></div>
           <div class="intro-heading text-uppercase">Packing me!</div>
-         <br>
-         <br>
-
-
-
-
-
-        <div class="login">
-           <div class="container">
+          <br>
+          <br>
+  
+          <div class="login">
+            <div class="container">
               <div class="col-lg-6 col-lg-offset-3">
-             
+                <div class="login-box">
+                  <h1>Registration Successful!</h1>
+                  <h1>Thank you !</h1>
+                    <br>               
+                  <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.php">START</a>
+                </div>     
+              </div>
                <div class="login-box">
                    <h1>Registration Successful!</h1>
                    <h1>Thank you !</h1>
@@ -62,25 +81,11 @@
                     
 
                     <br>
-                    
-                    <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.php">START</a>
-                  
-                   </form>
-          
-              </div>  
-            
+                    <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.php">START</a>  
+                </form>
+              </div> 
             </div>
-         </div>
-       </div>
-
-
-      
-
-
-
-
-
-          
+          </div>          
         </div>
       </div>
     </header>
