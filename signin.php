@@ -47,27 +47,26 @@ if(isset($_POST) && !empty($_POST)){
     //dbに同じemailがあるか確認
     //as 別名　取得したデータで別の名前をつけ扱いやすくする
     try {
-      $sql = "SELECT COUNT(*) as `cnt` FROM `packingme_users` WHERE `email`=?";
+      $sql = "SELECT COUNT(*) as `cnt` FROM `packingme_users` WHERE `email`=? ";
       //sql
       $data = array($_POST["email"]);
       $stmt = $dbh->prepare($sql);
       $stmt->execute($data);
 
-      //件数取得
+      // 件数取得
       $count = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      if ($count['cnt'] > 0){
-
+      if($count['cnt'] > 0){
+        // 重複エラー
         $error['email'] = "duplicated";
+
       }
 
     } catch (Exception $e) {
       
     }
 
-    
-
-
+    if(!isset($error)){
 
     // SESSION変数に入力された値を保存（変数をSESSIONに登録する）(どこの画面からでも利用できる！)
     // 注意！必ずファイルの一番上にsession_start();と書く
@@ -80,12 +79,11 @@ if(isset($_POST) && !empty($_POST)){
     header('Location: check.php');
     // これ以下のコードを無駄に処理しないように、このページの処理を終了させる
     exit();
-
-    }else {
     
+    }
   }
-
  }
+
  
 ?>
 
@@ -153,16 +151,15 @@ if(isset($_POST) && !empty($_POST)){
                     </div>
                     
                     <div class="col-lg-12">
-                        <label>Email</label>
-                        <div class="form-group">
+                      <label>Email</label>
+                      <div class="form-group">
                       <input type="email" name="email" id="email" class="form-control" placeholder="" value="<?php echo $email; ?>">
-                      <?php if((isset($error["email"])) && ($error['email'] == 'blank')) { ?>
+                      <?php if((isset($error['email'])) && ($error['email'] == 'blank')) { ?>
                         <p>* メールアドレスを入力してください。</p>
-                        <?php } ?>
-
-                        <?php if((isset($error["email"])) && ($error['email'] == 'duplicated')) { ?>
-                        <p>* 入力されたemailは登録済みです。</p>
-                        <?php } ?>
+                      <?php } ?>
+                      <?php if((isset($error['email'])) && ($error['email'] == 'duplicated')) { ?>
+                        <p class="error">* 入力されたemailは登録済みです。</p>
+                      <?php } ?>
                       </div>
                     </div>
                     
