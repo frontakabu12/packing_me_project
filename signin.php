@@ -7,7 +7,7 @@ require('dbconnect.php');
   if (isset($_GET['action']) && $_GET['action'] =='rewrite'){
 
     // 書き直すために初期表示する情報を変数に格納
-    $user_name = $_SESSION['user_name'];
+    $user_name = $_SESSION['name'];
     $email = $_SESSION['email'];
     $password = $_SESSION['password'];
     
@@ -24,8 +24,8 @@ if(isset($_POST) && !empty($_POST)){
 
  // 入力チェック
   // ニックネームが空だったら$errorという、エラーの情報を格納する変数にnick_nameはblankだったというマークを保存しておく
-  if ($_POST["user_name"]==''){
-    $error['user_name'] = 'blank';
+  if ($_POST["name"]==''){
+    $error['name'] = 'blank';
   }
   
   if ($_POST["email"]==''){
@@ -66,10 +66,13 @@ if(isset($_POST) && !empty($_POST)){
     }
 
     
+
+
+
     // SESSION変数に入力された値を保存（変数をSESSIONに登録する）(どこの画面からでも利用できる！)
     // 注意！必ずファイルの一番上にsession_start();と書く
     // POST送信された情報をjoinというキー指定で保存
-     $_SESSION["user_name"] = $_POST["user_name"];
+     $_SESSION["name"] = $_POST["name"];
      $_SESSION["email"] = $_POST["email"];
      $_SESSION["password"] = $_POST["password"];
     
@@ -80,10 +83,24 @@ if(isset($_POST) && !empty($_POST)){
 
     }else {
       
+
+
     
   }
  
+
+
+
  }
+ 
+
+
+
+
+
+
+
+
 
 ?>
 
@@ -141,54 +158,70 @@ if(isset($_POST) && !empty($_POST)){
 
 
         <div class="login">
-          <div class="container">
-            <div class="col-lg-6 col-lg-offset-3">
-              <div class="login-box">
-                  <h1>SIGN IN</h1> 
-                  <form role="form" method="POST" action="">
+           <div class="container">
+              <div class="col-lg-6 col-lg-offset-3">
+             
+               <div class="login-box">
+                   <h1>SIGN IN</h1>
+                   
+                    <form role="form" method="post" action="">
+                  
                     <div class="col-lg-12">
-                      <label>Name</label>
-                      <div class="form-group">
-                      <input type="user_name" name="user_name" id="email" class="form-control" placeholder="" value="<?php echo $user_name; ?>">
-                      <?php if((isset($error["user_name"])) && ($error['user_name'] == 'blank')){ ?>
+                        <label>Name</label>
+                        <div class="form-group">
+                        <input type="name" name="name" id="email" class="form-control" placeholder="" value=>
+                        <?php if((isset($error["name"])) && ($error['name'] == 'blank')){ ?>
                         <p clas>* ニックネームを入力してください。</p>
-                      <?php } ?>
+                        <?php } ?>
                       </div>
                     </div>
                     
                     <div class="col-lg-12">
-                      <label>Email</label>
-                      <div class="form-group">
-                      <input type="email" name="email" id="email" class="form-control" placeholder="" value="<?php echo $email; ?>">
+                        <label>Email</label>
+                        <div class="form-group">
+                      <input type="email" name="email" id="email" class="form-control" placeholder="" value=>
                       <?php if((isset($error["email"])) && ($error['email'] == 'blank')) { ?>
                         <p>* メールアドレスを入力してください。</p>
-                      <?php } ?>
+                        <?php } ?>
 
-                      <?php if((isset($error["email"])) && ($error['email'] == 'duplicated')) { ?>
+                        <?php if((isset($error["email"])) && ($error['email'] == 'duplicated')) { ?>
                         <p>* 入力されたemailは登録済みです。</p>
-                      <?php } ?>
+                        <?php } ?>
                       </div>
                     </div>
                     
                     <div class="col-lg-12">
-                      <label>Password</label>
-                      <div class="form-group">
-                      <input type="password" name="password" id="password" class="form-control" placeholder="" value="<?php echo $password ?>">
+                        <label>Password</label>
+                        <div class="form-group">
+                      <input type="password" name="password" id="password" class="form-control" placeholder="" >
                       <?php if((isset($error["password"])) && ($error['password'] == 'blank')) { ?>
                         <p>* パスワードを入力してください。</p>
-                      <?php } ?>
-                      <?php if((isset($error["password"])) && ($error['password'] == 'length')) { ?>
+                        <?php } ?>
+                        <?php if((isset($error["password"])) && ($error['password'] == 'length')) { ?>
                         <p>* パスワードは４文字以上を入力してください。</p>
                       <?php } ?>
                       </div>
                     </div>
                     <br>
+                    
                     <input type="submit" value="SEND" class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger">
-                   </form>          
-                </div>  
-              </div>
+                  
+                   </form>
+          
+              </div>  
+            
             </div>
-          </div>
+         </div>
+       </div>
+
+
+
+
+
+
+
+
+          
         </div>
       </div>
     </header>

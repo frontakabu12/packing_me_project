@@ -1,3 +1,4 @@
+
 <?php
   session_start();
   require('dbconnect.php');
@@ -13,7 +14,6 @@
 
   $_SESSION["id"] = $user["id"];
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -72,9 +72,18 @@
                   <h1>Thank you !</h1>
                     <br>               
                   <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.php">START</a>
-
                 </div>     
               </div>
+               <div class="login-box">
+                   <h1>Registration Successful!</h1>
+                   <h1>Thank you !</h1>
+                   
+                    
+
+                    <br>
+                    <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.php">START</a>  
+                </form>
+              </div> 
             </div>
           </div>          
         </div>

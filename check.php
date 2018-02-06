@@ -1,11 +1,11 @@
 <?php
-  session_start();
+session_start();
 
-  require('dbconnect.php');
+require('dbconnect.php');
 
-  if (isset($_POST) && !empty($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
     //変数に入力された値を代入して扱いやすいようにする
-    $user_name = $_SESSION['user_name'];
+    $nick_name = $_SESSION['name'];
     $email = $_SESSION['email'];
     $password = $_SESSION['password'];
 
@@ -13,17 +13,19 @@
     try {
     //DBに会員情報を登録するSQL文を作成
       // now() MySQLが用意してくれている関数。現在日時を取得できる
-      $sql = "INSERT INTO `packingme_users`(`user_name`, `email`, `password`, `created`) VALUES (?,?,?,now())";
+      $sql = "INSERT INTO `packingme_users`(`user_name`, `email`, `password`, `created`, `modifide`) VALUES (?,?,?,now(),now())";
 
     //SQL文を実行
       // sha1 暗号化を行う関数
-      $data = array($user_name,$email,sha1($password));
+      $data = array($nick_name,$email,sha1($password));
       $stmt = $dbh->prepare($sql);
       $stmt->execute($data);
 
     //$_SESSIONの情報を削除
       // unset 指定した変数を削除するという意味。SESSIONじゃなくても使える
-      //unset($_SESSION["join"]);
+      // unset($_SESSION["name"]);
+      // unset($_SESSION["email"]);
+      // unset($_SESSION["password"]);
 
     //thanks.phpへ遷移
       header('Location: thanks.php');
@@ -32,13 +34,14 @@
     } catch (Exception $e) {
       //tryで囲まれた処理でエラーが発生したときに、やりたい処理を記述する場所
       echo 'SQL実行エラー:'.$e->getMessage();
-      exit(); 
+      exit();
+      
     }
+
   }
 
+
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,9 +87,6 @@
     margin: 10px;
     }
 
-    
-
-
     </style>
     <header class="masthead">
       <div class="container">
@@ -100,7 +100,7 @@
    <div class="container">
     <div class="row">
       <div class="col-lg-4 col-lg-offset-4 content-margin-top">
-        <form method="POST" action="" class="form-horizontal" role="form">
+        <form method="post" action="" class="form-horizontal" role="form">
           <input type="hidden" name="action" value="submit">
             <h1>PLEASE CHECK</h1>
             <table class="table table-striped table-condensed">
@@ -108,7 +108,7 @@
                 <!-- 登録内容を表示 -->
                 <tr>
                   <td><div class="col-lg-12 text-center">Name</div></td>
-                  <td><div class="text-center"><?php echo $_SESSION['user_name']; ?></div></td>
+                  <td><div class="text-center"><?php echo $_SESSION['name']; ?></div></td>
                 </tr>
                 <tr>
                   <td><div class="col-lg-12 text-center">Email</div></td>
@@ -139,13 +139,6 @@
   </div>
 
 
-             
-                       
-
-                   
-                   
-
-
 
               </div>  
             
@@ -154,13 +147,6 @@
        </div>
 
 
-
-
-
-
-
-
-          
         </div>
       </div>
     </header>
