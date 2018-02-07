@@ -2,31 +2,33 @@
   session_start();
   require('dbconnect.php');
 
-  // if(!empty($_SESSION)){
-  //   // 一行データ取得するsql
-  //   $one_sql = "SELECT * FROM`packingme_users`WHERE`id`=".$_SESSION["id"];
-  //   // sql実行
-  //   $one_stmt = $dbh->prepare($one_sql);
-  //   $one_stmt->execute();
-  //   // フェッチ
-  //   $user = $one_stmt->fetch(PDO::FETCH_ASSOC);
-  // }
+  if(!empty($_SESSION)){
+    // 一行データ取得するsql
+    $one_sql = "SELECT * FROM`packingme_users`WHERE`id`=".$_SESSION["id"];
+    // sql実行
+    $one_stmt = $dbh->prepare($one_sql);
+    $one_stmt->execute();
+    // フェッチ
+    $user = $one_stmt->fetch(PDO::FETCH_ASSOC);
+  }
   // 個人の投稿を取得するsql
-  // $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` FROM`packingme_posts` INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`WHERE`user_id`=? ORDER BY `packingme_posts`.`modified` DESC";
-  // // sql実行
-  // $data = array($_SESSION["id"]);
-  // $stmt = $dbh->prepare($sql);
-  // $stmt->execute($data);
-  // // フェッチ
-  // $post_list = array();
+  $sql = "SELECT * FROM`packingme_posts`WHERE`user_id`=? 
+          ORDER BY `packingme_posts`.`modified` DESC";
+  // sql実行
+  $data = array($_SESSION["id"]);
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute($data);
+  // フェッチ
+  $post_list = array();
 
-  // while(1){
-  // $one_post = $stmt->fetch(PDO::FETCH_ASSOC);
+  while(1){
+  $one_post = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  //   if($one_post == false){
-  //     break;
-  //   }
-  // $post_list[] = $one_post;
+    if($one_post == false){
+      break;
+    }
+  $post_list[] = $one_post;
+  }
 ?> 
 
 <!DOCTYPE html>
@@ -68,12 +70,12 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav text-uppercase ml-auto">
             <div class="crown-icon">
-              <a href="ranking.html">
+              <a href="ranking.php">
                 <img src="img/portfolio/crown.png">
               </a>
             </div>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="home.php">Home<?php echo $_SESSION["id"];?></a>
+              <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
@@ -93,24 +95,23 @@
     <div class="right-right">
       <div class="right-caram">
         <div class="profile-imgs">
-          <div class="top-image"><img src="picture_path/<?php ?>"></div>
+          <div class="top-image"><img src="picture_path/<?php echo $user["picture_path"];?>"></div>
           <h3><?php echo $user["user_name"];?></h3>
         </div>
         <br>        
         <div class="profile-texts">
-          <p>Hello,everyone!good afternoon.
-            I LOVE TRAVEL TOO MUCH!lets go travel with us.
-            See you in the world.
-            Thank you.
+          <p>
+          <?php echo $user["self_intro"];?>
           </p>
         </div>
         <div class="profile-texts">
-          <span>https://seizetheday.jp/about-me/</span>
+          
+          <span><?php echo $user["web_site"];?></span>
         </div>
           <div class="buttons">
-            <div class="be-center"><a href="like.html"><button class="like-button">いいね一覧</button></a></div>
+            <div class="be-center"><a href="like.php"><button class="like-button">いいね一覧</button></a></div>
             <br>
-            <div class="be-center"><a href="edit_profile.html"><button class="edit-prof-button">プロフィールを編集する</button></a></div>
+            <div class="be-center"><a href="edit_profile.php"><button class="edit-prof-button">プロフィールを編集する</button></a></div>
           </div>
       </div>
     </div>
@@ -128,20 +129,22 @@
         <div class="row">
 
           <!-- 繰り返し部分 -->
+          <?php foreach($post_list as $one_post){?>
           <div class="col-md-6 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
+            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["modified"];?>">
               <div class="portfolio-hover">
                 <div class="portfolio-hover-content">
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="packing.png" alt="">
+              <img class="img-fluid" src="picture_path/<?php echo $one_post["pic"];?>" alt="">
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"> 10 like</i>
               <!-- <p class="text-muted">more</p> -->
             </div>
           </div>
+          <?php }?>
           <!--ここまで繰り返し部分  -->
 
           <div class="col-md-6 col-sm-6 portfolio-item">
@@ -170,7 +173,8 @@
     <!-- ここまでロード -->
 
     <!-- modal部分 -->
-    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+    <?php foreach ($post_list as $one_post) {?>
+    <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $one_post["modified"]; ?>" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="close-modal" data-dismiss="modal">
@@ -185,7 +189,7 @@
                   <!-- Project Details Go Here -->
                   <!-- <h2 class="text-uppercase">Project Name</h2> -->
                   <!-- <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p> -->
-                  <img class="img-fluid d-block mx-auto" src="packing.png" alt="">
+                  <img class="img-fluid d-block mx-auto" src="picture_path/<?php echo $one_post["pic"];?>" alt="">
                   <div class="mypage-texts">
                     <span>Type</span>
                     <p>Traveler</p>
@@ -194,15 +198,15 @@
                     <p>1週間以内</p>
                     <!-- <p></p> -->
                     <span>場所</span>
-                    <p>フィリピン　セブ島</p>
+                    <p><?php echo $one_post["place"]; ?></p>
                     <span>期間</span>
-                    <p>４日間</p>
+                    <p><?php echo $one_post["term"]; ?></p>
                     <span>backpack</span>
-                    <p>Go Pro seeker 15L</p>
+                    <p><?php echo $one_post["backpack"]; ?></p>
                     <span>重量</span>
-                    <p>10kg</p>
+                    <p><?php echo $one_post["weight"]; ?>kg</p>
                     <span>中身詳細</span>
-                    <p>mackbookpro, ipad mini4, beats headphone, dji spark, gopro, omd-em5 mark2, t-shirt 1, pant 1, safety bag, お茶漬けの素, hydro flask, Big pencil</p>
+                    <p><?php echo $one_post["detail"]; ?></p>
                   </div>
                   <!-- <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p> -->
                   <ul class="list-inline">
@@ -223,7 +227,7 @@
         </div>
       </div>
     </div>
-
+    <?php }?>
     <!-- Modal 2 -->
   
     <!-- Modal 3 -->
