@@ -5,13 +5,20 @@ require('dbconnect.php');
 
 if(isset($_POST) && !empty($_POST)){
   
-// 投稿をDBに登録
-$sql = "INSERT INTO `packingme_posts` (`user_id`, `pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
+ if(!isset($error)){
+  try{
+    // 投稿をDBに登録
+    $sql = "INSERT INTO `packingme_posts` (`user_id`, `pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
 
-// SQL実行
-$data = array($_SESSION["id"],$_POST["pic"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
-$stmt = $dbh->prepare($sql);
-$stmt->execute($data);
+    // SQL実行
+    $data = array($_SESSION["id"],$_POST["pic"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute($data);
+  }catch(Exception $e){
+    
+  }
+ }
+
 
 // 画像の拡張子チェック
 // jpg,png,gifはok
@@ -25,8 +32,7 @@ if(!isset($error)){
     move_uploaded_file($_FILES['pic']['tmp_name'], 'pic/' . $pic_name);
 
     // SESSION変数に入力された画像を保存
-    $_SESSION['post'] = $_POST;
-    $_SESSION['post']['pic_name'] = $pic_name;
+    $_SESSION['pic_name'] = $_POST["pic_name"];
 
     header('Location: home.php');
     exit();
@@ -64,6 +70,7 @@ if(!isset($error)){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <!-- Custom styles for this template -->
     <link href="css/agency.css" rel="stylesheet">
+
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous"> -->
 
   </head>
@@ -152,7 +159,7 @@ if(!isset($error)){
           <div class="col-md-4">
             <ul class="list-inline quicklinks">
               <li class="list-inline-item">
-                <a href="privacy_policy.html">Privacy Policy</a>
+                <a href="privacy_policy.php">Privacy Policy</a>
               </li>
             </ul>
           </div>
