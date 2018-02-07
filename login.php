@@ -12,7 +12,6 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
 require('dbconnect.php');
 
 
-
 if(isset($_POST) && !empty($_POST)){
   //認証処理
   try {
