@@ -3,14 +3,23 @@
   require('dbconnect.php');
 
   // ログインユーザーIDからMembersテーブルとPostテーブルを結合して全件取得するsql
-  $sql = "SELECT `packingme_post`.*,`packingme_users`.`user_name`,`picture_path` 
-          FROM`packingme_post` 
+  $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` 
+          FROM`packingme_posts` 
           INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`  
-          ORDER BY `pic`.`modified` DESC";
+          ORDER BY `packingme_posts`.`modified` DESC";
   // 実行
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
   // フェッチ
+  $post_list = array();
+  while(1){
+    $one_post = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($one_post == false){
+      break;
+    }else{
+    $post_list[] = $one_post;
+    }
+  }
 
 
 
@@ -63,16 +72,16 @@
               </a>
             </div>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="home.html">Home</a>
+              <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.html">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="post.html">投稿する</a>
+              <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="top.html">Log out</a>
+              <a class="nav-link js-scroll-trigger" href="top.php">Log out</a>
             </li>
           </ul>
         </div>
@@ -84,7 +93,7 @@
       <div class="row display-table-row">
         <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
           <div class="logo">
-            <a href="home.html">Caregories</a>
+            <a href="home.php">Caregories</a>
           </div>
           <div class="navi">
             <ul>
@@ -112,11 +121,13 @@
 
         <div class="row">
 
-<!-- 繰り返し部分 -->    
+<!-- 繰り返し部分 -->   
+          <?php foreach ($post_list as $one_post) {?>
+
           <div class="profile-container">
             <a class="profile-link" href="mypage.html">
-              <img  class="image-with-link" src="naoki2.png">
-              <span class="name-with-link">Naoki</span>
+              <img  class="image-with-link" src="picture_path/<?php echo $one_post["picture_path"];?>">
+              <span class="name-with-link"><?php echo $one_post["user_name"];?></span>
             </a>
           </div>
           <div class="col-md-12 col-sm-12 portfolio-item">
@@ -133,6 +144,7 @@
             </div>
           </div>
 
+          <?php }?>
 <!-- ここまで繰り返し -->
 
         
@@ -322,7 +334,7 @@
           <div class="col-md-4">
             <ul class="list-inline quicklinks">
               <li class="list-inline-item">
-                <a href="privacy_policy.html">Privacy Policy</a>
+                <a href="privacy_policy.php">Privacy Policy</a>
               </li>
             </ul>
           </div>

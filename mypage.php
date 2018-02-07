@@ -2,15 +2,15 @@
   session_start();
   require('dbconnect.php');
 
-  if(!empty($_SESSION)){
-    // 一行データ取得するsql
-    $one_sql = "SELECT * FROM`packingme_users`WHERE`id`=".$_SESSION["id"];
-    // sql実行
-    $one_stmt = $dbh->prepare($one_sql);
-    $one_stmt->execute();
-    // フェッチ
-    $user = $one_stmt->fetch(PDO::FETCH_ASSOC);
-  }
+  // if(!empty($_SESSION)){
+  //   // 一行データ取得するsql
+  //   $one_sql = "SELECT * FROM`packingme_users`WHERE`id`=".$_SESSION["id"];
+  //   // sql実行
+  //   $one_stmt = $dbh->prepare($one_sql);
+  //   $one_stmt->execute();
+  //   // フェッチ
+  //   $user = $one_stmt->fetch(PDO::FETCH_ASSOC);
+  // }
   // 個人の投稿を取得するsql
   // $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` FROM`packingme_posts` INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`WHERE`user_id`=? ORDER BY `packingme_posts`.`modified` DESC";
   // // sql実行
@@ -60,7 +60,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
       <div class="container">
 
-        <a class="navbar-brand js-scroll-trigger" href="home.html">Packing Me!</a>
+        <a class="navbar-brand js-scroll-trigger" href="home.php">Packing Me!</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
@@ -73,16 +73,16 @@
               </a>
             </div>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="home.html">Home</a>
+              <a class="nav-link js-scroll-trigger" href="home.php">Home<?php echo $_SESSION["id"];?></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.html">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="post.html">投稿する</a>
+              <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="top.html">Log out</a>
+              <a class="nav-link js-scroll-trigger" href="top.php">Log out</a>
             </li>
           </ul>
         </div>
@@ -93,14 +93,10 @@
     <div class="right-right">
       <div class="right-caram">
         <div class="profile-imgs">
-          <div class="top-image"><img src="naoki2.png"></div>
-          <h3>Naoki</h3>
+          <div class="top-image"><img src="picture_path/<?php ?>"></div>
+          <h3><?php echo $user["user_name"];?></h3>
         </div>
-        <br>
-        <!-- <div class="profile-texts">
-          <span>naoki.love.massage@gmail.com</span>
-        </div> -->
-        
+        <br>        
         <div class="profile-texts">
           <p>Hello,everyone!good afternoon.
             I LOVE TRAVEL TOO MUCH!lets go travel with us.
@@ -120,6 +116,7 @@
     </div>
 <!--  ここまで右側固定部分-->
 <!-- 画像部分 -->
+
     <section class="bg-light mypage" id="portfolio">
       <div class="container">
         <div class="row">
@@ -129,6 +126,8 @@
           </div>
         </div>
         <div class="row">
+
+          <!-- 繰り返し部分 -->
           <div class="col-md-6 col-sm-6 portfolio-item">
             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
               <div class="portfolio-hover">
@@ -143,6 +142,8 @@
               <!-- <p class="text-muted">more</p> -->
             </div>
           </div>
+          <!--ここまで繰り返し部分  -->
+
           <div class="col-md-6 col-sm-6 portfolio-item">
             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
               <div class="portfolio-hover">
@@ -156,62 +157,9 @@
               <i class="fa fa-suitcase fa-2x"> 10 like</i>
             </div>
           </div>
-          <div class="col-md-6 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="naonao.png" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 1000 like</i>
-              <!-- <p class="text-muted">more</p> -->
-            </div>
-          </div>
-          <div class="col-md-6 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal4">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="inside3.png" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 15 like</i>
-              <!-- <p class="text-muted">more</p> -->
-            </div>
-          </div>
-          <div class="col-md-6 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal5">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="inside4.png" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 10 like</i>
-              <!-- <p class="text-muted">more</p> -->
-            </div>
-          </div>
-          <div class="col-md-6 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal6">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="inside5.jpg" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 10 like</i>
-              <!-- <p class="text-muted">more</p> -->
-            </div>
-          </div>
+         <!-- ここまで画像表示部分 -->
+
+          <!-- ロード部分 -->
           <div id="load" style="margin:0 auto;">
             <div ><i class="fa fa-spinner fa-pulse fa-3x"></i></div>
             <!-- <span class="sr-only">Loading...</span> -->
@@ -219,7 +167,7 @@
         </div>
       </div>
     </section>
-    <!-- ここまで画像表示部分 -->
+    <!-- ここまでロード -->
 
     <!-- modal部分 -->
     <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
@@ -337,7 +285,7 @@
           <div class="col-md-4">
             <ul class="list-inline quicklinks">
               <li class="list-inline-item">
-                <a href="privacy_policy.html">Privacy Policy</a>
+                <a href="privacy_policy.php">Privacy Policy</a>
               </li>
             </ul>
           </div>
