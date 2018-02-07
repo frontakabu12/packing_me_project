@@ -2,27 +2,21 @@
 session_start();
 require('dbconnect.php');
 
-
+// POST送信されていたら
 if(isset($_POST) && !empty($_POST)){
-  
- if(!isset($error)){
-  try{
-    // 投稿をDBに登録
-    $sql = "INSERT INTO `packingme_posts` (`user_id`, `pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
-
-    // SQL実行
-    $data = array($_SESSION["id"],$_POST["pic"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute($data);
-  }catch(Exception $e){
-    
-  }
- }
-
-
-// 画像の拡張子チェック
-// jpg,png,gifはok
+ 
 if(!isset($error)){
+  
+  // 投稿をDBに登録
+  $sql = "INSERT INTO `packingme_posts` (`user_id`, `pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
+
+  // SQL実行
+  $data = array($_SESSION["id"],$_POST["pic"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute($data);
+
+  // 画像の拡張子チェック
+  // jpg,png,gifはok
   $ext = substr($_FILES['pic']['name'], -3);
 
   if(($ext == 'png') || ($ext == 'jpg') || ($ext == 'gif')){
@@ -40,6 +34,11 @@ if(!isset($error)){
     $error["image"] = 'type';
   }
 }
+  
+
+
+
+
 
 }
 
