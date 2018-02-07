@@ -3,14 +3,23 @@
   require('dbconnect.php');
 
   // ログインユーザーIDからMembersテーブルとPostテーブルを結合して全件取得するsql
-  $sql = "SELECT `packingme_post`.*,`packingme_users`.`user_name`,`picture_path` 
-          FROM`packingme_post` 
+  $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` 
+          FROM`packingme_posts` 
           INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`  
-          ORDER BY `pic`.`modified` DESC";
+          ORDER BY `packingme_posts`.`modified` DESC";
   // 実行
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
   // フェッチ
+  $post_list = array();
+  while(1){
+    $one_post = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($one_post == false){
+      break;
+    }else{
+    $post_list[] = $one_post;
+    }
+  }
 
 
 
@@ -58,21 +67,21 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav text-uppercase ml-auto">
             <div class="crown-icon">
-              <a href="ranking.html">
+              <a href="ranking.php">
                 <img src="img/portfolio/crown.png">
               </a>
             </div>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="home.html">Home</a>
+              <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.html">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="post.html">投稿する</a>
+              <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="top.html">Log out</a>
+              <a class="nav-link js-scroll-trigger" href="top.php">Log out</a>
             </li>
           </ul>
         </div>
@@ -84,7 +93,7 @@
       <div class="row display-table-row">
         <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
           <div class="logo">
-            <a href="home.html">Caregories</a>
+            <a href="home.php">Caregories</a>
           </div>
           <div class="navi">
             <ul>
@@ -112,27 +121,30 @@
 
         <div class="row">
 
-<!-- 繰り返し部分 -->    
+<!-- 繰り返し部分 -->   
+          <?php foreach ($post_list as $one_post){?>
           <div class="profile-container">
-            <a class="profile-link" href="mypage.html">
-              <img  class="image-with-link" src="naoki2.png">
-              <span class="name-with-link">Naoki</span>
+            <a class="profile-link" href="mypage.php">
+              <img  class="image-with-link" src="picture_path/<?php echo $one_post["picture_path"];?>">
+              <span class="name-with-link"><?php echo $one_post["user_name"];?></span>
             </a>
           </div>
           <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
+            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["user_id"];?>">
               <div class="portfolio-hover">
                 <div class="portfolio-hover-content">
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid  change-img-size" src="packing.png" alt="">
+              <img class="img-fluid  change-img-size" src="picture_path/<?php echo $one_post["pic"];?>" alt="">
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"> 100 like</i>
             </div>
           </div>
-
+<!-- モーダルmo-daru -->
+          
+          <?php }?>
 <!-- ここまで繰り返し -->
 
         
@@ -167,7 +179,8 @@
     <!-- ここまで画像表示部分 -->
 
     <!-- modal部分 -->
-    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+    <?php foreach($post_list as $one_post){?>
+    <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $one_post["user_id"];?>" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="close-modal" data-dismiss="modal">
@@ -179,40 +192,40 @@
             <div class="row">
               <div class="col-lg-8 mx-auto">
                 <div class="modal-body">
-                  <!-- Project Details Go Here -->
-                  <!-- <h2 class="text-uppercase">Project Name</h2> -->
-                  <!-- <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p> -->
-                  <img class="img-fluid d-block mx-auto" src="packing.png" alt="">
+                      <!-- Project Details Go Here -->
+                      <!-- <h2 class="text-uppercase">Project Name</h2> -->
+                      <!-- <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p> -->
+                  <img class="img-fluid d-block mx-auto" src="picture_path/<?php echo $one_post["pic"];?>" alt="">
                   <div class="mypage-texts">
-                    <span>Type</span>
+                  <span>Type</span>
                     <p>Traveler</p>
                     <!-- <p></p> -->
                     <span>Category</span>
                     <p>2週間以内</p>
                     <!-- <p></p> -->
                     <span>場所</span>
-                    <p>フィリピン　セブ島</p>
+                    <p><?php echo $one_post["place"];?></p>
                     <span>期間</span>
-                    <p>４日間</p>
+                    <p><?php echo $one_post["term"];?></p>
                     <span>backpack</span>
-                    <p>the north face Caelus 35L</p>
+                    <p><?php echo $one_post["backpack"];?></p>
                     <span>重量</span>
-                    <p>13kg</p>
+                    <p><?php echo $one_post["weight"];?>kg</p>
                     <span>中身詳細</span>
-                    <p>mackbookpro, dji spark, omd-em5 mark2, t-shirt 3, pant 3</p>
+                    <p><?php echo $one_post["detail"];?></p>
                   </div>
-                  <!-- <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p> -->
-                  <ul class="list-inline">
-                    <li>29 January 2018</li>
-                  </ul>
+                      <!-- <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p> -->
+                <ul class="list-inline">
+                  <li>29 January 2018</li>
+                </ul>
                   <!-- <div class="edit-delete">
                     <button class="delete-button">delete</button>
                     <button class="edit-button">edit</button>
                   </div> -->
-                  <button class="btn btn-primary" data-dismiss="modal" type="button">
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
                     <i class="fa fa-times"></i>
                     Close</button>
-                  
+                    
                 </div>
               </div>
             </div>
@@ -220,6 +233,8 @@
         </div>
       </div>
     </div>
+    <?php }?>
+    
 
 
 <!-- ここまで投稿画像表示部分 -->
@@ -322,7 +337,7 @@
           <div class="col-md-4">
             <ul class="list-inline quicklinks">
               <li class="list-inline-item">
-                <a href="privacy_policy.html">Privacy Policy</a>
+                <a href="privacy_policy.php">Privacy Policy</a>
               </li>
             </ul>
           </div>
@@ -343,7 +358,7 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/agency.min.js"></script>
-    <script src="../packing_me.js"></script>
+    <script src="js/packing_me.js"></script>
   </body>
 
 </html>
