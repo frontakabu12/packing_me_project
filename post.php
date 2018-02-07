@@ -7,13 +7,6 @@ if(isset($_POST) && !empty($_POST)){
  
 if(!isset($error)){
   
-  // 投稿をDBに登録
-  $sql = "INSERT INTO `packingme_posts` (`user_id`, `pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
-
-  // SQL実行
-  $data = array($_SESSION["id"],$_POST["pic"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
-  $stmt = $dbh->prepare($sql);
-  $stmt->execute($data);
 
   // 画像の拡張子チェック
   // jpg,png,gifはok
@@ -26,16 +19,32 @@ if(!isset($error)){
     move_uploaded_file($_FILES['pic']['tmp_name'], 'pic/' . $pic_name);
 
     // SESSION変数に入力された画像を保存
-    $_SESSION['pic_name'] = $_POST["pic_name"];
-
-    header('Location: home.php');
+    $_SESSION['pic'] = $pic_name;
+    header('Location: postdone.php');
     exit();
-  }else{
+
+    }else{
     $error["image"] = 'type';
   }
-}
-  
 
+  try{
+  // 投稿をDBに登録
+  $sql = "INSERT INTO `packingme_posts` (`user_id`,`pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
+
+  // SQL実行
+  $data = array($_SESSION["id"],$_SESSION["pic"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute($data);
+
+  
+    
+  
+}catch(Exception $e){
+  echo 'SQL実行エラー:'.$e->getMessage();
+      exit();
+}
+
+}
 
 
 
@@ -92,16 +101,16 @@ if(!isset($error)){
               </a>
             </div>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="home.html">Home</a>
+              <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.html">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="post.html">投稿する</a>
+              <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="top.html">Log out</a>
+              <a class="nav-link js-scroll-trigger" href="top.php">Log out</a>
             </li>
           </ul>
         </div>
