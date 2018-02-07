@@ -4,19 +4,11 @@
   require('dbconnect.php');
 
   // userのIDを取得するsql
-  $sql = "SELECT * FROM`packingme_users`WHERE`user_name`=?";
-  // sql実行
-  $data = array($_SESSION["name"]);
-  $stmt = $dbh->prepare($sql);
-  $stmt->execute($data);
-// フェッチ
-  $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-  $_SESSION["id"] = $user["id"];
+  
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
   <head>
 
@@ -74,15 +66,6 @@
                   <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.php">START</a>
                 </div>     
               </div>
-               <div class="login-box">
-                   <h1>Registration Successful!</h1>
-                   <h1>Thank you !</h1>
-                   
-                    
-
-                    <br>
-                    <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="home.php">START</a>  
-                </form>
               </div> 
             </div>
           </div>          

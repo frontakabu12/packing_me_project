@@ -18,7 +18,7 @@ if(isset($_POST) && !empty($_POST)){
   try {
       //メンバーズテーブルでテーブルの中からメールアドレスとパスワードが入力された
      //データを収得
-    $sql = "SELECT * FROM `packingme_users` WHERE `email`=? AND `password`=? ";
+    $sql = "SELECT * FROM `packingme_users` WHERE `email`=? AND `password`=?";
 
     //sql文実行
     //パスワードは入力されたものを暗号化した上使用＄$-
