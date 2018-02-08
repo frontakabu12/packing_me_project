@@ -130,7 +130,7 @@
             </a>
           </div>
           <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["user_id"];?>">
+            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["modified"];?>">
               <div class="portfolio-hover">
                 <div class="portfolio-hover-content">
                   <i class="fa fa-plus fa-3x"></i>
@@ -180,7 +180,7 @@
 
     <!-- modal部分 -->
     <?php foreach($post_list as $one_post){?>
-    <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $one_post["user_id"];?>" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $one_post["modified"];?>" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="close-modal" data-dismiss="modal">
