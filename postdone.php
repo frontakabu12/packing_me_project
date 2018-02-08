@@ -96,6 +96,7 @@
           </div>
           <div class="navi">
             <ul>
+              <li class=""><a href="#"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">１ヶ月以上</span></a></li>
               <li class=""><a href="#"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">２週間以上</span></a></li>
               <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">２週間以内</span></a></li>
               <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">１週間以内</span></a></li>
@@ -129,13 +130,13 @@
             </a>
           </div>
           <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["user_id"];?>">
+            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["id"];?>">
               <div class="portfolio-hover">
                 <div class="portfolio-hover-content">
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid  change-img-size" src="pic/<?php echo $one_post["pic"];?>" alt="">
+              <img class="img-fluid  change-img-size" src="pic/<?php echo $one_post["pic"];?>" max width="400px" alt="">
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"> 100 like</i>
@@ -180,7 +181,7 @@
 
     <!-- modal部分 -->
     <?php foreach($post_list as $one_post){?>
-    <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $one_post["user_id"];?>" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $one_post["id"];?>" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="close-modal" data-dismiss="modal">
@@ -216,7 +217,15 @@
                   </div>
                       <!-- <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p> -->
                 <ul class="list-inline">
-                  <li>29 January 2018</li>
+                  <li>
+                    <?php 
+                      $modify_date = $one_post["modified"];
+                      // date関数　書式を時間に変更するとき
+                      // strtotime 文字型(string)のデータを日時型に変換できる
+                      // 24時間表記：H, 12時間表記：h　
+                      $modify_date = date("Y-m-d H:i", strtotime($modify_date));
+                     echo $modify_date ; ?>
+                  </li>
                 </ul>
                   <!-- <div class="edit-delete">
                     <button class="delete-button">delete</button>
