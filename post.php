@@ -6,7 +6,6 @@ require('dbconnect.php');
 if(isset($_POST) && !empty($_POST)){
  
 if(!isset($error)){
-  
 
   // 画像の拡張子チェック
   // jpg,png,gifはok
@@ -20,14 +19,8 @@ if(!isset($error)){
 
     // SESSION変数に入力された画像を保存
     $_SESSION['pic'] = $pic_name;
-    header('Location: postdone.php');
-    exit();
 
-    }else{
-    $error["image"] = 'type';
-  }
-
-  try{
+  
   // 投稿をDBに登録
   $sql = "INSERT INTO `packingme_posts` (`user_id`,`pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
 
@@ -37,14 +30,14 @@ if(!isset($error)){
   $stmt->execute($data);
 
   
-    
+    header('Location: postdone.php');
+    exit();
+  }else{
+    $error["image"] = 'type';
+  }
+}
   
-}catch(Exception $e){
-  echo 'SQL実行エラー:'.$e->getMessage();
-      exit();
-}
 
-}
 
 
 
