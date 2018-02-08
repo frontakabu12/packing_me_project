@@ -89,7 +89,7 @@ if(!isset($error)){
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav text-uppercase ml-auto">
             <div class="crown-icon">
-              <a href="ranking.html">
+              <a href="ranking.php">
                 <img src="img/portfolio/crown.png">
               </a>
             </div>
