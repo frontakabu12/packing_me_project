@@ -2,37 +2,47 @@
 session_start();
 require('dbconnect.php');
 
-// 投稿をDBに登録
-$sql = "INSERT INTO `packingme_posts` (`user_id`, `pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
-
-// SQL実行
-$data = array($_SESSION["id"],$_POST["pic"],$_POST["category_id"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
-$stmt = $dbh->prepare($sql);
-$stmt->execute($data);
-
-// 画像の拡張子チェック
-// jpg,png,gifはok
+// POST送信されていたら
+if(isset($_POST) && !empty($_POST)){
+ 
 if(!isset($error)){
+
+  // 画像の拡張子チェック
+  // jpg,png,gifはok
   $ext = substr($_FILES['pic']['name'], -3);
 
   if(($ext == 'png') || ($ext == 'jpg') || ($ext == 'gif')){
     // 画像のアップロード処理
     $pic_name = date('YmdHis') . $_FILES['pic']['name'];
-
     // アップロード
     move_uploaded_file($_FILES['pic']['tmp_name'], 'pic/' . $pic_name);
 
     // SESSION変数に入力された画像を保存
-    $_SESSION['post'] = $_POST;
-    $_SESSION['post']['pic_name'] = $pic_name;
+    $_SESSION['pic'] = $pic_name;
 
-    header('Location: home.php');
+  
+  // 投稿をDBに登録
+  $sql = "INSERT INTO `packingme_posts` (`user_id`,`pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
+
+  // SQL実行
+  $data = array($_SESSION["id"],$_SESSION["pic"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute($data);
+
+  
+    header('Location: postdone.php');
     exit();
   }else{
     $error["image"] = 'type';
   }
 }
+  
 
+
+
+
+
+}
 
 
  ?>
@@ -117,7 +127,7 @@ if(!isset($error)){
           <select name="categories"> 
             <option value="1" selected="">カテゴリを選択</option> 
             <option value="2">3日以内</option> 
-            <option value="3" >2週間以内</option> 
+            <option value="3" >1週間以内</option> 
             <option value="4">2週間以内</option> 
             <option value="4">2週間以上</option> 
             <option value="4">1ヶ月以上</option> 

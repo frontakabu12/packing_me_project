@@ -125,7 +125,7 @@ if(!isset($error)){
           <select name="category"> 
             <option value="1" selected="">カテゴリを選択</option> 
             <option value="2">3日以内</option> 
-            <option value="3" >2週間以内</option> 
+            <option value="3" >1週間以内</option> 
             <option value="4">2週間以内</option> 
             <option value="4">2週間以上</option> 
             <option value="4">1ヶ月以上</option> 
