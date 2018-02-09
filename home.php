@@ -139,10 +139,12 @@
               <img class="img-fluid  change-img-size" src="picture_path/<?php echo $one_post["pic"];?>" alt="">
             </a>
             <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 100 like</i>
+              <!-- いいね部分 -->
+              <a href="like_buttton.php?like_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x"> 100 like</i></a>
+              <a href="like_buttton.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x"> 100 like</i></a>
+              <!-- ここまでいいね部分 -->
             </div>
           </div>
-<!-- モーダルmo-daru -->
           
           <?php }?>
 <!-- ここまで繰り返し -->
