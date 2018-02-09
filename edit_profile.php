@@ -1,5 +1,12 @@
+<?php 
+  session_start();
+  require ('dbconnect.php');
+
+
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
   <head>
 
@@ -39,21 +46,21 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav text-uppercase ml-auto">
             <div class="crown-icon">
-              <a href="ranking.html">
+              <a href="ranking.php">
                 <img src="img/portfolio/crown.png">
               </a>
             </div>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="home.html">Home</a>
+              <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.html">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="post.html">投稿する</a>
+              <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="top.html">Log out</a>
+              <a class="nav-link js-scroll-trigger" href="top.php">Log out</a>
             </li>
           </ul>
         </div>
@@ -87,7 +94,7 @@
             See you in the world. Thank you.
           </textarea>
         </div>
-        <div class="editButton"><a href="mypage.html"><button>変更する</button></a>
+        <div class="editButton"><a href="mypage.php"><button>変更する</button></a>
         </div>
       </div>
     </div>
@@ -107,7 +114,7 @@
           <div class="col-md-4">
             <ul class="list-inline quicklinks">
               <li class="list-inline-item">
-                <a href="privacy_policy.html">Privacy Policy</a>
+                <a href="privacy_policy.php">Privacy Policy</a>
               </li>
             </ul>
           </div>
@@ -128,7 +135,7 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/agency.min.js"></script>
-    <script src="packing_me.js"></script>
+    <script src="js/packing_me.js"></script>
   </body>
 
 </html>
