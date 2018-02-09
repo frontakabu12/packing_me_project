@@ -130,7 +130,7 @@
             </a>
           </div>
           <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["user_id"];?>">
+            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["modified"];?>">
               <div class="portfolio-hover">
                 <div class="portfolio-hover-content">
                   <i class="fa fa-plus fa-3x"></i>
@@ -139,10 +139,12 @@
               <img class="img-fluid  change-img-size" src="picture_path/<?php echo $one_post["pic"];?>" alt="">
             </a>
             <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 100 like</i>
+              <!-- いいね部分 -->
+              <a href="like_buttton.php?like_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x"> 100 like</i></a>
+              <a href="like_buttton.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x"> 100 like</i></a>
+              <!-- ここまでいいね部分 -->
             </div>
           </div>
-<!-- モーダルmo-daru -->
           
           <?php }?>
 <!-- ここまで繰り返し -->
@@ -180,7 +182,7 @@
 
     <!-- modal部分 -->
     <?php foreach($post_list as $one_post){?>
-    <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $one_post["user_id"];?>" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $one_post["modified"];?>" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="close-modal" data-dismiss="modal">
