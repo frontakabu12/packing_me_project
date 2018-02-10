@@ -192,7 +192,7 @@ if(isset($_POST) && !empty($_POST)){
       <div class="container">
         <div class="row">
           <div class="col-md-4">
-            <span class="copyright">Copyright &copy; Flash Packers with N</span>
+            <a href="top.php"><span class="copyright">Copyright &copy; Flash Packers with N</span></a>
           </div>
           <div class="col-md-4">
           </div>
