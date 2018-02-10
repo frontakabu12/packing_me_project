@@ -17,7 +17,38 @@
     if($one_post == false){
       break;
     }else{
-    $post_list[] = $one_post;
+    // LIKE数を求めるSQL文作成
+      $like_sql = "SELECT COUNT(*)as`like_count` FROM `packingme_likes` WHERE `post_id`=".$one_post["post_id"];
+
+      // Sql実行
+      $like_stmt = $dbh->prepare($like_sql);
+      $like_stmt->execute();
+
+      $like_number = $like_stmt->fetch(PDO::FETCH_ASSOC);
+// one_tweetの中身
+// one_tweet["tweet"]つぶやき
+// one_tweet["member_id"]つぶやいた人のID
+// one_tweet["nick_name"]つぶやいた人のニックネーム
+// one_tweet["picture_path"]つぶやいた人のプロフィール画像
+// one_tweet["modified"]つぶやいた日時
+
+//一行ぶんのデータに新しいキーを用意してLIKE数を代入 
+      $one_post["like_count"] = $like_number["like_count"];
+
+//ログインしている人がLIKEしているかどうかの情報を取得
+      $login_like_sql = "SELECT COUNT(*)as`like_flag` FROM `packingme_likes` WHERE `post_id`=".$one_post["post_id"]." AND `user_id`=".$_SESSION["id"]; 
+
+// SQL実行
+      $login_like_stmt = $dbh->prepare($login_like_sql);
+      $login_like_stmt->execute();
+
+// フェッチして取得
+      $login_like_number = $login_like_stmt->fetch(PDO::FETCH_ASSOC);
+
+
+      $one_post["login_like_flag"] = $login_like_number["like_flag"];
+      // データ取得できている      $tweet_list[] = $one_tweet;
+      $post_list[] = $one_post;
     }
   }
 
@@ -75,7 +106,7 @@
               <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php?user_id=<?php echo $_SESSION["id"];?>">My Page</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
@@ -123,8 +154,8 @@
 
 <!-- 繰り返し部分 -->   
           <?php foreach ($post_list as $one_post){?>
-          <div class="profile-container">
-            <a class="profile-link" href="mypage.php">
+          <div class="profile-container" id="<?php echo $one_post["post_id"] ;?>">
+            <a class="profile-link" href="mypage.php?user_id=<?php echo $one_post["user_id"];?>">
               <img  class="image-with-link" src="picture_path/<?php echo $one_post["picture_path"];?>">
               <span class="name-with-link"><?php echo $one_post["user_name"];?></span>
             </a>
@@ -140,9 +171,13 @@
             </a>
             <div class="portfolio-caption">
               <!-- いいね部分 -->
-              <a href="like_buttton.php?like_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x"> 100 like</i></a>
-              <a href="like_buttton.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x"> 100 like</i></a>
-              <!-- ここまでいいね部分 -->
+              <?php if($one_post["login_like_flag"] == 0){ ?>
+              <a href="like_buttton.php?like_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"] ;?> like</span>
+              <!-- いいね取り消し部分 -->
+              <?php }else{?>
+              <a class="unlike" href="like_buttton.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"]; ?> like</span>
+              <?php }?>
+              <!-- ここまでいいねいいね取り消し部分 -->
             </div>
           </div>
           
