@@ -2,7 +2,20 @@
   session_start();
   require ('dbconnect.php');
 
+  $sql ="SELECT * FROM`packingme_users` WHERE `id`=".$_SESSION["id"];
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
 
+  $user = $stmt->fetch(PDO::FETCH_ASSOC); 
+
+  if(isset($_POST) && !empty($_POST)){
+    $sql = "UPDATE `packingme_users` SET (`name`,`email`,`web_site`,`picture_path`) = (?,?,?,?,?) WHERE `packingme_users`.`id` =?;";
+    $data = array($_POST["name"],$_POST["email"],$_POST["website"],$_POST["picture_path"],$_SESSION["id"]);
+    $stmt = $dbh->prepere($sql);
+    $stmt->execute();
+
+    header('Location: mypage.php');
+  }
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +67,7 @@
               <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php?user_id=<?php echo $_SESSION["id"];?>">My Page</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
@@ -69,33 +82,34 @@
 <!-- ヘッダーここまで -->
     <div class="profile-edit">
       <div class="container">
-        <div class="profile-img">
-          <img src="naoki2.png">
-          <h2>aaagon</h2>
-          <input type="file" id="file" style="display:none;" onchange="$('#fake_input_file').val($(this).val())">
-          <button onClick="$('#file').click();">プロフィール画像を変更する</button>
-        </div>
-        <br>
-        <div class="profile-text">
-          <span>名前  </span>
-          <input type="" name="" placeholder="Naoki">
-        </div>
-        <div class="profile-text">
-          <span>メールアドレス</span>
-          <input type="" name="" placeholder="naoki-love-massagel@gmail.com">
-        </div>
-        <div class="profile-text">
-          <span>ウェブサイト</span>
-          <input type="" name="" placeholder="https://seizetheday.jp/about-me/">
-        </div>
-        <div class="profile-textarea">
-          <span>自己紹介</span>
-          <textarea>Hello, lets go travel with us.
-            See you in the world. Thank you.
-          </textarea>
-        </div>
-        <div class="editButton"><a href="mypage.php"><button>変更する</button></a>
-        </div>
+        <form method="post" action="">
+          <div class="profile-img">
+            <img src="picture_path/<?php echo $user["picture_path"];?>">
+            <h2><?php echo $user["user_name"];?></h2>
+            <input type="file" id="file" style="display:none;" onchange="$('#fake_input_file').val($(this).val())">
+            <button onClick="$('#file').click();">プロフィール画像を変更する</button>
+          </div>
+          <br>
+          <div class="profile-text">
+            <span>名前  </span>
+            <input type="" name="user_name" placeholder="<?php echo $user["user_name"];?>">
+          </div>
+          <div class="profile-text">
+            <span>メールアドレス</span>
+            <input type="" name="email" placeholder="<?php echo $user["email"];?>">
+          </div>
+          <div class="profile-text">
+            <span>ウェブサイト</span>
+            <input type="" name="web_site" placeholder="<?php echo $user["web_site"];?>">
+          </div>
+          <div class="profile-textarea">
+            <span>自己紹介</span>
+            <input name="self_intro" type="textarea" placeholder="<?php echo $user["self_intro"];?>">
+          </div>
+          <div class="editButton">
+            <a href="mypage.php"><button>変更する</button></a>
+          </div>
+        </form>
       </div>
     </div>
 
