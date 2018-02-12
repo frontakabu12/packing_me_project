@@ -12,28 +12,7 @@
     $user = $one_stmt->fetch(PDO::FETCH_ASSOC);
  
 
-      // like数を求めるSQL文
-      // $like_sql = "SELECT COUNT(*) as `like_count` FROM `packingme_likes` WHERE `post_id`=".$one_post["post_id"];
-      // $like_stmt = $dbh->prepare($like_sql);
-      // $like_stmt->execute();
-
-      // $like_number = $like_stmt->fetch(PDO::FETCH_ASSOC);
- 
-      // 一行分のデータに新しいキーを用意して、like数を代入
-      // $one_post["like_number"] = $like_number["like_count"];
-
-      // ログインしている人がlikeした数を求めるSQL文
-      // $login_like_sql = "SELECT COUNT(*) as `like_count` FROM `packingme_likes` WHERE `user_id`=".$_SESSION["id"]." AND `post_id`=".$one_post["post_id"]." ORDER BY `like_count` DESC";
-
-      // $login_like_stmt = $dbh->prepare($login_like_sql);
-      // $login_like_stmt->execute();
-
-      // $login_like_number = $login_like_stmt->fetch(PDO::FETCH_ASSOC);
-
-      // $one_post["login_like_flag"] = $login_like_number["like_count"]
-
-
-
+    
   // ログインしている人がいいねしている投稿を取得するsql
   $like_list_sql = "SELECT * FROM `packingme_posts` INNER JOIN `packingme_likes` ON `packingme_posts`.`post_id`=`packingme_likes`.`post_id` WHERE `packingme_likes`.`user_id`=? ORDER BY `packingme_posts`.`modified` DESC";
   // sql実行
@@ -50,11 +29,38 @@
       break;
     }else{
 
+      // like数を求めるSQL文
+      $like_sql = "SELECT COUNT(*) as `like_count` FROM `packingme_likes` WHERE `post_id`=".$like_post["post_id"];
+      $like_stmt = $dbh->prepare($like_sql);
+      $like_stmt->execute();
+
+      $like_number = $like_stmt->fetch(PDO::FETCH_ASSOC);
+ 
+      // 一行分のデータに新しいキーを用意して、like数を代入
+      $like_post["like_count"] = $like_number["like_count"];
+
+      // // ログインしている人がlikeした数を求めるSQL文
+      $login_like_sql = "SELECT COUNT(*) as `like_flag` FROM `packingme_likes` WHERE `user_id`=".$_SESSION["id"]." AND `post_id`=".$like_post["post_id"]." ORDER BY `like_flag` DESC";
+
+      $login_like_stmt = $dbh->prepare($login_like_sql);
+      $login_like_stmt->execute();
+
+      $login_like_number = $login_like_stmt->fetch(PDO::FETCH_ASSOC);
+
+      $like_post["login_like_flag"] = $login_like_number["like_flag"]
+
+
       $like_list[] = $like_post;
       }
   }
 
 }
+
+
+
+
+
+
 ?> 
 
 
@@ -104,7 +110,7 @@
               <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php?user_id=<?php echo $_SESSION["id"];?>">My Page</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
@@ -157,7 +163,7 @@
           <!-- 繰り返し部分 -->
           <?php foreach($like_list as $like_post){?>
           <div class="col-md-6 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1<?php echo $like_post["created"]; ?>">
+            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $like_post["post_id"]; ?>">
               <div class="portfolio-hover">
                 <div class="portfolio-hover-content">
                   <i class="fa fa-plus fa-3x"></i>
@@ -165,9 +171,15 @@
               </div>
               <img class="img-fluid" src="pic/<?php echo $like_post["pic"];?>" width="400" alt="">
             </a>
+            <!-- いいね部分 -->
             <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 1000 like</i>
-              <!-- <p class="text-more">more</p> -->
+              <?php if($like_post["login_like_flag"] == 0){ ?>
+              <a href="like_buttton.php?like_post_id=<?php echo $like_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $like_post["like_count"] ;?> like</span>
+              <!-- いいね取り消し部分 -->
+              <?php }else{?>
+              <a class="unlike" href="like_buttton.php?unlike_post_id=<?php echo $like_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $like_post["like_count"]; ?> like</span>
+              <?php }?>
+              <!-- ここまでいいねいいね取り消し部分 -->
             </div>
           </div>
           <?php }?>
@@ -185,7 +197,7 @@
 
     <!-- modal部分 -->
     <?php foreach ($like_list as $like_post) {?>
-    <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $like_post["created"]; ?>" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $like_post["post_id"]; ?>" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="close-modal" data-dismiss="modal">
