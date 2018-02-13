@@ -2,6 +2,7 @@
   session_start();
   require('dbconnect.php');
 
+
   // ログインユーザーIDからMembersテーブルとPostsテーブルを結合して全件取得するsql
   $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` 
           FROM`packingme_posts` 
@@ -11,6 +12,7 @@
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
   // フェッチ
+
   $post_list = array();
   while(1){
     $one_post = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -20,6 +22,7 @@
     $post_list[] = $one_post;
     }
   }
+
 
 
 
@@ -121,6 +124,7 @@
 
         <div class="row">
 
+
 <!-- 繰り返し部分 -->   
           <?php foreach ($post_list as $one_post){?>
           <div class="profile-container">
@@ -130,20 +134,22 @@
             </a>
           </div>
           <div class="col-md-12 col-sm-12 portfolio-item">
+
             <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["id"];?>">
               <div class="portfolio-hover">
                 <div class="portfolio-hover-content">
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
+
               <img class="img-fluid  change-img-size" src="pic/<?php echo $one_post["pic"];?>" max width="400px" alt="">
+
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"> 100 like</i>
             </div>
           </div>
-<!-- モーダルmo-daru -->
-          
+<!-- モーダルmo-daru -->      
           <?php }?>
 <!-- ここまで繰り返し -->
 
@@ -180,6 +186,7 @@
     <!-- ここまで画像表示部分 -->
 
     <!-- modal部分 -->
+
     <?php foreach($post_list as $one_post){?>
     <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $one_post["id"];?>" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
@@ -227,14 +234,14 @@
                      echo $modify_date ; ?>
                   </li>
                 </ul>
+
                   <!-- <div class="edit-delete">
                     <button class="delete-button">delete</button>
                     <button class="edit-button">edit</button>
                   </div> -->
                 <button class="btn btn-primary" data-dismiss="modal" type="button">
                     <i class="fa fa-times"></i>
-                    Close</button>
-                    
+                  Close</button>
                 </div>
               </div>
             </div>
