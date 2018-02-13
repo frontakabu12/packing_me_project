@@ -30,7 +30,7 @@ if(!isset($error)){
   $stmt->execute($data);
 
   
-    header('Location: postdone.php');
+    header('Location: home.php');
     exit();
   }else{
     $error["image"] = 'type';
