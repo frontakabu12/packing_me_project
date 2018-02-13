@@ -47,7 +47,7 @@
 
       $login_like_number = $login_like_stmt->fetch(PDO::FETCH_ASSOC);
 
-      $like_post["login_like_flag"] = $login_like_number["like_flag"];
+      $like_post["login_like_flag"] = $login_like_number["like_flag"]
 
 
       $like_list[] = $like_post;
@@ -141,7 +141,7 @@
           <span><?php echo $user["web_site"];?></span>
         </div>
           <div class="buttons">
-            <div class="be-center"><a href="mypage.php?user_id=<?php echo $_SESSION["id"]; ?>"><button class="like-button">投稿一覧</button></a></div>
+            <div class="be-center"><a href="mypage.php"><button class="like-button">投稿一覧</button></a></div>
             <br>
             <div class="be-center"><a href="edit_profile.php"><button class="edit-prof-button">プロフィールを編集する</button></a></div>
           </div>
