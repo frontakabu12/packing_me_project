@@ -22,10 +22,10 @@ if(!isset($error)){
 
   
   // 投稿をDBに登録
-  $sql = "INSERT INTO `packingme_posts` (`user_id`,`pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
+  $sql = "INSERT INTO `packingme_posts` (`user_id`,`pic`,`type`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,?,now());";
 
   // SQL実行
-  $data = array($_SESSION["id"],$_SESSION["pic"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
+  $data = array($_SESSION["id"],$_SESSION["pic"],$_POST["type"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
   $stmt = $dbh->prepare($sql);
   $stmt->execute($data);
 
@@ -97,7 +97,7 @@ if(!isset($error)){
               <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php?user_id=<?php echo $_SESSION["id"]; ?>">My Page</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
@@ -117,18 +117,18 @@ if(!isset($error)){
         <input type="file" name="pic" class="form-control"></div>
         <div class="preview">
         </div>
-          <select name="categories"> 
+          <select name="type"> 
             <option value="1" selected="">タイプを選択</option> 
             <option value="2">Traveler</option> 
             <option value="3" >Engineer</option>  
           </select>
           <select name="category"> 
             <option value="1" selected="">カテゴリを選択</option> 
-            <option value="2">3日以内</option> 
-            <option value="3" >1週間以内</option> 
-            <option value="4">2週間以内</option> 
-            <option value="4">2週間以上</option> 
-            <option value="4">1ヶ月以上</option> 
+            <option value="3日以内">3日以内</option> 
+            <option value="1週間以内" >1週間以内</option> 
+            <option value="2週間以内">2週間以内</option> 
+            <option value="2週間以上">2週間以上</option> 
+            <option value="1ヶ月以上">1ヶ月以上</option> 
           </select>
           <center>場所</center>
           <input type="" name="place" placeholder="例）フィリピン　セブ島">
