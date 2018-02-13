@@ -147,11 +147,13 @@
           
           <span><?php echo $user["web_site"];?></span>
         </div>
+        <?php if($_GET["user_id"] == $_SESSION["id"]){ ?>
           <div class="buttons">
             <div class="be-center"><a href="like.php"><button class="like-button">いいね一覧</button></a></div>
             <br>
             <div class="be-center"><a href="edit_profile.php"><button class="edit-prof-button">プロフィールを編集する</button></a></div>
           </div>
+        <?php }?>
       </div>
     </div>
 <!--  ここまで右側固定部分-->

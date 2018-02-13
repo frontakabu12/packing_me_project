@@ -175,7 +175,7 @@
             <!-- 名前 -->
             <div class="profile-text form-group">
               <span>名前  </span>
-              <input type="" name="user_name" placeholder="<?php echo $user["user_name"];?>">
+              <input type="" name="user_name" value="<?php echo $user["user_name"];?>">
               <?php if((isset($error["user_name"])) && ($error["user_name"] == 'blank')) { ?>
                 <p class="error">＊ユーザーネームを入力してください</p>
               <?php }?>
@@ -183,7 +183,7 @@
             <!-- メールアドレス -->
             <div class="profile-text form-group">
               <span>メールアドレス</span>
-              <input type="" name="email" placeholder="<?php echo $user["email"];?>">
+              <input type="" name="email" value="<?php echo $user["email"];?>">
               <?php if((isset($error["email"])) && ($error["email"] == 'blank')) { ?>
               <p class="error">＊Emailを入力してください</p>
              <?php }?>
@@ -194,16 +194,16 @@
             <!-- ウェブサイト -->
             <div class="profile-text form-group">
               <span>ウェブサイト</span>
-              <input type="" name="web_site" placeholder="<?php echo $user["web_site"];?>">
+              <input type="" name="web_site" value="<?php echo $user["web_site"];?>">
             </div>
             <!-- 自己紹介 -->
             <div class="profile-textarea form-group">
               <span>自己紹介</span>
-              <input name="self_intro" type="textarea" placeholder="<?php echo $user["self_intro"];?>">
+              <textarea name="self_intro"><?php echo $user["self_intro"];?></textarea>
               <?php if((isset($error["self_intro"])) && ($error["self_intro"] == 'blank')) { ?>
               <p class="error">＊自己紹介を入力してください</p>
               <?php }?>
-            </div>
+              </div>
             <div class="editButton">
               <a href=""><button type="submit">変更する</button></a>
             </div>
