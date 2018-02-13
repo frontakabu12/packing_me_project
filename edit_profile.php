@@ -2,20 +2,94 @@
   session_start();
   require ('dbconnect.php');
 
-  $sql ="SELECT * FROM`packingme_users` WHERE `id`=".$_SESSION["id"];
+  $sql ="SELECT * FROM`packingme_users` WHERE `packingme_users`.`id`=".$_SESSION["id"];
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
 
   $user = $stmt->fetch(PDO::FETCH_ASSOC); 
 
-  if(isset($_POST) && !empty($_POST)){
-    $sql = "UPDATE `packingme_users` SET (`name`,`email`,`web_site`,`picture_path`) = (?,?,?,?,?) WHERE `packingme_users`.`id` =?;";
-    $data = array($_POST["name"],$_POST["email"],$_POST["website"],$_POST["picture_path"],$_SESSION["id"]);
-    $stmt = $dbh->prepere($sql);
-    $stmt->execute();
+  $ext = substr($_FILES['picture_path']['name'], -3);
 
-    header('Location: mypage.php');
+  if(isset($_POST) && !empty($_POST)){
+    // 入力チェック
+// ニックネーム空だったら
+    // nicknameはblankだったというマークを保存
+    if ($_POST["user_name"] == ''){
+
+      $error["user_name"] = 'blank';
+    }
+
+    // Email
+    if ($_POST["email"] == ''){
+
+      $error["email"] = 'blank';
+    }
+
+    // self_intro
+    if ($_POST["self_intro"] == ''){
+
+      $error["self_intro"] = 'blank';
+    }
+// 入力チェック後エラーがなければCheck.phpに移動
+    // $errorが存在してなかったら入力は正常と認識
+    if (!isset($error)) {
+
+      // EMAILの重複チェック
+      // DBに同じEmailの登録があるか確認
+      try{
+// 検索条件にヒットした件数を取得するSQL文
+        // COUNT()_はSqlの関数　ヒットした数を取得
+        // as 別名　取得したデータに別な名前をつけて扱いやすくする
+
+        $check_sql = "SELECT COUNT(*) as`cnt` FROM`packingme_users` WHERE`email`=?";
+
+        // sql実行
+        $check_data = array($_POST["email"]);
+        $check_stmt = $dbh->prepare($check_sql);
+        $check_stmt->execute($check_data);
+// 件数取得
+        $count = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($count['cnt'] > 0){
+          // 重複エラー
+          $error['email'] = "duplicated";
+        }
+      }catch(Eception $e){
+
+      }
+    }
+
+
+      if(!isset($error)){
+
+        if(($ext == 'png') || ($ext == 'jpg') || ($ext == 'gif')){
+    // 画像のアップロード処理
+       $pic_name = date('YmdHis').$_FILES['picture_path']['name'];
+    // アップロード
+        move_uploaded_file($_FILES['picture_path']['tmp_name'], 'picture_path/'.$pic_name);
+        $_SESSION["picture_path"] = $pic_name;
+
+      $up_sql = "UPDATE `packingme_users` SET `user_name`=?,`email`=?,`web_site`=?,`picture_path`=?,`self_intro`=? WHERE `packingme_users`.`id` =?";
+
+      $up_data = array($_POST["user_name"],$_POST["email"],$_POST["web_site"],$_SESSION["picture_path"],$_POST["self_intro"],$_SESSION["id"]);
+      $up_stmt = $dbh->prepare($up_sql);
+      $up_stmt->execute($up_data);
+
+      header('Location: mypage.php?user_id='.$_SESSION["id"]);
+      exit();
+      }else{
+
+      $error["image"] = 'type';
+
+      }
+    }
   }
+
+      // $pic_sql = "INSERT INTO `packingme_users`.`picture_path` VALUES ".$_SESSION["picture"];
+      // $pic__stmt = $dbh->prepare($pic_sql);
+      // $pic_stmt->execute($pic_data);
+      // header('Location: edit_profile.php');
+  
 ?>
 
 <!DOCTYPE html>
@@ -82,33 +156,57 @@
 <!-- ヘッダーここまで -->
     <div class="profile-edit">
       <div class="container">
-        <form method="post" action="">
-          <div class="profile-img">
-            <img src="picture_path/<?php echo $user["picture_path"];?>">
-            <h2><?php echo $user["user_name"];?></h2>
-            <input type="file" id="file" style="display:none;" onchange="$('#fake_input_file').val($(this).val())">
-            <button onClick="$('#file').click();">プロフィール画像を変更する</button>
+        <form method="post" action="" role="form" enctype="multipart/form-data">
+          <!-- profile画像 -->
+          <div class="form-group">
+            <div class="top-top-top">
+              <div class="preview profile-img">
+              <img src="picture_path/<?php echo $user["picture_path"];?>">
+              <h2><?php echo $user["user_name"];?></h2>
+              <!-- <input type="file" id="file" style="display:none;" onchange="$('#fake_input_file').val($(this).val())">
+              <button onClick="$('#file').click();">プロフィール画像を変更する</button> -->
+            </div>       
+              <input type="file" name="picture_path" class="form-control">
+            </div>
+               
           </div>
-          <br>
-          <div class="profile-text">
-            <span>名前  </span>
-            <input type="" name="user_name" placeholder="<?php echo $user["user_name"];?>">
-          </div>
-          <div class="profile-text">
-            <span>メールアドレス</span>
-            <input type="" name="email" placeholder="<?php echo $user["email"];?>">
-          </div>
-          <div class="profile-text">
-            <span>ウェブサイト</span>
-            <input type="" name="web_site" placeholder="<?php echo $user["web_site"];?>">
-          </div>
-          <div class="profile-textarea">
-            <span>自己紹介</span>
-            <input name="self_intro" type="textarea" placeholder="<?php echo $user["self_intro"];?>">
-          </div>
-          <div class="editButton">
-            <a href="mypage.php"><button>変更する</button></a>
-          </div>
+            
+            <br>
+            <!-- 名前 -->
+            <div class="profile-text form-group">
+              <span>名前  </span>
+              <input type="" name="user_name" placeholder="<?php echo $user["user_name"];?>">
+              <?php if((isset($error["user_name"])) && ($error["user_name"] == 'blank')) { ?>
+                <p class="error">＊ユーザーネームを入力してください</p>
+              <?php }?>
+            </div>
+            <!-- メールアドレス -->
+            <div class="profile-text form-group">
+              <span>メールアドレス</span>
+              <input type="" name="email" placeholder="<?php echo $user["email"];?>">
+              <?php if((isset($error["email"])) && ($error["email"] == 'blank')) { ?>
+              <p class="error">＊Emailを入力してください</p>
+             <?php }?>
+             <?php if((isset($error["email"])) && ($error["email"] == 'duplicated')) { ?>
+              <p class="error">＊Emailが重複していますtyoufukusiteimasu</p>
+              <?php }?>
+            </div>
+            <!-- ウェブサイト -->
+            <div class="profile-text form-group">
+              <span>ウェブサイト</span>
+              <input type="" name="web_site" placeholder="<?php echo $user["web_site"];?>">
+            </div>
+            <!-- 自己紹介 -->
+            <div class="profile-textarea form-group">
+              <span>自己紹介</span>
+              <input name="self_intro" type="textarea" placeholder="<?php echo $user["self_intro"];?>">
+              <?php if((isset($error["self_intro"])) && ($error["self_intro"] == 'blank')) { ?>
+              <p class="error">＊自己紹介を入力してください</p>
+              <?php }?>
+            </div>
+            <div class="editButton">
+              <a href=""><button type="submit">変更する</button></a>
+            </div>
         </form>
       </div>
     </div>
@@ -150,6 +248,8 @@
     <!-- Custom scripts for this template -->
     <script src="js/agency.min.js"></script>
     <script src="js/packing_me.js"></script>
+    <script src="js/post_pic.js"></script>
+
   </body>
 
 </html>

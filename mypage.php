@@ -176,7 +176,7 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="picture_path/<?php echo $one_post["pic"];?>" alt="">
+              <img class="img-fluid" src="pic/<?php echo $one_post["pic"];?>" alt="">
             </a>
             <div class="portfolio-caption">
               <?php if($one_post["login_like_flag"] == 0){ ?>
@@ -232,7 +232,7 @@
                   <!-- Project Details Go Here -->
                   <!-- <h2 class="text-uppercase">Project Name</h2> -->
                   <!-- <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p> -->
-                  <img class="img-fluid d-block mx-auto" src="picture_path/<?php echo $one_post["pic"];?>" alt="">
+                  <img class="img-fluid d-block mx-auto" src="pic/<?php echo $one_post["pic"];?>" alt="">
                   <div class="mypage-texts">
                     <span>Type</span>
                     <p>Traveler</p>
