@@ -47,7 +47,7 @@
 
       $login_like_number = $login_like_stmt->fetch(PDO::FETCH_ASSOC);
 
-      $like_post["login_like_flag"] = $login_like_number["like_flag"]
+      $like_post["login_like_flag"] = $login_like_number["like_flag"];
 
 
       $like_list[] = $like_post;
