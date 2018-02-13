@@ -21,7 +21,7 @@
   $sql = "SELECT * FROM`packingme_posts`WHERE`user_id`=? 
           ORDER BY `packingme_posts`.`modified` DESC";
   // sql実行
-  $data = array($_SESSION["id"]);
+  $data = array($_GET["user_id"]);
   $stmt = $dbh->prepare($sql);
   $stmt->execute($data);
   // フェッチ
@@ -178,7 +178,7 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid" src="pic/<?php echo $one_post["pic"];?>" alt="">
+              <img class="img-fluid" max width="400px" src="pic/<?php echo $one_post["pic"];?>" alt="">
             </a>
             <div class="portfolio-caption">
               <?php if($one_post["login_like_flag"] == 0){ ?>
@@ -191,21 +191,7 @@
           </div>
           <?php }?>
           <!--ここまで繰り返し部分  -->
-
-          <div class="col-md-6 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="inside4.png" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"> 10 like</i>
-            </div>
-          </div>
-         <!-- ここまで画像表示部分 -->
+           <!-- ここまで画像表示部分 -->
 
           <!-- ロード部分 -->
           <div id="load" style="margin:0 auto;">

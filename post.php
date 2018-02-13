@@ -119,8 +119,8 @@ if(!isset($error)){
         </div>
           <select name="type"> 
             <option value="1" selected="">タイプを選択</option> 
-            <option value="Traveler">Traveler</option> 
-            <option value="Engineer" >Engineer</option>  
+            <option value="2">Traveler</option> 
+            <option value="3" >Engineer</option>  
           </select>
           <select name="category"> 
             <option value="1" selected="">カテゴリを選択</option> 
@@ -141,7 +141,7 @@ if(!isset($error)){
           <center>中身詳細</center>
           <textarea name="detail" placeholder="例）mackbookpro, dji spark, omd-em5 mark2, t-shirts 3, pants 3..."></textarea>
           <br>
-          <input type="submit" value="投稿する" class="btn btn-xl btn-primary">
+          <input type="submit" value="編集する" class="btn btn-xl btn-primary">
         </form>
        </div> 
 
