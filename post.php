@@ -2,27 +2,13 @@
 session_start();
 require('dbconnect.php');
 
-
+// POST送信されていたら
 if(isset($_POST) && !empty($_POST)){
-  
- if(!isset($error)){
-  try{
-    // 投稿をDBに登録
-    $sql = "INSERT INTO `packingme_posts` (`user_id`, `pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
-
-    // SQL実行
-    $data = array($_SESSION["id"],$_POST["pic"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute($data);
-  }catch(Exception $e){
-    
-  }
- }
-
-
-// 画像の拡張子チェック
-// jpg,png,gifはok
+ 
 if(!isset($error)){
+
+  // 画像の拡張子チェック
+  // jpg,png,gifはok
   $ext = substr($_FILES['pic']['name'], -3);
 
   if(($ext == 'png') || ($ext == 'jpg') || ($ext == 'gif')){
@@ -32,14 +18,29 @@ if(!isset($error)){
     move_uploaded_file($_FILES['pic']['tmp_name'], 'pic/' . $pic_name);
 
     // SESSION変数に入力された画像を保存
-    $_SESSION['pic_name'] = $_POST["pic_name"];
+    $_SESSION['pic'] = $pic_name;
 
-    header('Location: home.php');
+  
+  // 投稿をDBに登録
+  $sql = "INSERT INTO `packingme_posts` (`user_id`,`pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
+
+  // SQL実行
+  $data = array($_SESSION["id"],$_SESSION["pic"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute($data);
+
+  
+    header('Location: postdone.php');
     exit();
   }else{
     $error["image"] = 'type';
   }
 }
+  
+
+
+
+
 
 }
 
@@ -80,7 +81,7 @@ if(!isset($error)){
     <!-- ヘッダー固定部分 -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Packing Me!</a>
+        <a class="navbar-brand js-scroll-trigger" href="home.php">Packing Me!</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
@@ -88,21 +89,21 @@ if(!isset($error)){
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav text-uppercase ml-auto">
             <div class="crown-icon">
-              <a href="ranking.html">
+              <a href="ranking.php">
                 <img src="img/portfolio/crown.png">
               </a>
             </div>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="home.html">Home</a>
+              <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.html">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="post.html">投稿する</a>
+              <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="top.html">Log out</a>
+              <a class="nav-link js-scroll-trigger" href="top.php">Log out</a>
             </li>
           </ul>
         </div>
@@ -124,7 +125,7 @@ if(!isset($error)){
           <select name="category"> 
             <option value="1" selected="">カテゴリを選択</option> 
             <option value="2">3日以内</option> 
-            <option value="3" >2週間以内</option> 
+            <option value="3" >1週間以内</option> 
             <option value="4">2週間以内</option> 
             <option value="4">2週間以上</option> 
             <option value="4">1ヶ月以上</option> 

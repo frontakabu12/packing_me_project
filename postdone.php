@@ -2,7 +2,7 @@
   session_start();
   require('dbconnect.php');
 
-  // ログインユーザーIDからMembersテーブルとPostテーブルを結合して全件取得するsql
+  // ログインユーザーIDからMembersテーブルとPostsテーブルを結合して全件取得するsql
   $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` 
           FROM`packingme_posts` 
           INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`  
@@ -20,7 +20,6 @@
     $post_list[] = $one_post;
     }
   }
-
 
 
 
@@ -59,7 +58,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
       <div class="container">
 
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Packing Me!</a>
+        <a class="navbar-brand js-scroll-trigger" href="home.php">Packing Me!</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
@@ -97,6 +96,7 @@
           </div>
           <div class="navi">
             <ul>
+              <li class=""><a href="#"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">１ヶ月以上</span></a></li>
               <li class=""><a href="#"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">２週間以上</span></a></li>
               <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">２週間以内</span></a></li>
               <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">１週間以内</span></a></li>
@@ -130,13 +130,13 @@
             </a>
           </div>
           <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["user_id"];?>">
+            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["id"];?>">
               <div class="portfolio-hover">
                 <div class="portfolio-hover-content">
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid  change-img-size" src="picture_path/<?php echo $one_post["pic"];?>" alt="">
+              <img class="img-fluid  change-img-size" src="pic/<?php echo $one_post["pic"];?>" max width="400px" alt="">
             </a>
             <div class="portfolio-caption">
               <i class="fa fa-suitcase fa-2x"> 100 like</i>
@@ -146,6 +146,7 @@
           
           <?php }?>
 <!-- ここまで繰り返し -->
+
 
         
           <div class="profile-container">
@@ -180,7 +181,7 @@
 
     <!-- modal部分 -->
     <?php foreach($post_list as $one_post){?>
-    <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $one_post["user_id"];?>" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $one_post["id"];?>" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="close-modal" data-dismiss="modal">
@@ -195,13 +196,13 @@
                       <!-- Project Details Go Here -->
                       <!-- <h2 class="text-uppercase">Project Name</h2> -->
                       <!-- <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p> -->
-                  <img class="img-fluid d-block mx-auto" src="picture_path/<?php echo $one_post["pic"];?>" alt="">
+                  <img class="img-fluid d-block mx-auto" src="pic/<?php echo $one_post["pic"];?>" alt="">
                   <div class="mypage-texts">
                   <span>Type</span>
-                    <p>Traveler</p>
+                    <p><?php echo $one_post["type"]; ?></p>
                     <!-- <p></p> -->
                     <span>Category</span>
-                    <p>2週間以内</p>
+                    <p><?php echo $one_post["category_id"]; ?></p>
                     <!-- <p></p> -->
                     <span>場所</span>
                     <p><?php echo $one_post["place"];?></p>
@@ -216,7 +217,15 @@
                   </div>
                       <!-- <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p> -->
                 <ul class="list-inline">
-                  <li>29 January 2018</li>
+                  <li>
+                    <?php 
+                      $modify_date = $one_post["modified"];
+                      // date関数　書式を時間に変更するとき
+                      // strtotime 文字型(string)のデータを日時型に変換できる
+                      // 24時間表記：H, 12時間表記：h　
+                      $modify_date = date("Y-m-d H:i", strtotime($modify_date));
+                     echo $modify_date ; ?>
+                  </li>
                 </ul>
                   <!-- <div class="edit-delete">
                     <button class="delete-button">delete</button>
@@ -234,8 +243,6 @@
       </div>
     </div>
     <?php }?>
-    
-
 
 <!-- ここまで投稿画像表示部分 -->
 
@@ -337,7 +344,7 @@
           <div class="col-md-4">
             <ul class="list-inline quicklinks">
               <li class="list-inline-item">
-                <a href="privacy_policy.php">Privacy Policy</a>
+                <a href="privacy_policy.html">Privacy Policy</a>
               </li>
             </ul>
           </div>
@@ -358,7 +365,7 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/agency.min.js"></script>
-    <script src="js/packing_me.js"></script>
+    <script src="../packing_me.js"></script>
   </body>
 
 </html>

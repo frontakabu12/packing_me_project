@@ -1,3 +1,54 @@
+<?php 
+session_start();
+require('dbconnect.php');
+
+// POST送信されていたら
+if(isset($_POST) && !empty($_POST)){
+ 
+if(!isset($error)){
+
+  // 画像の拡張子チェック
+  // jpg,png,gifはok
+  $ext = substr($_FILES['pic']['name'], -3);
+
+  if(($ext == 'png') || ($ext == 'jpg') || ($ext == 'gif')){
+    // 画像のアップロード処理
+    $pic_name = date('YmdHis') . $_FILES['pic']['name'];
+    // アップロード
+    move_uploaded_file($_FILES['pic']['tmp_name'], 'pic/' . $pic_name);
+
+    // SESSION変数に入力された画像を保存
+    $_SESSION['pic'] = $pic_name;
+
+  
+  // 投稿をDBに登録
+  $sql = "INSERT INTO `packingme_posts` (`user_id`,`pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
+
+  // SQL実行
+  $data = array($_SESSION["id"],$_SESSION["pic"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute($data);
+
+  
+    header('Location: postdone.php');
+    exit();
+  }else{
+    $error["image"] = 'type';
+  }
+}
+  
+
+
+
+
+
+}
+
+
+ ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,14 +112,13 @@
     </nav>
 <!-- ヘッダーここまで -->
     
-    <div>
-      <div class="top-top-top">
-        <img class="post-post-img" src="packing.png" >
-      </div>
-    </div>
-      <div class="post-form">
-        <form action="home.html">
-          <!-- <input type="file" name="picture_path" class="form-control"> -->
+    <div class="post-form">
+      <form method="POST" action="home.php" role="form" enctype="multipart/form-data">
+        <!-- 投稿写真 -->
+        <div class="top-top-top">
+        <input type="file" name="pic" class="form-control"></div>
+        <div class="preview">
+        </div>
           <select name="categories"> 
             <option value="1" selected="">タイプを選択</option> 
             <option value="2">Traveler</option> 
@@ -77,22 +127,23 @@
           <select name="categories"> 
             <option value="1" selected="">カテゴリを選択</option> 
             <option value="2">3日以内</option> 
-            <option value="3" >2週間以内</option> 
+            <option value="3" >1週間以内</option> 
             <option value="4">2週間以内</option> 
             <option value="4">2週間以上</option> 
             <option value="4">1ヶ月以上</option> 
           </select>
           <center>場所</center>
-          <input type="" name="" value="フィリピン　セブ島">
+          <input type="" name="" placeholder="フィリピン　セブ島">
           <center>期間</center>
-          <input type="" name="" value="４日間">
+          <input type="" name="" placeholder="４日間">
           <center>backpack</center>
-          <input type="" name="" value="the north face Caelus 35L">
+          <input type="" name="" placeholder="the north face Caelus 35L">
           <center>重量</center>
-          <input type="" name=""  value="13kg">
+          <input type="" name=""  placeholder="kg">
           <center>中身詳細</center>
-          <textarea>mackbookpro, dji spark, omd-em5 mark2, t-shirts 3, pants 3</textarea>
-          <a href="home.html"><button>編集する</button></a>
+          <textarea placeholder="mackbookpro, dji spark, omd-em5 mark2, t-shirts 3, pants 3"></textarea>
+          <br>
+          <input type="submit" value="編集する" class="btn btn-xl btn-primary">
         </form>
        </div> 
 
@@ -133,6 +184,7 @@
     <!-- Custom scripts for this template -->
     <script src="js/agency.min.js"></script>
     <script src="packing_me.js"></script>
+    <script src="js/post_pic.js"></script>
   </body>
 
 </html>
