@@ -167,7 +167,7 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid  change-img-size" src="pic/<?php echo $one_post["pic"];?>" alt="">
+              <img class="img-fluid  change-img-size" max width="400px" src="pic/<?php echo $one_post["pic"];?>" alt="">
             </a>
             <div class="portfolio-caption">
               <!-- いいね部分 -->
@@ -183,28 +183,6 @@
           
           <?php }?>
 <!-- ここまで繰り返し -->
-
-        
-          <div class="profile-container">
-            <a class="profile-link" href="mypage.html">
-              <img  class="image-with-link" src="img/zakiyama.png">
-              <span class="name-with-link">zakiyama</span>
-            </a>
-          </div>
-          <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="img/zaki.png" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <i class="fa fa-suitcase fa-2x"><span>200,000 like</span></i>
-              <!-- <p class="text-muted">more</p> -->
-            </div>
-          </div>
 
           <div id="load" style="margin:0 auto;">
             <div ><i class="fa fa-spinner fa-pulse fa-3x"></i></div>
@@ -276,92 +254,7 @@
 
 <!-- ここまで投稿画像表示部分 -->
 
-<!-- 
-    <div>
-      <div class="post-group top-top">
-        <img class="post-img" src="img/header-bg.jpg" >
-        <div class="post-text">
-          <i class="fa fa-suitcase fa-green"></i><span class="badge badge-pill badge-default">10</span>
-          <div class="post-coment">
-            <p class="open-close">more..</p>
-            <p class="coment answer">
-              <img src="img/header-bg.jpg">
-              <span class="user-name">Love extra Naoki</span>
-              <span>categories</span><br>旅行（１週間以内）<br>
-              <span>場所</span><br>アメリカ　ニューヨーク<br>
-              <span>期間</span><br>4泊<br>
-              <span>backpack</span><br>the north faith 45l<br>
-              <span>重量</span><br>15kg<br>
-              <span>中身詳細</span><br>
-            macbookpro<br>
-            gopro hero5<br>
-            Ipad<br>
-            omd-em-5 mark-2<br>
-            t-thirts 3枚<br>
-            pants 3枚<br>
-            マッサージ割引券<br>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="post-group">
-        <img class="post-img" src="img/header-bg.jpg" >
-        <div class="post-text">
-          <i class="fa fa-suitcase"></i><span class="badge badge-pill badge-default">10</span>
-          <div class="post-coment">
-            <p class="open-close">more..</p>
-            <p class="coment answer">
-              <img src="img/header-bg.jpg">
-              <span class="user-name">Love extra Naoki</span>
-              <span>categories</span><br>旅行（１週間以内）<br>
-              <span>場所</span><br>アメリカ　ニューヨーク<br>
-              <span>期間</span><br>4泊<br>
-              <span>backpack</span><br>the north faith 45l<br>
-              <span>重量</span><br>15kg<br>
-              <span>中身詳細</span><br>
-            macbookpro<br>
-            gopro hero5<br>
-            Ipad<br>
-            omd-em-5 mark-2<br>
-            t-thirts 3枚<br>
-            pants 3枚<br>
-            マッサージ割引券<br>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="post-group">
-        <img class="post-img" src="img/header-bg.jpg" >
-        <div class="post-text">
-          <i class="fa fa-suitcase"></i><span class="badge badge-pill badge-default">10</span>
-          <div class="post-coment">
-            <p class="open-close">more..</p>
-            <p class="coment answer">
-              <img src="img/header-bg.jpg">
-              <span class="user-name">Love extra Naoki</span>
-              <span>categories</span><br>旅行（１週間以内）<br>
-              <span>場所</span><br>アメリカ　ニューヨーク<br>
-              <span>期間</span><br>4泊<br>
-              <span>backpack</span><br>the north faith 45l<br>
-              <span>重量</span><br>15kg<br>
-              <span>中身詳細</span><br>
-            macbookpro<br>
-            gopro hero5<br>
-            Ipad<br>
-            omd-em-5 mark-2<br>
-            t-thirts 3枚<br>
-            pants 3枚<br>
-            マッサージ割引券<br>
-            </p>
-          </div>
-        </div>
-      </div> -->
-  <!--   </div>
- -->
+
     <!-- Footer -->
     <footer>
       <div class="container">
