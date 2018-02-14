@@ -182,10 +182,10 @@
             </a>
             <div class="portfolio-caption">
               <?php if($one_post["login_like_flag"] == 0){ ?>
-              <a href="mypage_like_button.php?like_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"] ;?> like</span>
+              <a href="mypage_like_button.php?like_post_id=<?php echo $one_post["post_id"] ;?>&user_id=<?php echo $_GET["user_id"]; ?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"] ;?> like</span>
               <!-- いいね取り消し部分 -->
               <?php }else{?>
-              <a class="unlike" href="mypage_like_button.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"]; ?> like</span>
+              <a class="unlike" href="mypage_like_button.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>&user_id=<?php echo $_GET["user_id"]; ?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"]; ?> like</span>
               <?php }?>
             </div>
           </div>
@@ -259,51 +259,7 @@
       </div>
     </div>
     <?php }?>
-    <!-- Modal 2 -->
-  
-    <!-- Modal 3 -->
-   <!--  <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="close-modal" data-dismiss="modal">
-            <div class="lr">
-              <div class="rl"></div>
-            </div>
-          </div>
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-8 mx-auto">
-                <div class="modal-body"> -->
-                  <!-- Project Details Go Here -->
-                <!--   <h2 class="text-uppercase">Project Name</h2>
-                  <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                  <img class="img-fluid d-block mx-auto" src="img/portfolio/03-full.jpg" alt="">
-                  <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                  <ul class="list-inline">
-                    <li>Date: January 2017</li>
-                    <li>Client: Finish</li>
-                    <li>Category: Identity</li>
-                  </ul>
-                  <button class="btn btn-primary" data-dismiss="modal" type="button">
-                    <i class="fa fa-times"></i>
-                    Close Project</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- Modal 4 -->
    
-
-    <!-- Modal 5 -->
-   
-
-    <!-- Modal 6 -->
-   
-
 <!-- ここまでモーダル -->
     <!-- 空の箱 -->
     <div class="enpty-box"></div>

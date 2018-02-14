@@ -62,7 +62,7 @@
 
       if(!isset($error)){
 
-        if(($ext == 'png') || ($ext == 'jpg') || ($ext == 'gif')){
+        if(($ext == 'png') || ($ext == 'jpg') || ($ext == 'gif')|| ($ext == 'JPG')){
     // 画像のアップロード処理
        $pic_name = date('YmdHis').$_FILES['picture_path']['name'];
     // アップロード
