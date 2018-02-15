@@ -1074,6 +1074,10 @@ div#load .fa-spinner .sr-only{
 .center{
   margin:0 auto;
 }
+.pager input{
+  text-align: center;
+  margin:0 auto;
+}
 /*右側固定カラム*/
 .right-caram{
   margin-right: 50px;
