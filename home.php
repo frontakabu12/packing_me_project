@@ -2,11 +2,49 @@
   session_start();
   require('dbconnect.php');
 
+  // ページング処理ーーーーーーーーーー
+// 
+  $page = "";
+
+  // パラメータが存在していたらページ番号代入
+  if(isset($_GET["page"])){
+    $page = $_GET["page"];
+  }else{
+    // 存在していない時はページ番号を１とする
+    $page = 1;
+    }
+
+  // １以下のイレギュラーな数字が入ってきたときページ番号を強制的に１にする
+    // Max カンマ区切りで羅列された数字の中から最大の数字を取得
+  $page = max($page,1);
+
+
+  // １ページ分の表示件数
+  $page_row = 5;
+
+  // データの件数から最大ページ数を計算する
+  $page_sql = "SELECT COUNT(*) AS `cnt` FROM`packingme_posts`";
+  $page_stmt = $dbh->prepare($page_sql);
+  $page_stmt->execute();
+
+  $record_count = $page_stmt->fetch(PDO::FETCH_ASSOC);
+  // ceil 小数点の切り上げ
+  $all_page_number = ceil($record_count['cnt'] / $page_row);
+
+  // パラメータのページ番号が最大ページを超えていれば強雨静的に最後のページとする
+  // min カンマ区切りの数字の羅列の中から、最小の数字を取得する
+  $page = min($page,$all_page_number);
+
+  // 表皮するデータを取得開始場所
+  $start = ($page-1)*$page_row;
+
+
+
   // ログインユーザーIDからMembersテーブルとPostテーブルを結合して全件取得するsql
   $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` 
           FROM`packingme_posts` 
           INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`  
-          ORDER BY `packingme_posts`.`modified` DESC";
+          ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",5";
   // 実行
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
@@ -167,7 +205,9 @@
                   <i class="fa fa-plus fa-3x"></i>
                 </div>
               </div>
-              <img class="img-fluid  change-img-size" max width="400px" src="pic/<?php echo $one_post["pic"];?>" alt="">
+              <div class="list__item">
+                <img class="img-fluid  change-img-size" max width="400px" src="pic/<?php echo $one_post["pic"];?>" alt="">
+              </div>
             </a>
             <div class="portfolio-caption">
               <!-- いいね部分 -->
@@ -184,10 +224,15 @@
           <?php }?>
 <!-- ここまで繰り返し -->
 
-          <div id="load" style="margin:0 auto;">
-            <div ><i class="fa fa-spinner fa-pulse fa-3x"></i></div>
-            <!-- <span class="sr-only">Loading...</span> -->
+          <div class="pager" style="margin:0 auto;">
+            <a class="pager__next" href="home.php?page=<?php echo $page+1; ?>">次へ</a>
           </div>
+
+          <!-- <div id="load" style="margin:0 auto;">
+            <div ><i class="fa fa-spinner fa-pulse fa-3x"></i></div>
+            <! <span class="sr-only">Loading...</span> -->
+          <!-- </div> -->
+
         </div>
       </div>
     </section>
@@ -249,12 +294,8 @@
       </div>
     </div>
     <?php }?>
-    
-
-
 <!-- ここまで投稿画像表示部分 -->
-
-
+    
     <!-- Footer -->
     <footer>
       <div class="container">
