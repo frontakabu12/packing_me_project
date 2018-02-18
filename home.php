@@ -117,6 +117,9 @@
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+
     <!-- Custom styles for this template -->
     <link href="css/agency.css" rel="stylesheet">
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous"> -->
@@ -189,50 +192,51 @@
         </div>
 
         <div class="row">
+          <div style="margin:0 auto;" class="scroll">
 
 <!-- 繰り返し部分 -->   
-          <?php foreach ($post_list as $one_post){?>
-          <div class="profile-container" id="<?php echo $one_post["post_id"] ;?>">
-            <a class="profile-link" href="mypage.php?user_id=<?php echo $one_post["user_id"];?>">
-              <img  class="image-with-link" src="picture_path/<?php echo $one_post["picture_path"];?>">
-              <span class="name-with-link"><?php echo $one_post["user_name"];?></span>
-            </a>
-          </div>
-          <div class="col-md-12 col-sm-12 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["modified"];?>">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <div class="list__item">
-                <img class="img-fluid  change-img-size" max width="400px" src="pic/<?php echo $one_post["pic"];?>" alt="">
-              </div>
-            </a>
-            <div class="portfolio-caption">
-              <!-- いいね部分 -->
-              <?php if($one_post["login_like_flag"] == 0){ ?>
-              <a href="like_buttton.php?like_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"] ;?> like</span>
-              <!-- いいね取り消し部分 -->
-              <?php }else{?>
-              <a class="unlike" href="like_buttton.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"]; ?> like</span>
-              <?php }?>
-              <!-- ここまでいいねいいね取り消し部分 -->
+            <?php foreach ($post_list as $one_post){?>
+            <div class="profile-container" id="<?php echo $one_post["post_id"] ;?>">
+              <a class="profile-link" href="mypage.php?user_id=<?php echo $one_post["user_id"];?>">
+                <img  class="image-with-link" src="picture_path/<?php echo $one_post["picture_path"];?>">
+                <span class="name-with-link"><?php echo $one_post["user_name"];?></span>
+              </a>
             </div>
-          </div>
-          
-          <?php }?>
-<!-- ここまで繰り返し -->
+            <div class="col-md-12 col-sm-12 portfolio-item">
+              <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $one_post["modified"];?>">
+                <div class="portfolio-hover">
+                  <div class="portfolio-hover-content">
+                    <i class="fa fa-plus fa-3x"></i>
+                  </div>
+                </div>
+                <div class="list__item">
+                  <img class="img-fluid  change-img-size" max width="400px" src="pic/<?php echo $one_post["pic"];?>" alt="">
+                </div>
+              </a>
+              <div class="portfolio-caption">
+                <!-- いいね部分 -->
+                <?php if($one_post["login_like_flag"] == 0){ ?>
+                <a href="like_buttton.php?like_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"] ;?> like</span>
+                <!-- いいね取り消し部分 -->
+                <?php }else{?>
+                <a class="unlike" href="like_buttton.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"]; ?> like</span>
+                <?php }?>
+                <!-- ここまでいいねいいね取り消し部分 -->
+              </div>
+            </div>
+            
+            <?php }?>
+  <!-- ここまで繰り返し -->
 
-          <div class="pager" style="margin:0 auto;">
-            <a class="pager__next" href="home.php?page=<?php echo $page+1; ?>">次へ</a>
-          </div>
+            <div class="pager" style="margin:0 auto;">
+              <a class="next" href="home_paging.php?page=<?php echo $page+1; ?>">次へ</a>
+            </div>
 
           <!-- <div id="load" style="margin:0 auto;">
             <div ><i class="fa fa-spinner fa-pulse fa-3x"></i></div>
             <! <span class="sr-only">Loading...</span> -->
           <!-- </div> -->
-
+          </div>
         </div>
       </div>
     </section>
@@ -330,6 +334,10 @@
     <!-- Custom scripts for this template -->
     <script src="js/agency.min.js"></script>
     <script src="js/packing_me.js"></script>
+    <script src="js/jscroll.js"></script>
+    <script src="js/jquery.jscroll.js"></script>
+
+
   </body>
 
 </html>
