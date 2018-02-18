@@ -11,7 +11,7 @@ if(!isset($error)){
   // jpg,png,gifはok
   $ext = substr($_FILES['pic']['name'], -3);
 
-  if(($ext == 'png') || ($ext == 'jpg') || ($ext == 'gif')){
+  if(($ext == 'png') || ($ext == 'jpg') || ($ext == 'gif') || ($ext == 'JPG')){
     // 画像のアップロード処理
     $pic_name = date('YmdHis') . $_FILES['pic']['name'];
     // アップロード
@@ -35,13 +35,8 @@ if(!isset($error)){
   }else{
     $error["image"] = 'type';
   }
-}
+ }
   
-
-
-
-
-
 }
 
  ?>
