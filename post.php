@@ -46,7 +46,6 @@ if(!isset($error)){
 
  ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -111,10 +110,10 @@ if(!isset($error)){
     </nav>
 <!-- ヘッダーここまで -->
     <div class="post-form">
-      <form method="POST" action="" role="form" enctype="multipart/form-data">
+      <form method="POST" action="post.php" role="form" enctype="multipart/form-data">
         <!-- 投稿写真 -->
         <div class="top-top-top">
-        <input type="file" name="pic" class="form-control"></div>
+        <input type="file" name="pic" action="post.php" class="form-control"></div>
         <div class="preview">
         </div>
           <select name="type"> 
