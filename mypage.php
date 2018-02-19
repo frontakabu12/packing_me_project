@@ -2,6 +2,44 @@
   session_start();
   require('dbconnect.php');
 
+   // ページング処理ーーーーーーーーーー
+// 
+  $page = "";
+
+  // パラメータが存在していたらページ番号代入
+  if(isset($_GET["page"])){
+    $page = $_GET["page"];
+  }else{
+    // 存在していない時はページ番号を１とする
+    $page = 1;
+    }
+
+  // １以下のイレギュラーな数字が入ってきたときページ番号を強制的に１にする
+    // Max カンマ区切りで羅列された数字の中から最大の数字を取得
+  $page = max($page,1);
+
+
+  // １ページ分の表示件数
+  $page_row = 4;
+
+  // データの件数から最大ページ数を計算する
+  $page_sql = "SELECT COUNT(*) AS `cnt` FROM`packingme_posts`WHERE `user_id`=".$_GET["user_id"];
+  $page_stmt = $dbh->prepare($page_sql);
+  $page_stmt->execute();
+
+  $record_count = $page_stmt->fetch(PDO::FETCH_ASSOC);
+  // ceil 小数点の切り上げ
+  $all_page_number = ceil($record_count['cnt'] / $page_row);
+
+  // パラメータのページ番号が最大ページを超えていれば強雨静的に最後のページとする
+  // min カンマ区切りの数字の羅列の中から、最小の数字を取得する
+  $page = min($page,$all_page_number);
+
+  // 表皮するデータを取得開始場所
+  $start = ($page-1)*$page_row;
+
+
+
   if(isset($_GET) && !empty($_GET)){
     $p_sql ="SELECT * FROM`packingme_users`WHERE`id`=".$_GET["user_id"];
     $p_stmt = $dbh->prepare($p_sql);
@@ -19,7 +57,7 @@
   // }
   // 個人の投稿を取得するsql
   $sql = "SELECT * FROM`packingme_posts`WHERE`user_id`=? 
-          ORDER BY `packingme_posts`.`modified` DESC";
+          ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",4";
   // sql実行
   $data = array($_GET["user_id"]);
   $stmt = $dbh->prepare($sql);
@@ -90,6 +128,8 @@
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
     <!-- Custom styles for this template -->
     <link href="css/agency.css" rel="stylesheet">
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous"> -->
@@ -158,6 +198,8 @@
     </div>
 <!--  ここまで右側固定部分-->
 <!-- 画像部分 -->
+    <div class="content">
+    </div>
 
     <section class="bg-light mypage" id="portfolio">
       <div class="container">
@@ -168,6 +210,7 @@
           </div>
         </div>
         <div class="row">
+
 
           <!-- 繰り返し部分 -->
           <?php foreach($post_list as $one_post){?>
@@ -182,10 +225,10 @@
             </a>
             <div class="portfolio-caption">
               <?php if($one_post["login_like_flag"] == 0){ ?>
-              <a href="mypage_like_button.php?like_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"] ;?> like</span>
+              <a href="mypage_like_button.php?like_post_id=<?php echo $one_post["post_id"] ;?>&user_id=<?php echo $_GET["user_id"]; ?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"] ;?> like</span>
               <!-- いいね取り消し部分 -->
               <?php }else{?>
-              <a class="unlike" href="mypage_like_button.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"]; ?> like</span>
+              <a class="unlike" href="mypage_like_button.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>&user_id=<?php echo $_GET["user_id"]; ?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"]; ?> like</span>
               <?php }?>
             </div>
           </div>
@@ -194,13 +237,30 @@
            <!-- ここまで画像表示部分 -->
 
           <!-- ロード部分 -->
-          <div id="load" style="margin:0 auto;">
-            <div ><i class="fa fa-spinner fa-pulse fa-3x"></i></div>
-            <!-- <span class="sr-only">Loading...</span> -->
-          </div>
+
         </div>
       </div>
+      <ul class="pager">
+
+        <?php if($page == 1){?>
+        <li class="change-page-btn"><</li>
+        <?php }else{?>
+        <li class="active-li"><a  href="mypage.php?page=<?php echo $page-1;?>&user_id=<?php echo $user["id"];?>"><</a></li>
+        <?php }?>
+
+        <?php for($i=1;$i<=$all_page_number;$i++){?>
+        <li class="active-li"><a href="mypage.php?page=<?php echo $i;?>&user_id=<?php echo $user["id"];?>"><?php echo $i;?></a></li>
+        <?php  } ?>
+
+        <?php if($page == $all_page_number){?>
+        <li class="change-page-btn">></li>
+        <?php }else{?>
+        <li class="active-li"><a  href="mypage.php?page=<?php echo $page+1;?>&user_id=<?php echo $all_page_number;?>">></a></li>
+        <?php }?>
+
+      </ul>
     </section>
+
     <!-- ここまでロード -->
 
     <!-- modal部分 -->
@@ -259,51 +319,7 @@
       </div>
     </div>
     <?php }?>
-    <!-- Modal 2 -->
-  
-    <!-- Modal 3 -->
-   <!--  <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="close-modal" data-dismiss="modal">
-            <div class="lr">
-              <div class="rl"></div>
-            </div>
-          </div>
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-8 mx-auto">
-                <div class="modal-body"> -->
-                  <!-- Project Details Go Here -->
-                <!--   <h2 class="text-uppercase">Project Name</h2>
-                  <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                  <img class="img-fluid d-block mx-auto" src="img/portfolio/03-full.jpg" alt="">
-                  <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                  <ul class="list-inline">
-                    <li>Date: January 2017</li>
-                    <li>Client: Finish</li>
-                    <li>Category: Identity</li>
-                  </ul>
-                  <button class="btn btn-primary" data-dismiss="modal" type="button">
-                    <i class="fa fa-times"></i>
-                    Close Project</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- Modal 4 -->
    
-
-    <!-- Modal 5 -->
-   
-
-    <!-- Modal 6 -->
-   
-
 <!-- ここまでモーダル -->
     <!-- 空の箱 -->
     <div class="enpty-box"></div>
@@ -341,7 +357,9 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/agency.min.js"></script>
-    <script src="../packing_me.js"></script>
+    <script src="js/jscroll.js"></script>
+    <script src="js/jquery.jscroll.js"></script>
+    <script src="js/packing_me.js"></script>
   </body>
 
 </html>

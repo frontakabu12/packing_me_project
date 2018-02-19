@@ -1074,6 +1074,10 @@ div#load .fa-spinner .sr-only{
 .center{
   margin:0 auto;
 }
+.pager input{
+  text-align: center;
+  margin:0 auto;
+}
 /*右側固定カラム*/
 .right-caram{
   margin-right: 50px;
@@ -1184,6 +1188,7 @@ div#load .fa-spinner .sr-only{
     background-color: #fec810;
 }
 /*ここまでmypage*/
+
 /*home.html*/
 .portfolio-caption span{
   padding-left: 10px;
@@ -1221,3 +1226,31 @@ div#load .fa-spinner .sr-only{
   opacity: 0.6;
 }
 /*ここまでhome.html*/
+/*ページング部分*/
+
+ul.pager{
+    text-align:center;
+    padding:10px;
+}
+ul.pager li{
+    display:inline;
+}
+ul.pager li a{
+    border:1px solid #009AFF;;
+    color:#009AFF;;
+    font-weight:bold;
+    padding:5px;
+    text-decoration:none;
+}
+.pager .active-li :hover{
+    background:#73C7FF;
+}
+ul .change-page-btn{
+  border: 1px solid #009AFF;
+  color: #009AFF;
+  padding:5px;
+}
+/*ul.pager li a.selected{
+    background:#73C7FF;
+}*/
+/*ここまでページング*/

@@ -40,7 +40,7 @@ if(isset($_GET["unlike_post_id"])){
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
 
-    header("Location: mypage.php");
+    header("Location: mypage.php?user_id=".$_GET["user_id"]);
   }
 
   function unlike($unlike_post_id,$login_user_id){
@@ -52,6 +52,6 @@ if(isset($_GET["unlike_post_id"])){
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
 
-    header("Location: mypage.php" );
+    header("Location: mypage.php?user_id=".$_GET["user_id"]);
   }
 ?>
