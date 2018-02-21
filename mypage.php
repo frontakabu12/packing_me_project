@@ -149,7 +149,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav text-uppercase ml-auto">
             <div class="crown-icon">
-              <a href="ranking.php">
+              <a href="ranking_php.php">
                 <img src="img/portfolio/crown.png">
               </a>
             </div>
