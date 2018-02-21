@@ -5,18 +5,13 @@
   // 仮の数字 SESSIONに保存されているログインユーザーIDのこと
   $login_user_id = 10;
   // ログインユーザーIDからMembersテーブルとPostテーブルを結合して全件取得するsql
-  $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path`, `packingme_likes`.`post_id`, packingme_likes.created - interval date_format(packingme_likes.created,'%w') day as each_week, COUNT(*) as `like_count` FROM`packingme_posts` INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id` INNER JOIN `packingme_likes` ON `packingme_posts`.`post_id`=`packingme_likes`.`post_id` GROUP BY `packingme_likes`.`post_id` ORDER BY `like_count` DESC";
+  $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path`, `packingme_likes`.`post_id`, packingme_likes.created - interval date_format(packingme_likes.created,'%w') day as each_week, COUNT(*) as `like_count` FROM`packingme_posts` INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id` INNER JOIN `packingme_likes` ON `packingme_posts`.`post_id`=`packingme_likes`.`post_id` WHERE `packingme_posts`.`created` BETWEEN (CURDATE() - INTERVAL 7 DAY) AND (CURDATE() + INTERVAL 1 DAY) GROUP BY `packingme_likes`.`post_id` ORDER BY `like_count` DESC";
   // 実行
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
 
   // モーダル用
-  $modal_sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path`, `packingme_likes`.`post_id` , COUNT(*)as `like_count`
-          FROM`packingme_posts`
-          INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`
-          INNER JOIN `packingme_likes` ON `packingme_posts`.`post_id`=`packingme_likes`.`post_id`  
-          GROUP BY `packingme_likes`.`post_id`
-          ORDER BY `like_count` DESC";
+  $modal_sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path`, `packingme_likes`.`post_id`, packingme_likes.created - interval date_format(packingme_likes.created,'%w') day as each_week, COUNT(*) as `like_count` FROM`packingme_posts` INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id` INNER JOIN `packingme_likes` ON `packingme_posts`.`post_id`=`packingme_likes`.`post_id` WHERE `packingme_posts`.`created` BETWEEN (CURDATE() - INTERVAL 7 DAY) AND (CURDATE() + INTERVAL 1 DAY) GROUP BY `packingme_likes`.`post_id` ORDER BY `like_count` DESC";
   // 実行
   $modal_stmt = $dbh->prepare($modal_sql);
   $modal_stmt->execute();
