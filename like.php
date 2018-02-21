@@ -2,6 +2,42 @@
   session_start();
   require('dbconnect.php');
 
+  // ページング処理
+   $page = "";
+
+  // パラメータが存在していたらページ番号代入
+  if(isset($_GET["page"])){
+    $page = $_GET["page"];
+  }else{
+    // 存在していない時はページ番号を１とする
+    $page = 1;
+    }
+
+  // １以下のイレギュラーな数字が入ってきたときページ番号を強制的に１にする
+    // Max カンマ区切りで羅列された数字の中から最大の数字を取得
+  $page = max($page,1);
+
+
+  // １ページ分の表示件数
+  $page_row = 4;
+
+  // データの件数から最大ページ数を計算する
+  $page_sql = "SELECT COUNT(*) AS `cnt` FROM`packingme_posts`WHERE `user_id`=".$_SESSION["id"];
+  $page_stmt = $dbh->prepare($page_sql);
+  $page_stmt->execute();
+
+  $record_count = $page_stmt->fetch(PDO::FETCH_ASSOC);
+  // ceil 小数点の切り上げ
+  $all_page_number = ceil($record_count['cnt'] / $page_row);
+
+  // パラメータのページ番号が最大ページを超えていれば強雨静的に最後のページとする
+  // min カンマ区切りの数字の羅列の中から、最小の数字を取得する
+  $page = min($page,$all_page_number);
+
+  // 表皮するデータを取得開始場所
+  $start = ($page-1)*$page_row;
+
+  // ログインユーザーのデータを取得
   if(!empty($_SESSION)){
     // 一行データ取得するsql
     $one_sql = "SELECT * FROM`packingme_users`WHERE`id`=".$_SESSION["id"];
@@ -186,12 +222,27 @@
           <!--ここまで繰り返し部分  -->
 
           <!-- ロード部分 -->
-          <div id="load" style="margin:0 auto;">
-          <i class="fa fa-spinner fa-pulse fa-3x"></i>
-          <!-- <span class="sr-only">Loading...</span> -->
-          </div>
         </div>
       </div>
+      <ul class="pager">
+
+        <?php if($page == 1){?>
+        <li class="change-page-btn"><</li>
+        <?php }else{?>
+        <li class="active-li"><a  href="mypage.php?page=<?php echo $page-1;?>&user_id=<?php echo $user["id"];?>"><</a></li>
+        <?php }?>
+
+        <?php for($i=1;$i<=$all_page_number;$i++){?>
+        <li class="active-li"><a href="mypage.php?page=<?php echo $i;?>&user_id=<?php echo $user["id"];?>"><?php echo $i;?></a></li>
+        <?php  } ?>
+
+        <?php if($page == $all_page_number){?>
+        <li class="change-page-btn">></li>
+        <?php }else{?>
+        <li class="active-li"><a  href="mypage.php?page=<?php echo $page+1;?>&user_id=<?php echo $all_page_number;?>">></a></li>
+        <?php }?>
+
+      </ul>
     </section>
     <!-- ここまでロード -->
 
