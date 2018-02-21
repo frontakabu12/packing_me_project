@@ -1225,6 +1225,9 @@ div#load .fa-spinner .sr-only{
 .name-with-link:hover{
   opacity: 0.6;
 }
+.button_active{
+  color: #fed136;
+}
 /*ここまでhome.html*/
 /*ページング部分*/
 

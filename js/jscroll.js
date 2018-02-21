@@ -1,6 +1,10 @@
 $(function(){
   $('.scroll').jscroll({
     // autoTrigger: ,
-    autoTriggerUntil: 2
+    autoTriggerUntil: $("#page-number").val()-1
   });
 });
+
+// $(function(){
+//   $("input[value]").load('../home.php')
+// });
