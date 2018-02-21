@@ -111,6 +111,12 @@
             <div class="col-lg-12  portfolio-item">
               <div class="big-crown">
               <img src="img/portfolio/crown.png" width="100" height="100" ><p>No.1</p></div>
+            <div class="profile-container" id="<?php echo $packingme_posts[$i]["post_id"] ;?>">
+              <a class="profile-link" href="mypage.php?user_id=<?php echo $packingme_posts[$i]["user_id"];?>">
+                <img  class="image-with-link" src="picture_path/<?php echo $packingme_posts[$i]["picture_path"];?>">
+                <span class="name-with-link"><?php echo $packingme_posts[$i]["user_name"];?></span>
+              </a>
+            </div>
               <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $packingme_posts[$i]["post_id"];?>">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
@@ -135,9 +141,14 @@
             <!-- 2位表示 -->
             <?php if ($i == 1) { ?>
             <div class="col-lg-12  portfolio-item">
-              
               <div class="big-crown ranking_top">
               <img src="img/portfolio/icon-crown.png" width="100" height="100" ><p>No.2</p></div>
+            <div class="profile-container" id="<?php echo $packingme_posts[$i]["post_id"] ;?>">
+              <a class="profile-link" href="mypage.php?user_id=<?php echo $packingme_posts[$i]["user_id"];?>">
+                <img  class="image-with-link" src="picture_path/<?php echo $packingme_posts[$i]["picture_path"];?>">
+                <span class="name-with-link"><?php echo $packingme_posts[$i]["user_name"];?></span>
+              </a>
+            </div>
               <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $packingme_posts[$i]["post_id"];?>">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
@@ -164,6 +175,12 @@
             <div class="col-lg-12  portfolio-item">
               <div class="big-crown ranking_top">
               <img src="img/portfolio/icon-crown.png" width="100" height="100" ><p>No.3</p></div>
+            <div class="profile-container" id="<?php echo $packingme_posts[$i]["post_id"] ;?>">
+              <a class="profile-link" href="mypage.php?user_id=<?php echo $packingme_posts[$i]["user_id"];?>">
+                <img  class="image-with-link" src="picture_path/<?php echo $packingme_posts[$i]["picture_path"];?>">
+                <span class="name-with-link"><?php echo $packingme_posts[$i]["user_name"];?></span>
+              </a>
+            </div>
               <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $packingme_posts[$i]["post_id"];?>">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
@@ -187,9 +204,15 @@
 
           <!-- 4位〜9位表示 -->
           <?php if ($i >= 3) { ?>
-            <div class="col-md-4 col-sm-6  portfolio-item">
-              <div class="small-crown">
+          <div class="col-md-4 col-sm-6  portfolio-item">
+            <div class="small-crown">
               <img src="img/portfolio/small-crown.png" width="60" height="60" ><p>No.<?php echo $i+1; ?></p></div>
+          <div class="profile-container2" id="<?php echo $packingme_posts[$i]["post_id"] ;?>">
+              <a class="profile-link" href="mypage.php?user_id=<?php echo $packingme_posts[$i]["user_id"];?>">
+                <img  class="image-with-link" src="picture_path/<?php echo $packingme_posts[$i]["picture_path"];?>">
+                <span class="name-with-link"><?php echo $packingme_posts[$i]["user_name"];?></span>
+              </a>
+            </div>
               <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $packingme_posts[$i]["post_id"];?>">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
