@@ -125,7 +125,7 @@
     <!-- ヘッダー固定部分 -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="home.html">Packing me!</a>
+        <a class="navbar-brand js-scroll-trigger" href="home.php">Packing me!</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
@@ -166,7 +166,7 @@
               <!-- <input type="file" id="file" style="display:none;" onchange="$('#fake_input_file').val($(this).val())">
               <button onClick="$('#file').click();">プロフィール画像を変更する</button> -->
             </div>       
-              <input type="file" name="picture_path" class="form-control">
+              <input type="file" name="picture_path" class="form-control" value="picture_path/<?php echo $user["picture_path"]?>">
             </div>
                
           </div>

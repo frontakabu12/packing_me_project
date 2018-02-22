@@ -160,12 +160,14 @@
                 <img class="img-fluid" max width="400px" src="pic/<?php echo $one_post["pic"];?>" alt="">
               </a>
               <div class="portfolio-caption">
+
                 <?php if($one_post["login_like_flag"] == 0){ ?>
                 <a href="mypage_like_button.php?like_post_id=<?php echo $one_post["post_id"] ;?>&user_id=<?php echo $_GET["user_id"]; ?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"] ;?> like</span>
                 <!-- いいね取り消し部分 -->
                 <?php }else{?>
                 <a class="unlike" href="mypage_like_button.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>&user_id=<?php echo $_GET["user_id"]; ?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"]; ?> like</span>
                 <?php }?>
+                
               </div>
             </div>
             <?php }?>

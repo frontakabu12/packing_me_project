@@ -242,7 +242,13 @@
 
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">Timeline<button id="change" class=""><i id="change-color" class="fa fa-facebook"></i></button></h2>
+            <h2 class="section-heading text-uppercase">Timeline
+              <?php if($one_post["login_like_flag"]>0){?>
+              <button id="change" data-post="10" class="button_active"><i id="change-color" class="fa fa-facebook"></i></button></h2>
+              <?php }else{?>
+              <button id="change" data-post="10" class=""><i id="change-color" class="fa fa-facebook"></i></button></h2>
+              <?php }?>
+
             <h3 class="section-subheading text-muted"></h3>
           </div>
         </div>
@@ -273,10 +279,13 @@
                 <!-- いいね部分 -->
                 <?php if($one_post["login_like_flag"] == 0){ ?>
                 <a href="like_buttton.php?like_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"] ;?> like</span>
+
+
                 <!-- いいね取り消し部分 -->
                 <?php }else{?>
                 <a class="unlike" href="like_buttton.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"]; ?> like</span>
                 <?php }?>
+
                 <!-- ここまでいいねいいね取り消し部分 -->
               </div>
             </div>
@@ -393,6 +402,69 @@
     <script src="js/packing_me.js"></script>
     <script src="js/jscroll.js"></script>
     <script src="js/jquery.jscroll.js"></script>
+    <script>
+
+    var like_post_id = 0;
+    var login_like_flag = <?php echo $one_post["login_like_flag"]; ?>;
+    console.log(like_post_id);
+    console.log(login_like_flag);
+
+      $(function(){
+        $('#change').click(function(){
+          like_post_id = $(this).attr('data-post');
+
+          console.log(like_post_id);
+          console.log(login_like_flag);
+
+
+
+        if(login_like_flag > 0){
+
+          console.log("消した");
+          unlikeButton(like_post_id);
+
+          console.log(login_like_flag)
+          login_like_flag=0;
+
+        }else if(login_like_flag == 0){
+          console.log("押した");
+          likeButton(like_post_id);
+
+          console.log(login_like_flag)
+          login_like_flag++;
+
+        }})
+      });
+
+
+
+      function likeButton(like_post_id){
+        $(function(){
+// ajaxのGet送信メソッドでMysql用のphpへ飛ばす
+          $.get("like_buttton.php",{
+            like_post_id: 10,
+          },
+          function (){
+            console.log('like_button.phpへ移動');
+          //window.open('json_map.pp','_self');
+          }
+          );
+        });
+      }
+      function unlikeButton(unlike_post_id){
+        $(function(){
+// ajaxのGet送信メソッドでMysql用のphpへ飛ばす
+          $.get("like_buttton.php",{
+            unlike_post_id: 10,
+          },
+          function (){
+            console.log('like_button.phpへ移動unlike処理');
+          //window.open('json_map.pp','_self');
+          }
+          );
+        });
+      }
+    </script>
 
 
   </body>
