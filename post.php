@@ -6,10 +6,10 @@ require('dbconnect.php');
 if(isset($_POST) && !empty($_POST)){
 
   // pic
-  if ($_POST["pic"] == ''){
+  // if ($_POST["pic"] == ''){
 
-      $error["pic"] = 'blank';
-    }
+  //     $error["pic"] = 'blank';
+  //   }
 
   // type
   if ($_POST["type"] == ''){
