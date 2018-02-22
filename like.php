@@ -177,7 +177,7 @@
           <span><?php echo $user["web_site"];?></span>
         </div>
           <div class="buttons">
-            <div class="be-center"><a href="mypage.php"><button class="like-button">投稿一覧</button></a></div>
+            <div class="be-center"><a href="mypage.php?user_id=<?php echo $_SESSION["id"];?>"><button class="like-button">投稿一覧</button></a></div>
             <br>
             <div class="be-center"><a href="edit_profile.php"><button class="edit-prof-button">プロフィールを編集する</button></a></div>
           </div>

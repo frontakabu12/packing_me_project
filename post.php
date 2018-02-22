@@ -4,6 +4,54 @@ require('dbconnect.php');
 
 // POST送信されていたら
 if(isset($_POST) && !empty($_POST)){
+
+  // pic
+  if ($_POST["pic"] == ''){
+
+      $error["pic"] = 'blank';
+    }
+
+  // type
+  if ($_POST["type"] == ''){
+
+      $error["type"] = 'blank';
+    }
+
+  // category_id
+    if ($_POST["category"] == ''){
+
+      $error["category"] = 'blank';
+    }
+
+  // place
+    if ($_POST["place"] == ''){
+
+      $error["place"] = 'blank';
+    }
+
+    // term
+    if ($_POST["term"] == ''){
+
+      $error["term"] = 'blank';
+    }
+
+    // backpack
+    if ($_POST["backpack"] == ''){
+
+      $error["backpack"] = 'blank';
+    }
+
+    // weight
+    if ($_POST["weight"] == ''){
+
+      $error["weight"] = 'blank';
+    }
+
+    // detail
+    if ($_POST["detail"] == ''){
+
+      $error["detail"] = 'blank';
+    }
  
 if(!isset($error)){
 
@@ -116,6 +164,9 @@ if(!isset($error)){
             <option value="Traveler">Traveler</option> 
             <option value="Engineer" >Engineer</option>  
           </select>
+          <?php if((isset($error["type"])) && ($error["type"] == 'blank')) { ?>
+                <p class="error">＊タイプを選択してください</p>
+          <?php }?>
           <select name="category"> 
             <option value="0" selected="">カテゴリを選択</option> 
             <option value="5">3日以内</option> 
@@ -124,16 +175,34 @@ if(!isset($error)){
             <option value="2">2週間以上</option> 
             <option value="1">1ヶ月以上</option> 
           </select>
+          <?php if((isset($error["category"])) && ($error["category"] == 'blank')) { ?>
+                <p class="error">＊カテゴリーを選択してください</p>
+          <?php }?>
           <center>場所</center>
           <input type="" name="place" placeholder="例）フィリピン　セブ島">
+          <?php if((isset($error["place"])) && ($error["place"] == 'blank')) { ?>
+                <p class="error">＊場所を入力してください</p>
+          <?php }?>
           <center>期間</center>
           <input type="" name="term" placeholder="例）４日間">
+          <?php if((isset($error["term"])) && ($error["term"] == 'blank')) { ?>
+                <p class="error">＊期間を入力してください</p>
+          <?php }?>
           <center>backpack</center>
           <input type="" name="backpack" placeholder="例）the north face Caelus 35L">
+          <?php if((isset($error["backpack"])) && ($error["backpack"] == 'blank')) { ?>
+                <p class="error">＊バックパックを入力してください</p>
+          <?php }?>
           <center>重量</center>
           <input type="" name="weight" placeholder="例）13kg">
+          <?php if((isset($error["weight"])) && ($error["weight"] == 'blank')) { ?>
+                <p class="error">＊重量を入力してください</p>
+          <?php }?>
           <center>中身詳細</center>
           <textarea name="detail" placeholder="例）mackbookpro, dji spark, omd-em5 mark2, t-shirts 3, pants 3..."></textarea>
+          <?php if((isset($error["detail"])) && ($error["detail"] == 'blank')) { ?>
+                <p class="error">＊詳細を入力してください</p>
+          <?php }?>
           <br>
           <input type="submit" value="投稿する" class="btn btn-xl btn-primary">
         </form>
