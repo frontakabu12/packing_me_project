@@ -5,15 +5,16 @@
   // 仮の数字 SESSIONに保存されているログインユーザーIDのこと
   $login_user_id = 10;
   // ログインユーザーIDからMembersテーブルとPostテーブルを結合して全件取得するsql
-  $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path`, `packingme_likes`.`post_id` , COUNT(*)as `like_count`
-          FROM`packingme_posts`
-          INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`
-          INNER JOIN `packingme_likes` ON `packingme_posts`.`post_id`=`packingme_likes`.`post_id`  
-          GROUP BY `packingme_likes`.`post_id`
-          ORDER BY `like_count` DESC";
+  $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path`, `packingme_likes`.`post_id`, packingme_likes.created - interval date_format(packingme_likes.created,'%w') day as each_week, COUNT(*) as `like_count` FROM`packingme_posts` INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id` INNER JOIN `packingme_likes` ON `packingme_posts`.`post_id`=`packingme_likes`.`post_id` WHERE `packingme_posts`.`created` BETWEEN (CURDATE() - INTERVAL 7 DAY) AND (CURDATE() + INTERVAL 1 DAY) GROUP BY `packingme_likes`.`post_id` ORDER BY `like_count` DESC";
   // 実行
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
+
+  // モーダル用
+  $modal_sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path`, `packingme_likes`.`post_id`, packingme_likes.created - interval date_format(packingme_likes.created,'%w') day as each_week, COUNT(*) as `like_count` FROM`packingme_posts` INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id` INNER JOIN `packingme_likes` ON `packingme_posts`.`post_id`=`packingme_likes`.`post_id` WHERE `packingme_posts`.`created` BETWEEN (CURDATE() - INTERVAL 7 DAY) AND (CURDATE() + INTERVAL 1 DAY) GROUP BY `packingme_likes`.`post_id` ORDER BY `like_count` DESC";
+  // 実行
+  $modal_stmt = $dbh->prepare($modal_sql);
+  $modal_stmt->execute();
 
  ?>
 
@@ -58,7 +59,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav text-uppercase ml-auto">
             <div class="crown-icon">
-              <a href="ranking.php">
+              <a href="ranking_php.php">
                 <img src="img/portfolio/crown.png">
               </a>
             </div>
@@ -105,6 +106,12 @@
             <div class="col-lg-12  portfolio-item">
               <div class="big-crown">
               <img src="img/portfolio/crown.png" width="100" height="100" ><p>No.1</p></div>
+            <div class="profile-container" id="<?php echo $packingme_posts[$i]["post_id"] ;?>">
+              <a class="profile-link" href="mypage.php?user_id=<?php echo $packingme_posts[$i]["user_id"];?>">
+                <img  class="image-with-link" src="picture_path/<?php echo $packingme_posts[$i]["picture_path"];?>">
+                <span class="name-with-link"><?php echo $packingme_posts[$i]["user_name"];?></span>
+              </a>
+            </div>
               <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $packingme_posts[$i]["post_id"];?>">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
@@ -129,9 +136,14 @@
             <!-- 2位表示 -->
             <?php if ($i == 1) { ?>
             <div class="col-lg-12  portfolio-item">
-              
               <div class="big-crown ranking_top">
               <img src="img/portfolio/icon-crown.png" width="100" height="100" ><p>No.2</p></div>
+            <div class="profile-container" id="<?php echo $packingme_posts[$i]["post_id"] ;?>">
+              <a class="profile-link" href="mypage.php?user_id=<?php echo $packingme_posts[$i]["user_id"];?>">
+                <img  class="image-with-link" src="picture_path/<?php echo $packingme_posts[$i]["picture_path"];?>">
+                <span class="name-with-link"><?php echo $packingme_posts[$i]["user_name"];?></span>
+              </a>
+            </div>
               <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $packingme_posts[$i]["post_id"];?>">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
@@ -158,6 +170,12 @@
             <div class="col-lg-12  portfolio-item">
               <div class="big-crown ranking_top">
               <img src="img/portfolio/icon-crown.png" width="100" height="100" ><p>No.3</p></div>
+            <div class="profile-container" id="<?php echo $packingme_posts[$i]["post_id"] ;?>">
+              <a class="profile-link" href="mypage.php?user_id=<?php echo $packingme_posts[$i]["user_id"];?>">
+                <img  class="image-with-link" src="picture_path/<?php echo $packingme_posts[$i]["picture_path"];?>">
+                <span class="name-with-link"><?php echo $packingme_posts[$i]["user_name"];?></span>
+              </a>
+            </div>
               <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $packingme_posts[$i]["post_id"];?>">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
@@ -181,9 +199,15 @@
 
           <!-- 4位〜9位表示 -->
           <?php if ($i >= 3) { ?>
-            <div class="col-md-4 col-sm-6  portfolio-item">
-              <div class="small-crown">
-              <img src="img/portfolio/small-crown.png" width="60" height="60" ><p>No.<?php echo $i; ?></p></div>
+          <div class="col-md-4 col-sm-6  portfolio-item">
+            <div class="small-crown">
+              <img src="img/portfolio/small-crown.png" width="60" height="60" ><p>No.<?php echo $i+1; ?></p></div>
+          <div class="profile-container2" id="<?php echo $packingme_posts[$i]["post_id"] ;?>">
+              <a class="profile-link" href="mypage.php?user_id=<?php echo $packingme_posts[$i]["user_id"];?>">
+                <img  class="image-with-link" src="picture_path/<?php echo $packingme_posts[$i]["picture_path"];?>">
+                <span class="name-with-link"><?php echo $packingme_posts[$i]["user_name"];?></span>
+              </a>
+            </div>
               <a class="portfolio-link" data-toggle="modal" href="#portfolioModal<?php echo $packingme_posts[$i]["post_id"];?>">
                 <div class="portfolio-hover">
                   <div class="portfolio-hover-content">
@@ -252,7 +276,7 @@
 
     <!-- Modal 1位表示 -->
     <?php for ($i=0; $i < 9; $i++) { ?>
-      <?php $packingme_posts[$i] = $stmt->fetch(PDO::FETCH_ASSOC); ?>
+      <?php $packingme_posts[$i] = $modal_stmt->fetch(PDO::FETCH_ASSOC); ?>
       <?php if($i == 0){ ?>
       <div class="portfolio-modal modal fade" id="portfolioModal<?php echo $packingme_posts[$i]["post_id"];?>" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
@@ -266,7 +290,7 @@
             <div class="row">
               <div class="col-lg-8 mx-auto">
                 <div class="modal-body">
-                  <img class="img-fluid d-block mx-auto" src="zaki.png" alt="">
+                  <img class="img-fluid d-block mx-auto" src="pic/<?php echo $packingme_posts[$i]["pic"]; ?>" alt="">
                   <div class="mypage-texts">
                     <span>Type</span>
                     <p><?php echo $packingme_posts[$i]["type"]; ?></p>
@@ -294,10 +318,10 @@
                       $modify_date = date("Y-m-d H:i", strtotime($modify_date));
                      echo $modify_date ; ?></li>
                   </ul>
-                  <div class="edit-delete">
+                  <!-- <div class="edit-delete">
                     <button class="delete-button">delete</button>
                     <button class="edit-button">edit</button>
-                  </div>
+                  </div> -->
                   <button class="btn btn-primary" data-dismiss="modal" type="button">
                     <i class="fa fa-times"></i>
                     Close</button>
@@ -325,7 +349,7 @@
             <div class="row">
               <div class="col-lg-8 mx-auto">
                 <div class="modal-body">
-                  <img class="img-fluid d-block mx-auto" src="zaki.png" alt="">
+                  <img class="img-fluid d-block mx-auto" src="pic/<?php echo $packingme_posts[$i]["pic"]; ?>" alt="">
                   <div class="mypage-texts">
                     <span>Type</span>
                     <p><?php echo $packingme_posts[$i]["type"]; ?></p>
@@ -346,17 +370,17 @@
                   </div>
                   <ul class="list-inline">
                     <li><?php 
-                      $modify_date = $like_post["modified"];
+                      $modify_date = $packingme_posts[$i]["modified"];
                       // date関数　書式を時間に変更するとき
                       // strtotime 文字型(string)のデータを日時型に変換できる
                       // 24時間表記：H, 12時間表記：h　
                       $modify_date = date("Y-m-d H:i", strtotime($modify_date));
                      echo $modify_date ; ?></li>
                   </ul>
-                  <div class="edit-delete">
+                  <!-- <div class="edit-delete">
                     <button class="delete-button">delete</button>
                     <button class="edit-button">edit</button>
-                  </div>
+                  </div> -->
                   <button class="btn btn-primary" data-dismiss="modal" type="button">
                     <i class="fa fa-times"></i>
                     Close</button>
@@ -384,7 +408,7 @@
             <div class="row">
               <div class="col-lg-8 mx-auto">
                 <div class="modal-body">
-                  <img class="img-fluid d-block mx-auto" src="zaki.png" alt="">
+                  <img class="img-fluid d-block mx-auto" src="pic/<?php echo $packingme_posts[$i]["pic"]; ?>" alt="">
                   <div class="mypage-texts">
                     <span>Type</span>
                     <p><?php echo $packingme_posts[$i]["type"]; ?></p>
@@ -405,17 +429,17 @@
                   </div>
                   <ul class="list-inline">
                     <li><?php 
-                      $modify_date = $like_post["modified"];
+                      $modify_date = $packingme_posts[$i]["modified"];
                       // date関数　書式を時間に変更するとき
                       // strtotime 文字型(string)のデータを日時型に変換できる
                       // 24時間表記：H, 12時間表記：h　
                       $modify_date = date("Y-m-d H:i", strtotime($modify_date));
                      echo $modify_date ; ?></li>
                   </ul>
-                  <div class="edit-delete">
+                  <!-- <div class="edit-delete">
                     <button class="delete-button">delete</button>
                     <button class="edit-button">edit</button>
-                  </div>
+                  </div> -->
                   <button class="btn btn-primary" data-dismiss="modal" type="button">
                     <i class="fa fa-times"></i>
                     Close</button>
@@ -443,7 +467,7 @@
             <div class="row">
               <div class="col-lg-8 mx-auto">
                 <div class="modal-body">
-                  <img class="img-fluid d-block mx-auto" src="zaki.png" alt="">
+                  <img class="img-fluid d-block mx-auto" src="pic/<?php echo $packingme_posts[$i]["pic"]; ?>" alt="">
                   <div class="mypage-texts">
                     <span>Type</span>
                     <p><?php echo $packingme_posts[$i]["type"]; ?></p>
@@ -464,17 +488,17 @@
                   </div>
                   <ul class="list-inline">
                     <li><?php 
-                      $modify_date = $like_post["modified"];
+                      $modify_date = $packingme_posts[$i]["modified"];
                       // date関数　書式を時間に変更するとき
                       // strtotime 文字型(string)のデータを日時型に変換できる
                       // 24時間表記：H, 12時間表記：h　
                       $modify_date = date("Y-m-d H:i", strtotime($modify_date));
                      echo $modify_date ; ?></li>
                   </ul>
-                  <div class="edit-delete">
+                  <!-- <div class="edit-delete">
                     <button class="delete-button">delete</button>
                     <button class="edit-button">edit</button>
-                  </div>
+                  </div> -->
                   <button class="btn btn-primary" data-dismiss="modal" type="button">
                     <i class="fa fa-times"></i>
                     Close</button>

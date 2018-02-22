@@ -39,15 +39,18 @@
   $start = ($page-1)*$page_row;
 
 
+  if(isset($_GET["category_id"]) && !empty($_GET["category_id"])){
+    $sql = "SELECT * 
+            FROM `packingme_posts`
+            INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`
+            WHERE `category_id`=? 
+            ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",5";
 
-  // ログインユーザーIDからMembersテーブルとPostテーブルを結合して全件取得するsql
-  $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` 
-          FROM`packingme_posts` 
-          INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`  
-          ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",5";
-  // 実行
+
+    // 実行
+  $data = array($_GET["category_id"]);
   $stmt = $dbh->prepare($sql);
-  $stmt->execute();
+  $stmt->execute($data);
   // フェッチ
   $post_list = array();
   while(1){
@@ -87,6 +90,58 @@
       $one_post["login_like_flag"] = $login_like_number["like_flag"];
       // データ取得できている      $tweet_list[] = $one_tweet;
       $post_list[] = $one_post;
+    }
+  }
+
+  }else{
+  // ログインユーザーIDからMembersテーブルとPostテーブルを結合して全件取得するsql
+    $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` 
+            FROM`packingme_posts` 
+            INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`  
+            ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",5";
+    // 実行
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+    // フェッチ
+    $post_list = array();
+    while(1){
+      $one_post = $stmt->fetch(PDO::FETCH_ASSOC);
+      if($one_post == false){
+        break;
+      }else{
+      // LIKE数を求めるSQL文作成
+        $like_sql = "SELECT COUNT(*)as`like_count` FROM `packingme_likes` WHERE `post_id`=".$one_post["post_id"];
+
+        // Sql実行
+        $like_stmt = $dbh->prepare($like_sql);
+        $like_stmt->execute();
+
+        $like_number = $like_stmt->fetch(PDO::FETCH_ASSOC);
+  // one_tweetの中身
+  // one_tweet["tweet"]つぶやき
+  // one_tweet["member_id"]つぶやいた人のID
+  // one_tweet["nick_name"]つぶやいた人のニックネーム
+  // one_tweet["picture_path"]つぶやいた人のプロフィール画像
+  // one_tweet["modified"]つぶやいた日時
+
+  //一行ぶんのデータに新しいキーを用意してLIKE数を代入 
+        $one_post["like_count"] = $like_number["like_count"];
+
+  //ログインしている人がLIKEしているかどうかの情報を取得
+        $login_like_sql = "SELECT COUNT(*)as`like_flag` FROM `packingme_likes` WHERE `post_id`=".$one_post["post_id"]." AND `user_id`=".$_SESSION["id"]; 
+
+  // SQL実行
+        $login_like_stmt = $dbh->prepare($login_like_sql);
+        $login_like_stmt->execute();
+
+  // フェッチして取得
+        $login_like_number = $login_like_stmt->fetch(PDO::FETCH_ASSOC);
+
+
+        $one_post["login_like_flag"] = $login_like_number["like_flag"];
+        // データ取得できている      $tweet_list[] = $one_tweet;
+        $post_list[] = $one_post;
+      }
     }
   }
 
@@ -139,7 +194,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav text-uppercase ml-auto">
             <div class="crown-icon">
-              <a href="ranking.php">
+              <a href="ranking_php.php">
                 <img src="img/portfolio/crown.png">
               </a>
             </div>
@@ -169,10 +224,11 @@
           </div>
           <div class="navi">
             <ul>
-              <li class=""><a href="#"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">２週間以上</span></a></li>
-              <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">２週間以内</span></a></li>
-              <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">１週間以内</span></a></li>
-              <li><a href="#"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">３日 以内</span></a></li>
+              <li class=""><a href="home.php?category_id=1"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">１ヶ月以上</span></a></li>
+              <li class=""><a href="home.php?category_id=2"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">２週間以上</span></a></li>
+              <li><a href="home.php?category_id=3"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">２週間以内</span></a></li>
+              <li><a href="home.php?category_id=4"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">１週間以内</span></a></li>
+              <li><a href="home.php?category_id=5"><i class="fa fa-globe" aria-hidden="true"></i><span class="hidden-xs hidden-sm">３日 以内</span></a></li>
             </ul>
           </div>
         </div>
@@ -186,7 +242,7 @@
 
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">Timeline</h2>
+            <h2 class="section-heading text-uppercase">Timeline<button id="change" class=""><i id="change-color" class="fa fa-facebook"></i></button></h2>
             <h3 class="section-subheading text-muted"></h3>
           </div>
         </div>
@@ -299,6 +355,7 @@
     </div>
     <?php }?>
 <!-- ここまで投稿画像表示部分 -->
+    <input type="hidden" id="page-number" value="<?php echo $all_page_number;?>">
     
     <!-- Footer -->
     <footer>

@@ -83,7 +83,7 @@ if(!isset($error)){
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav text-uppercase ml-auto">
             <div class="crown-icon">
-              <a href="ranking.php">
+              <a href="ranking_php.php">
                 <img src="img/portfolio/crown.png">
               </a>
             </div>
@@ -117,12 +117,12 @@ if(!isset($error)){
             <option value="Engineer" >Engineer</option>  
           </select>
           <select name="category"> 
-            <option value="1" selected="">カテゴリを選択</option> 
-            <option value="3日以内">3日以内</option> 
-            <option value="1週間以内" >1週間以内</option> 
-            <option value="2週間以内">2週間以内</option> 
-            <option value="2週間以上">2週間以上</option> 
-            <option value="1ヶ月以上">1ヶ月以上</option> 
+            <option value="0" selected="">カテゴリを選択</option> 
+            <option value="5">3日以内</option> 
+            <option value="4" >1週間以内</option> 
+            <option value="3">2週間以内</option> 
+            <option value="2">2週間以上</option> 
+            <option value="1">1ヶ月以上</option> 
           </select>
           <center>場所</center>
           <input type="" name="place" placeholder="例）フィリピン　セブ島">
