@@ -785,6 +785,8 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
 }
 .fa .fa-suitcase{
   display: inline-block;
+  float: left;
+  /*margin-right: 10px;*/
 }
 .post-text{
   width: 650px;
@@ -1260,6 +1262,12 @@ ul .change-page-btn{
   border: 1px solid #009AFF;
   color: #009AFF;
   padding:5px;
+}
+.counter{
+  display: inline-block;
+  padding-left: 10px;
+  font-size: 20px;
+  pointer-events: none;
 }
 /*ul.pager li a.selected{
     background:#73C7FF;

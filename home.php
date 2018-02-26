@@ -20,7 +20,7 @@
 
 
   // １ページ分の表示件数
-  $page_row = 5;
+  $page_row = 10;
 
   // データの件数から最大ページ数を計算する
   $page_sql = "SELECT COUNT(*) AS `cnt` FROM`packingme_posts`";
@@ -44,7 +44,7 @@
             FROM `packingme_posts`
             INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`
             WHERE `category_id`=? 
-            ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",5";
+            ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",10";
 
 
     // 実行
@@ -98,7 +98,7 @@
     $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` 
             FROM`packingme_posts` 
             INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`  
-            ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",5";
+            ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",10";
     // 実行
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
@@ -242,13 +242,8 @@
 
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">Timeline
-              <?php if($one_post["login_like_flag"]>0){?>
-              <button id="change" data-post="10" class="button_active"><i id="change-color" class="fa fa-facebook"></i></button></h2>
-              <?php }else{?>
-              <button id="change" data-post="10" class=""><i id="change-color" class="fa fa-facebook"></i></button></h2>
-              <?php }?>
-
+            <h2 class="section-heading text-uppercase">Timeline</h2>
+              
             <h3 class="section-subheading text-muted"></h3>
           </div>
         </div>
@@ -277,14 +272,25 @@
               </a>
               <div class="portfolio-caption">
                 <!-- いいね部分 -->
-                <?php if($one_post["login_like_flag"] == 0){ ?>
-                <a href="like_buttton.php?like_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"] ;?> like</span>
 
+                <?php if($one_post["login_like_flag"]>0){?>
+
+                <a id="change" data-flag="<?php echo $one_post["login_like_flag"]; ?>" data-post="<?php echo $one_post["post_id"];?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase button_active"></i>
+                <div class="counter"><?php echo $one_post["like_count"];?></div></a>
+
+                <?php }else{?>
+                <a id="change" data-flag="<?php echo $one_post["login_like_flag"]; ?>" data-post="<?php echo $one_post["post_id"]; ?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase"></i><div class="counter"><?php echo $one_post["like_count"];?></div></a>
+                
+
+
+                <?php }?>
+
+
+
+                
 
                 <!-- いいね取り消し部分 -->
-                <?php }else{?>
-                <a class="unlike" href="like_buttton.php?unlike_post_id=<?php echo $one_post["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $one_post["like_count"]; ?> like</span>
-                <?php }?>
+                
 
                 <!-- ここまでいいねいいね取り消し部分 -->
               </div>
@@ -293,17 +299,39 @@
             <?php }?>
   <!-- ここまで繰り返し -->
 
-            <div class="pager" style="margin:0 auto;">
+            <!-- <div class="pager" style="margin:0 auto;">
               <a class="next" href="home_paging.php?page=<?php echo $page+1; ?>">次へ</a>
-            </div>
+            </div> -->
 
           <!-- <div id="load" style="margin:0 auto;">
             <div ><i class="fa fa-spinner fa-pulse fa-3x"></i></div>
             <! <span class="sr-only">Loading...</span> -->
           <!-- </div> -->
+          <ul class="pager">
+
+            <?php if($page == 1){?>
+            <li class="change-page-btn"><</li>
+            <?php }else{?>
+            <li class="active-li"><a  href="home.php?page=<?php echo $page-1;?>"><</a></li>
+            <?php }?>
+
+            <?php for($i=1;$i<=$all_page_number;$i++){?>
+            <li class="active-li"><a href="home.php?page=<?php echo $i;?>"><?php echo $i;?></a></li>
+            <?php  } ?>
+
+            <?php if($page == $all_page_number){?>
+            <li class="change-page-btn">></li>
+            <?php }else{?>
+            <li class="active-li"><a  href="home.php?page=<?php echo $page+1;?>">></a></li>
+            <?php }?>
+
+          </ul>
           </div>
+
         </div>
+        
       </div>
+      
     </section>
     <!-- ここまで画像表示部分 -->
 
@@ -345,7 +373,14 @@
                   </div>
                       <!-- <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p> -->
                 <ul class="list-inline">
-                  <li>29 January 2018</li>
+                  <li>
+                    <?php 
+                      $modify_date = $one_post["modified"];
+                      // strtotime 文字型のデータを日時型に変換できる
+                      $modify_date = date("Y-m-d H:i",strtotime($modify_date));
+                      echo $modify_date;   
+                    ?>
+                  </li>
                 </ul>
                   <!-- <div class="edit-delete">
                     <button class="delete-button">delete</button>
@@ -405,13 +440,19 @@
     <script>
 
     var like_post_id = 0;
-    var login_like_flag = <?php echo $one_post["login_like_flag"]; ?>;
+    var login_like_flag = $(this).attr('data-flag');
     console.log(like_post_id);
     console.log(login_like_flag);
 
       $(function(){
-        $('#change').click(function(){
+
+
+
+        $('.like_btn').click(function(){
           like_post_id = $(this).attr('data-post');
+          login_like_flag = $(this).attr('data-flag');
+          var like_count = $(this).find('.counter').text();
+          console.log(like_count);
 
           console.log(like_post_id);
           console.log(login_like_flag);
@@ -423,15 +464,24 @@
           console.log("消した");
           unlikeButton(like_post_id);
 
-          console.log(login_like_flag)
-          login_like_flag=0;
+          console.log(login_like_flag);
+        
+          login_like_flag = $(this).attr('data-flag',0);
+          $(this).find('.fa-suitcase').removeClass('button_active');
+          $(this).find('.counter').text(Number(like_count)-1);
+          
 
         }else if(login_like_flag == 0){
           console.log("押した");
           likeButton(like_post_id);
 
           console.log(login_like_flag)
-          login_like_flag++;
+          // login_like_flag++;
+          login_like_flag = $(this).attr('data-flag',1);
+          $(this).find('.fa-suitcase').addClass('button_active');
+          $(this).find('.counter').text(Number(like_count)+1);
+
+
 
         }})
       });
@@ -442,7 +492,7 @@
         $(function(){
 // ajaxのGet送信メソッドでMysql用のphpへ飛ばす
           $.get("like_buttton.php",{
-            like_post_id: 10,
+            like_post_id: like_post_id,
           },
           function (){
             console.log('like_button.phpへ移動');
@@ -455,7 +505,7 @@
         $(function(){
 // ajaxのGet送信メソッドでMysql用のphpへ飛ばす
           $.get("like_buttton.php",{
-            unlike_post_id: 10,
+            unlike_post_id: like_post_id,
           },
           function (){
             console.log('like_button.phpへ移動unlike処理');
