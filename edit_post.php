@@ -3,8 +3,6 @@ session_start();
 require('dbconnect.php');
 
 
-
-
 $sql = "SELECT * FROM `packingme_posts` WHERE `packingme_posts`.`post_id`=".$_GET["post_id"];
    // sql実行
   
@@ -12,69 +10,99 @@ $sql = "SELECT * FROM `packingme_posts` WHERE `packingme_posts`.`post_id`=".$_GE
   $stmt->execute();
   // フェッチ
   $one_post = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-
-
-
-
-// POST送信されていたら
-// if(isset($_POST) && !empty($_POST)){
-
-//   // type
-//   if ($_POST["type"] == ''){
-
-//       $error["type"] = 'blank';
-//     }
-
-//   // category_id
-//     if ($_POST["category"] == ''){
-
-//       $error["category"] = 'blank';
-//     }
-
-//   // place
-//     if ($_POST["place"] == ''){
-
-//       $error["place"] = 'blank';
-//     }
-
-//     // term
-//     if ($_POST["term"] == ''){
-
-//       $error["term"] = 'blank';
-//     }
-
-//     // backpack
-//     if ($_POST["backpack"] == ''){
-
-//       $error["backpack"] = 'blank';
-//     }
-
-//     // weight
-//     if ($_POST["weight"] == ''){
-
-//       $error["weight"] = 'blank';
-//     }
-
-//     // detail
-//     if ($_POST["detail"] == ''){
-
-//       $error["detail"] = 'blank';
-//     }
- 
-// if(!isset($error)){
-
-//   $up_sql ="UPDATE `packingme_posts` SET `pic` =?,`place`=?,`term`=?,`backpack`=?,`weight`=?,`detail`=? WHERE `packingme_posts`.`post_id` =?;"
-  
-  
-
-
-
-
-
-
    
+
+
+//POST送信されていたら
+if(isset($_POST) && !empty($_POST)){
+
+//   var_dump($_POST);
+// exit;
+
+
+  // type
+  if ($_POST["type"] == ''){
+
+      $error["type"] = 'blank';
+    }
+
+  // category_id
+    if ($_POST["category_id"] == ''){
+
+      $error["category_id"] = 'blank';
+    }
+
+  // place
+    if ($_POST["place"] == ''){
+
+      $error["place"] = 'blank';
+    }
+
+// var_dump($_POST);
+// exit;
+
+
+    // term
+    if ($_POST["term"] == ''){
+
+      $error["term"] = 'blank';
+    }
+
+// var_dump($_POST);
+// exit;
+
+    // backpack
+    if ($_POST["backpack"] == ''){
+
+      $error["backpack"] = 'blank';
+    }
+// var_dump($_POST);
+// exit;
+
+
+    // weight
+    if ($_POST["weight"] == ''){
+
+      $error["weight"] = 'blank';
+    }
+// var_dump($_POST);
+// exit;
+
+
+    // detail
+    if ($_POST["detail"] == ''){
+
+      $error["detail"] = 'blank';
+
+    }
+    
+// var_dump($_POST);
+// exit;
+ 
+if(!isset($error)){
+
+
+  
+
+  $sql = "UPDATE `packingme_posts` SET `type` = ?, `category_id` = ?, `place` = ?, `term` = ?, `backpack` = ?, `weight` = ?, `detail` = ? WHERE `packingme_posts`.`post_id` =".$_GET["post_id"];
+  
+  $data = array($_POST["type"],$_POST["category_id"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
+
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute($data);
+
+//   $g = $stmt;
+
+//   var_dump($g);
+// exit;
+
+  header("Location: home.php");
+      
+    
+      }
+    } 
+   
+
    
 
  ?>
@@ -145,7 +173,7 @@ $sql = "SELECT * FROM `packingme_posts` WHERE `packingme_posts`.`post_id`=".$_GE
 <!-- ヘッダーここまで -->
     
     <div class="post-form">
-      <form method="POST" action="home.php" role="form" enctype="multipart/form-data" >
+      <form method="post" action="" role="form" enctype="multipart/form-data" >
         <!-- 投稿写真 -->
         
         
@@ -154,30 +182,30 @@ $sql = "SELECT * FROM `packingme_posts` WHERE `packingme_posts`.`post_id`=".$_GE
         </div>
         
         
-          <select name="categories"> 
-            <option value="2" selected=""><?php echo $one_post["type"];?></option> 
-            <!-- <option value="2">Traveler</option>  -->
-            <option value="3" >Engineer</option>  
+          <select name="type"> 
+            <option value="" selected=""><?php echo $one_post["type"];?></option> 
+            <option value="Traveler">Traveler</option> 
+            <option value="Engineer" >Engineer</option>  
           </select>
-          <select name="categories">
+          <select name="category_id">
           <?php swiotch?> 
             <option value="<?php echo $one_post["category_id"];?>" selected=""></option> 
-            <option value="2">3日以内</option> 
-            <option value="3" >1週間以内</option> 
-            <option value="4">2週間以内</option> 
-            <option value="4">2週間以上</option> 
-            <option value="4">1ヶ月以上</option> 
+            <option value="5">3日以内</option> 
+            <option value="4" >1週間以内</option> 
+            <option value="3">2週間以内</option> 
+            <option value="2">2週間以上</option> 
+            <option value="1">1ヶ月以上</option> 
           </select>
           <center>場所</center>
-          <input type="" name="" placeholder="フィリピン　セブ島" value="<?php echo $one_post["place"];?>">
+          <input type="" name="place" placeholder="フィリピン　セブ島" value="<?php echo $one_post["place"];?>">
           <center>期間</center>
-          <input type="" name="" placeholder="４日間" value="<?php echo $one_post["term"];?>">
+          <input type="" name="term" placeholder="４日間" value="<?php echo $one_post["term"];?>">
           <center>backpack</center>
-          <input type="" name="" placeholder="the north face Caelus 35L" value="<?php echo $one_post["backpack"];?>">
+          <input type="" name="backpack" placeholder="the north face Caelus 35L" value="<?php echo $one_post["backpack"];?>">
           <center>重量</center>
-          <input type="" name=""  placeholder="kg" value="<?php echo $one_post["weight"];?>">
+          <input type="" name="weight"  placeholder="kg" value="<?php echo $one_post["weight"];?>">
           <center>中身詳細</center>
-          <textarea><?php echo $one_post["detail"];?></textarea>
+          <textarea name="detail"><?php echo $one_post["detail"];?></textarea>
           <br>
           <input type="submit" value="編集する" class="btn btn-xl btn-primary">
         </form>
