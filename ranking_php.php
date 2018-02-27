@@ -158,7 +158,7 @@
               </a>
               <div class="portfolio-caption">
                 <!-- いいね部分 -->
-                <?php if($login_user_like[0]['user_like']>0){?>
+                <?php if($login_user_like[$i]['user_like']>0){?>
 
                 <a id="change" data-flag="<?php echo $login_user_like[$i]["user_like"]; ?>" data-post="<?php echo $packingme_posts[$i]["post_id"];?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase button_active"></i>
                 <div class="counter"><?php echo $packingme_posts[$i]["like_count"];?></div></a>
@@ -194,7 +194,7 @@
               </a>
               <div class="portfolio-caption">
                 <!-- いいね部分 -->
-                <?php if($login_user_like[0]['user_like']>0){?>
+                <?php if($login_user_like[$i]['user_like']>0){?>
 
                 <a id="change" data-flag="<?php echo $login_user_like[$i]["user_like"]; ?>" data-post="<?php echo $packingme_posts[$i]["post_id"];?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase button_active"></i>
                 <div class="counter"><?php echo $packingme_posts[$i]["like_count"];?></div></a>
@@ -229,7 +229,7 @@
               </a>
               <div class="portfolio-caption">
                 <!-- いいね部分 -->
-                <?php if($login_user_like[0]['user_like']>0){?>
+                <?php if($login_user_like[$i]['user_like']>0){?>
 
                 <a id="change" data-flag="<?php echo $login_user_like[$i]["user_like"]; ?>" data-post="<?php echo $packingme_posts[$i]["post_id"];?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase button_active"></i>
                 <div class="counter"><?php echo $packingme_posts[$i]["like_count"];?></div></a>
