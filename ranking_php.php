@@ -122,12 +122,16 @@
               </a>
               <div class="portfolio-caption">
                 <!-- いいね部分 -->
-                <?php if($login_user_like[0]['user_like'] == 0){ ?>
-                <a href="like_buttton.php?like_post_id=<?php echo $packingme_posts[$i]["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $packingme_posts[$i]["like_count"] ;?> like</span>
-                <!-- いいね取り消し部分 -->
+
+                <?php if($login_user_like[0]['user_like']>0){?>
+
+                <a id="change" data-flag="<?php echo $login_user_like[$i]["user_like"]; ?>" data-post="<?php echo $packingme_posts[$i]["post_id"];?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase button_active"></i>
+                <div class="counter"><?php echo $packingme_posts[$i]["like_count"];?></div></a>
+
                 <?php }else{?>
-                <a class="unlike" href="like_buttton.php?unlike_post_id=<?php echo $packingme_posts[$i]["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $packingme_posts[$i]["like_count"]; ?> like</span>
-                <?php }?>
+                <a id="change" data-flag="<?php echo $login_user_like[$i]["user_like"]; ?>" data-post="<?php echo $packingme_posts[$i]["post_id"]; ?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase"></i><div class="counter"><?php echo $packingme_posts[$i]["like_count"];?></div></a>
+                
+                <?php }?>              
                 <!-- ここまでいいねいいね取り消し部分 -->
               </div>
             </div>
@@ -154,12 +158,16 @@
               </a>
               <div class="portfolio-caption">
                 <!-- いいね部分 -->
-                <?php if($login_user_like[$i]['user_like'] == 0){ ?>
-                <a href="like_buttton.php?like_post_id=<?php echo $packingme_posts[$i]["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $packingme_posts[$i]["like_count"] ;?> like</span>
-                <!-- いいね取り消し部分 -->
+                <?php if($login_user_like[0]['user_like']>0){?>
+
+                <a id="change" data-flag="<?php echo $login_user_like[$i]["user_like"]; ?>" data-post="<?php echo $packingme_posts[$i]["post_id"];?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase button_active"></i>
+                <div class="counter"><?php echo $packingme_posts[$i]["like_count"];?></div></a>
+
                 <?php }else{?>
-                <a class="unlike" href="like_buttton.php?unlike_post_id=<?php echo $packingme_posts[$i]["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $packingme_posts[$i]["like_count"]; ?> like</span>
+                <a id="change" data-flag="<?php echo $login_user_like[$i]["user_like"]; ?>" data-post="<?php echo $packingme_posts[$i]["post_id"]; ?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase"></i><div class="counter"><?php echo $packingme_posts[$i]["like_count"];?></div></a>
+                
                 <?php }?>
+
                 <!-- ここまでいいねいいね取り消し部分 -->
               </div>
             </div>
@@ -186,11 +194,14 @@
               </a>
               <div class="portfolio-caption">
                 <!-- いいね部分 -->
-                <?php if($login_user_like[$i]['user_like'] == 0){ ?>
-                <a href="like_buttton.php?like_post_id=<?php echo $packingme_posts[$i]["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $packingme_posts[$i]["like_count"] ;?> like</span>
-                <!-- いいね取り消し部分 -->
+                <?php if($login_user_like[0]['user_like']>0){?>
+
+                <a id="change" data-flag="<?php echo $login_user_like[$i]["user_like"]; ?>" data-post="<?php echo $packingme_posts[$i]["post_id"];?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase button_active"></i>
+                <div class="counter"><?php echo $packingme_posts[$i]["like_count"];?></div></a>
+
                 <?php }else{?>
-                <a class="unlike" href="like_buttton.php?unlike_post_id=<?php echo $packingme_posts[$i]["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $packingme_posts[$i]["like_count"]; ?> like</span>
+                <a id="change" data-flag="<?php echo $login_user_like[$i]["user_like"]; ?>" data-post="<?php echo $packingme_posts[$i]["post_id"]; ?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase"></i><div class="counter"><?php echo $packingme_posts[$i]["like_count"];?></div></a>
+                
                 <?php }?>
                 <!-- ここまでいいねいいね取り消し部分 -->
               </div>
@@ -218,11 +229,14 @@
               </a>
               <div class="portfolio-caption">
                 <!-- いいね部分 -->
-                <?php if($login_user_like[$i]['user_like'] == 0){ ?>
-                <a href="like_buttton.php?like_post_id=<?php echo $packingme_posts[$i]["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" style="color:#d4cfc0; "></i></a><span style="font-size:2em;line-height:2em;"><?php echo $packingme_posts[$i]["like_count"] ;?> like</span>
-                <!-- いいね取り消し部分 -->
+                <?php if($login_user_like[0]['user_like']>0){?>
+
+                <a id="change" data-flag="<?php echo $login_user_like[$i]["user_like"]; ?>" data-post="<?php echo $packingme_posts[$i]["post_id"];?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase button_active"></i>
+                <div class="counter"><?php echo $packingme_posts[$i]["like_count"];?></div></a>
+
                 <?php }else{?>
-                <a class="unlike" href="like_buttton.php?unlike_post_id=<?php echo $packingme_posts[$i]["post_id"] ;?>"><i class="fa fa-suitcase fa-2x" ></i></a><span style="font-size:2em;line-height:2em;"><?php echo $packingme_posts[$i]["like_count"]; ?> like</span>
+                <a id="change" data-flag="<?php echo $login_user_like[$i]["user_like"]; ?>" data-post="<?php echo $packingme_posts[$i]["post_id"]; ?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase"></i><div class="counter"><?php echo $packingme_posts[$i]["like_count"];?></div></a>
+                
                 <?php }?>
                 <!-- ここまでいいねいいね取り消し部分 -->
               </div>
@@ -525,6 +539,84 @@
     <!-- Contact form JavaScript -->
     <script src="js/jqBootstrapValidation.js"></script>
     <script src="js/contact_me.js"></script>
+    <script>
+
+    var like_post_id = 0;
+    var login_like_flag = $(this).attr('data-flag');
+    console.log(like_post_id);
+    console.log(login_like_flag);
+
+      $(function(){
+
+
+
+        $('.like_btn').click(function(){
+          like_post_id = $(this).attr('data-post');
+          login_like_flag = $(this).attr('data-flag');
+          var like_count = $(this).find('.counter').text();
+          console.log(like_count);
+
+          console.log(like_post_id);
+          console.log(login_like_flag);
+
+
+
+        if(login_like_flag > 0){
+
+          console.log("消した");
+          unlikeButton(like_post_id);
+
+          console.log(login_like_flag);
+        
+          login_like_flag = $(this).attr('data-flag',0);
+          $(this).find('.fa-suitcase').removeClass('button_active');
+          $(this).find('.counter').text(Number(like_count)-1);
+          
+
+        }else if(login_like_flag == 0){
+          console.log("押した");
+          likeButton(like_post_id);
+
+          console.log(login_like_flag)
+          // login_like_flag++;
+          login_like_flag = $(this).attr('data-flag',1);
+          $(this).find('.fa-suitcase').addClass('button_active');
+          $(this).find('.counter').text(Number(like_count)+1);
+
+
+
+        }})
+      });
+
+
+
+      function likeButton(like_post_id){
+        $(function(){
+// ajaxのGet送信メソッドでMysql用のphpへ飛ばす
+          $.get("like_buttton.php",{
+            like_post_id: like_post_id,
+          },
+          function (){
+            console.log('like_button.phpへ移動');
+          //window.open('json_map.pp','_self');
+          }
+          );
+        });
+      }
+      function unlikeButton(unlike_post_id){
+        $(function(){
+// ajaxのGet送信メソッドでMysql用のphpへ飛ばす
+          $.get("like_buttton.php",{
+            unlike_post_id: like_post_id,
+          },
+          function (){
+            console.log('like_button.phpへ移動unlike処理');
+          //window.open('json_map.pp','_self');
+          }
+          );
+        });
+      }
+    </script>
 
     <!-- Custom scripts for this template -->
     <!-- <script src="js/agency.min.js"></script> -->

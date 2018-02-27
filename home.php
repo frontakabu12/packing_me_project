@@ -281,16 +281,7 @@
                 <?php }else{?>
                 <a id="change" data-flag="<?php echo $one_post["login_like_flag"]; ?>" data-post="<?php echo $one_post["post_id"]; ?>" class="like_btn"><i style="font-size: 30px;" class="fa fa-suitcase"></i><div class="counter"><?php echo $one_post["like_count"];?></div></a>
                 
-
-
-                <?php }?>
-
-
-
-                
-
-                <!-- いいね取り消し部分 -->
-                
+                <?php }?>              
 
                 <!-- ここまでいいねいいね取り消し部分 -->
               </div>
