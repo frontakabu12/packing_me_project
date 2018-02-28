@@ -301,7 +301,7 @@
                         <p>2週間以上</p>
                       <?php }?>
                       <?php if($one_post["category_id"]==3){?>
-                        <p>2週間以</p>
+                        <p>2週間以内</p>
                       <?php }?>
                       <?php if($one_post["category_id"]==4){?>
                         <p>1週間以内</p>
