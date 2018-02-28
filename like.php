@@ -22,7 +22,7 @@
   $page_row = 4;
 
   // データの件数から最大ページ数を計算する
-  $page_sql = "SELECT COUNT(*) AS `cnt` FROM`packingme_posts`WHERE `user_id`=".$_SESSION["id"];
+  $page_sql = "SELECT COUNT(*) AS `cnt` FROM`packingme_posts` INNER JOIN `packingme_likes` ON `packingme_posts`.`post_id`=`packingme_likes`.`post_id` WHERE `packingme_likes`.`user_id`=".$_SESSION["id"];
   $page_stmt = $dbh->prepare($page_sql);
   $page_stmt->execute();
 
@@ -50,7 +50,7 @@
 
     
   // ログインしている人がいいねしている投稿を取得するsql
-  $like_list_sql = "SELECT * FROM `packingme_posts` INNER JOIN `packingme_likes` ON `packingme_posts`.`post_id`=`packingme_likes`.`post_id` WHERE `packingme_likes`.`user_id`=? ORDER BY `packingme_posts`.`modified` DESC";
+  $like_list_sql = "SELECT * FROM `packingme_posts` INNER JOIN `packingme_likes` ON `packingme_posts`.`post_id`=`packingme_likes`.`post_id` WHERE `packingme_likes`.`user_id`=? ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",4";
   // sql実行
   $data = array($_SESSION["id"]);
   $like_list_stmt = $dbh->prepare($like_list_sql);
@@ -235,17 +235,17 @@
         <?php if($page == 1){?>
         <li class="change-page-btn"><</li>
         <?php }else{?>
-        <li class="active-li"><a  href="mypage.php?page=<?php echo $page-1;?>&user_id=<?php echo $user["id"];?>"><</a></li>
+        <li class="active-li"><a  href="like.php?page=<?php echo $page-1;?>&user_id=<?php echo $user["id"];?>"><</a></li>
         <?php }?>
 
         <?php for($i=1;$i<=$all_page_number;$i++){?>
-        <li class="active-li"><a href="mypage.php?page=<?php echo $i;?>&user_id=<?php echo $user["id"];?>"><?php echo $i;?></a></li>
+        <li class="active-li"><a href="like.php?page=<?php echo $i;?>&user_id=<?php echo $user["id"];?>"><?php echo $i;?></a></li>
         <?php  } ?>
 
         <?php if($page == $all_page_number){?>
         <li class="change-page-btn">></li>
         <?php }else{?>
-        <li class="active-li"><a  href="mypage.php?page=<?php echo $page+1;?>&user_id=<?php echo $all_page_number;?>">></a></li>
+        <li class="active-li"><a  href="like.php?page=<?php echo $page+1;?>&user_id=<?php echo $all_page_number;?>">></a></li>
         <?php }?>
 
       </ul>
