@@ -2,55 +2,112 @@
 session_start();
 require('dbconnect.php');
 
-// POST送信されていたら
+
+$sql = "SELECT * FROM `packingme_posts` WHERE `packingme_posts`.`post_id`=".$_GET["post_id"];
+   // sql実行
+  
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+  // フェッチ
+  $one_post = $stmt->fetch(PDO::FETCH_ASSOC);
+   
+
+
+//POST送信されていたら
 if(isset($_POST) && !empty($_POST)){
+
+//   var_dump($_POST);
+// exit;
+
+
+  // type
+  // if ($_POST["type"] == ''){
+
+  //     $error["type"] = 'blank';
+  //   }
+
+  // // category_id
+  //   if ($_POST["category_id"] == ''){
+
+  //     $error["category_id"] = 'blank';
+  //   }
+
+  // place
+//     if ($_POST["place"] == ''){
+
+//       $error["place"] = 'blank';
+//     }
+
+// // var_dump($_POST);
+// // exit;
+
+
+//     // term
+//     if ($_POST["term"] == ''){
+
+//       $error["term"] = 'blank';
+//     }
+
+// // var_dump($_POST);
+// // exit;
+
+//     // backpack
+//     if ($_POST["backpack"] == ''){
+
+//       $error["backpack"] = 'blank';
+//     }
+// // var_dump($_POST);
+// // exit;
+
+
+//     // weight
+//     if ($_POST["weight"] == ''){
+
+//       $error["weight"] = 'blank';
+//     }
+// // var_dump($_POST);
+// // exit;
+
+
+//     // detail
+//     if ($_POST["detail"] == ''){
+
+//       $error["detail"] = 'blank';
+
+//     }
+    
+// var_dump($_POST);
+// exit;
  
-if(!isset($error)){
+// if(!isset($error)){
 
-  // 画像の拡張子チェック
-  // jpg,png,gifはok
-  $ext = substr($_FILES['pic']['name'], -3);
-
-  if(($ext == 'png') || ($ext == 'jpg') || ($ext == 'gif')){
-    // 画像のアップロード処理
-    $pic_name = date('YmdHis') . $_FILES['pic']['name'];
-    // アップロード
-    move_uploaded_file($_FILES['pic']['tmp_name'], 'pic/' . $pic_name);
-
-    // SESSION変数に入力された画像を保存
-    $_SESSION['pic'] = $pic_name;
 
   
-  // 投稿をDBに登録
-  $sql = "INSERT INTO `packingme_posts` (`user_id`,`pic`, `category_id`, `place`, `term`, `backpack`, `weight`, `detail`, `created`) VALUES (?,?,?,?,?,?,?,?,now());";
 
-  // SQL実行
-  $data = array($_SESSION["id"],$_SESSION["pic"],$_POST["category"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
+  $sql = "UPDATE `packingme_posts` SET `type` = ?, `category_id` = ?, `place` = ?, `term` = ?, `backpack` = ?, `weight` = ?, `detail` = ? WHERE `packingme_posts`.`post_id` =".$_GET["post_id"];
+  
+  $data = array($_POST["type"],$_POST["category_id"],$_POST["place"],$_POST["term"],$_POST["backpack"],$_POST["weight"],$_POST["detail"]);
+
   $stmt = $dbh->prepare($sql);
   $stmt->execute($data);
 
   
-    header('Location: postdone.php');
-    exit();
-  }else{
-    $error["image"] = 'type';
-  }
-}
-  
 
+  header('Location: mypage.php?user_id='.$_SESSION["id"]);
+  // exit;
+      
+      // }
+    } 
+   
 
-
-
-
-}
-
+   
 
  ?>
 
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
   <head>
 
@@ -74,7 +131,7 @@ if(!isset($error)){
     <!-- Custom styles for this template -->
     <link href="css/agency.css" rel="stylesheet">
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous"> -->
-
+ 
   </head>
 
   <body id="page-top">
@@ -90,21 +147,21 @@ if(!isset($error)){
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav text-uppercase ml-auto">
             <div class="crown-icon">
-              <a href="ranking.html">
+              <a href="ranking.php">
                 <img src="img/portfolio/crown.png">
               </a>
             </div>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="home.html">Home</a>
+              <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.html">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="post.html">投稿する</a>
+              <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="top.html">Log out</a>
+              <a class="nav-link js-scroll-trigger" href="top.php">Log out</a>
             </li>
           </ul>
         </div>
@@ -113,35 +170,39 @@ if(!isset($error)){
 <!-- ヘッダーここまで -->
     
     <div class="post-form">
-      <form method="POST" action="home.php" role="form" enctype="multipart/form-data">
+      <form method="post" action="" role="form" enctype="multipart/form-data" >
         <!-- 投稿写真 -->
+        
+        
         <div class="top-top-top">
-        <input type="file" name="pic" class="form-control"></div>
-        <div class="preview">
+        <img src="pic/<?php echo $one_post["pic"];?>" width = "600">
         </div>
-          <select name="categories"> 
-            <option value="1" selected="">タイプを選択</option> 
-            <option value="2">Traveler</option> 
-            <option value="3" >Engineer</option>  
+        
+        
+          <select name="type"> 
+            <option value="" selected=""><?php echo $one_post["type"];?></option> 
+            <option value="Traveler">Traveler</option> 
+            <option value="Engineer" >Engineer</option>  
           </select>
-          <select name="categories"> 
-            <option value="1" selected="">カテゴリを選択</option> 
-            <option value="2">3日以内</option> 
-            <option value="3" >1週間以内</option> 
-            <option value="4">2週間以内</option> 
-            <option value="4">2週間以上</option> 
-            <option value="4">1ヶ月以上</option> 
+          <select name="category_id">
+          
+            <option value="" selected=""><?php echo $one_post["category_id"];?></option> 
+            <option value="5">3日以内</option> 
+            <option value="4" >1週間以内</option> 
+            <option value="3">2週間以内</option> 
+            <option value="2">2週間以上</option> 
+            <option value="1">1ヶ月以上</option> 
           </select>
           <center>場所</center>
-          <input type="" name="" placeholder="フィリピン　セブ島">
+          <input type="" name="place" placeholder="フィリピン　セブ島" value="<?php echo $one_post["place"];?>">
           <center>期間</center>
-          <input type="" name="" placeholder="４日間">
+          <input type="" name="term" placeholder="４日間" value="<?php echo $one_post["term"];?>">
           <center>backpack</center>
-          <input type="" name="" placeholder="the north face Caelus 35L">
+          <input type="" name="backpack" placeholder="the north face Caelus 35L" value="<?php echo $one_post["backpack"];?>">
           <center>重量</center>
-          <input type="" name=""  placeholder="kg">
+          <input type="" name="weight"  placeholder="kg" value="<?php echo $one_post["weight"];?>">
           <center>中身詳細</center>
-          <textarea placeholder="mackbookpro, dji spark, omd-em5 mark2, t-shirts 3, pants 3"></textarea>
+          <textarea name="detail"><?php echo $one_post["detail"];?></textarea>
           <br>
           <input type="submit" value="編集する" class="btn btn-xl btn-primary">
         </form>
@@ -162,7 +223,7 @@ if(!isset($error)){
           <div class="col-md-4">
             <ul class="list-inline quicklinks">
               <li class="list-inline-item">
-                <a href="privacy_policy.html">Privacy Policy</a>
+                <a href="privacy_policy.php">Privacy Policy</a>
               </li>
             </ul>
           </div>
