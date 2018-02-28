@@ -91,14 +91,11 @@ if(!isset($error)){
   $stmt = $dbh->prepare($sql);
   $stmt->execute($data);
 
-//   $g = $stmt;
+  
 
-//   var_dump($g);
-// exit;
-
-  header("Location: home.php");
+  header('Location: mypage.php?user_id='.$_SESSION["id"]);
+  exit;
       
-    
       }
     } 
    
@@ -188,8 +185,8 @@ if(!isset($error)){
             <option value="Engineer" >Engineer</option>  
           </select>
           <select name="category_id">
-          <?php swiotch?> 
-            <option value="<?php echo $one_post["category_id"];?>" selected=""></option> 
+          
+            <option value="" selected=""><?php echo $one_post["category_id"];?></option> 
             <option value="5">3日以内</option> 
             <option value="4" >1週間以内</option> 
             <option value="3">2週間以内</option> 
