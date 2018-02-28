@@ -290,10 +290,26 @@
                   <img class="img-fluid d-block mx-auto" src="pic/<?php echo $one_post["pic"];?>" alt="">
                   <div class="mypage-texts">
                     <span>Type</span>
-                    <p>Traveler</p>
+                    <p><?php echo $one_post["type"]; ?></p>
                     <!-- <p></p> -->
                     <span>Category</span>
-                    <p>1週間以内</p>
+  
+                      <?php if($one_post["category_id"]==1){?>
+                        <p>1ヶ月以上</p>
+                      <?php }?>
+                      <?php if($one_post["category_id"]==2){?>
+                        <p>2週間以上</p>
+                      <?php }?>
+                      <?php if($one_post["category_id"]==3){?>
+                        <p>2週間以</p>
+                      <?php }?>
+                      <?php if($one_post["category_id"]==4){?>
+                        <p>1週間以内</p>
+                      <?php }?>
+                    <?php if($one_post["category_id"]==5){?>
+                        <p>3日以内</p>
+                      <?php }?>
+
                     <!-- <p></p> -->
                     <span>場所</span>
                     <p><?php echo $one_post["place"]; ?></p>
@@ -318,8 +334,8 @@
                     </li>
                   </ul>
                   <div class="edit-delete">
-                    <button class="delete-button" onclick="return confirm('削除します、よろしいですか？')">delete</button>
-                    <a href="edit_post.html"><button class="edit-button">edit</button>
+                    <button href="delete.php?post_id=<?php echo$one_post["post_id"];?>" class="delete-button" onclick="return confirm('削除します、よろしいですか？')">delete</button>
+                    <a href="edit_post.php?post_id=<?php echo$one_post["post_id"]?>"><button class="edit-button">edit</button>
                   </div></a>
                   <button class="btn btn-primary" data-dismiss="modal" type="button">
                     <i class="fa fa-times"></i>
