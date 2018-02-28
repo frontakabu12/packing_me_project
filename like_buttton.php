@@ -18,7 +18,7 @@ if(isset($_GET["like_post_id"])){
 // unlikeが押された時osaretatoki
 if(isset($_GET["unlike_post_id"])){
 // 登録されているLike情報をテーブルから削除
-  unlike($_GET["unlike_post_id"],$_SESSION["id"],$_GET["page"]);
+  unlike($_GET["unlike_post_id"],$_SESSION["id"]);
   // $sql = "DELETE FROM `likes` WHERE `tweet_id`=".$_GET["unlike_tweet_id"]." AND `member_id`=".$_SESSION["id"];
 
   // // sql実行
