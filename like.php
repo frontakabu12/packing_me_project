@@ -275,7 +275,23 @@
                     <p><?php echo $like_post["type"]; ?></p>
                     <!-- <p></p> -->
                     <span>Category</span>
-                    <p><?php echo $like_post["category_id"]; ?></p>
+
+                    <?php if($like_post["category_id"]==1){?>
+                        <p>1ヶ月以上</p>
+                      <?php }?>
+                      <?php if($like_post["category_id"]==2){?>
+                        <p>2週間以上</p>
+                      <?php }?>
+                      <?php if($like_post["category_id"]==3){?>
+                        <p>2週間以</p>
+                      <?php }?>
+                      <?php if($like_post["category_id"]==4){?>
+                        <p>1週間以内</p>
+                      <?php }?>
+                    <?php if($like_post["category_id"]==5){?>
+                        <p>3日以内</p>
+                      <?php }?>
+                    
                     <!-- <p></p> -->
                     <span>場所</span>
                     <p><?php echo $like_post["place"]; ?></p>
