@@ -3,6 +3,7 @@
   require('dbconnect.php');
 
   // 仮の数字 SESSIONに保存されているログインユーザーIDのこと
+  
   // ログインユーザーIDからMembersテーブルとPostテーブルを結合して全件取得するsql
   $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path`, `packingme_likes`.`post_id`, packingme_likes.created - interval date_format(packingme_likes.created,'%w') day as each_week, COUNT(*) as `like_count` FROM`packingme_posts` INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id` INNER JOIN `packingme_likes` ON `packingme_posts`.`post_id`=`packingme_likes`.`post_id` WHERE `packingme_posts`.`created` BETWEEN (CURDATE() - INTERVAL 7 DAY) AND (CURDATE() + INTERVAL 1 DAY) GROUP BY `packingme_likes`.`post_id` ORDER BY `like_count` DESC";
   // 実行
@@ -311,7 +312,21 @@
                     <p><?php echo $packingme_posts[$i]["type"]; ?></p>
                     <!-- <p></p> -->
                     <span>Category</span>
-                    <p><?php echo $packingme_posts[$i]["category_id"]; ?></p>
+                    <?php if($packingme_posts[$i]["category_id"]==1){?>
+                        <p>1ヶ月以上</p>
+                      <?php }?>
+                      <?php if($packingme_posts[$i]["category_id"]==2){?>
+                        <p>2週間以上</p>
+                      <?php }?>
+                      <?php if($packingme_posts[$i]["category_id"]==3){?>
+                        <p>2週間以内</p>
+                      <?php }?>
+                      <?php if($packingme_posts[$i]["category_id"]==4){?>
+                        <p>1週間以内</p>
+                      <?php }?>
+                    <?php if($packingme_posts[$i]["category_id"]==5){?>
+                        <p>3日以内</p>
+                      <?php }?>
                     <!-- <p></p> -->
                     <span>場所</span>
                     <p><?php echo $packingme_posts[$i]["place"]; ?></p>
@@ -320,7 +335,7 @@
                     <span>backpack</span>
                     <p><?php echo $packingme_posts[$i]["backpack"]; ?></p>
                     <span>重量</span>
-                    <p><?php echo $packingme_posts[$i]["weight"]; ?></p>
+                    <p><?php echo $packingme_posts[$i]["weight"]; ?>kg</p>
                     <span>中身詳細</span>
                     <p><?php echo $packingme_posts[$i]["detail"]; ?></p>
                   </div>
@@ -370,7 +385,21 @@
                     <p><?php echo $packingme_posts[$i]["type"]; ?></p>
                     <!-- <p></p> -->
                     <span>Category</span>
-                    <p><?php echo $packingme_posts[$i]["category_id"]; ?></p>
+                    <?php if($packingme_posts[$i]["category_id"]==1){?>
+                        <p>1ヶ月以上</p>
+                      <?php }?>
+                      <?php if($packingme_posts[$i]["category_id"]==2){?>
+                        <p>2週間以上</p>
+                      <?php }?>
+                      <?php if($packingme_posts[$i]["category_id"]==3){?>
+                        <p>2週間以内</p>
+                      <?php }?>
+                      <?php if($packingme_posts[$i]["category_id"]==4){?>
+                        <p>1週間以内</p>
+                      <?php }?>
+                    <?php if($packingme_posts[$i]["category_id"]==5){?>
+                        <p>3日以内</p>
+                      <?php }?>
                     <!-- <p></p> -->
                     <span>場所</span>
                     <p><?php echo $packingme_posts[$i]["place"]; ?></p>
@@ -379,7 +408,7 @@
                     <span>backpack</span>
                     <p><?php echo $packingme_posts[$i]["backpack"]; ?></p>
                     <span>重量</span>
-                    <p><?php echo $packingme_posts[$i]["weight"]; ?></p>
+                    <p><?php echo $packingme_posts[$i]["weight"]; ?>kg</p>
                     <span>中身詳細</span>
                     <p><?php echo $packingme_posts[$i]["detail"]; ?></p>
                   </div>
@@ -429,7 +458,21 @@
                     <p><?php echo $packingme_posts[$i]["type"]; ?></p>
                     <!-- <p></p> -->
                     <span>Category</span>
-                    <p><?php echo $packingme_posts[$i]["category_id"]; ?></p>
+                    <?php if($packingme_posts[$i]["category_id"]==1){?>
+                        <p>1ヶ月以上</p>
+                      <?php }?>
+                      <?php if($packingme_posts[$i]["category_id"]==2){?>
+                        <p>2週間以上</p>
+                      <?php }?>
+                      <?php if($packingme_posts[$i]["category_id"]==3){?>
+                        <p>2週間以内</p>
+                      <?php }?>
+                      <?php if($packingme_posts[$i]["category_id"]==4){?>
+                        <p>1週間以内</p>
+                      <?php }?>
+                    <?php if($packingme_posts[$i]["category_id"]==5){?>
+                        <p>3日以内</p>
+                      <?php }?>
                     <!-- <p></p> -->
                     <span>場所</span>
                     <p><?php echo $packingme_posts[$i]["place"]; ?></p>
@@ -438,7 +481,7 @@
                     <span>backpack</span>
                     <p><?php echo $packingme_posts[$i]["backpack"]; ?></p>
                     <span>重量</span>
-                    <p><?php echo $packingme_posts[$i]["weight"]; ?></p>
+                    <p><?php echo $packingme_posts[$i]["weight"]; ?>kg</p>
                     <span>中身詳細</span>
                     <p><?php echo $packingme_posts[$i]["detail"]; ?></p>
                   </div>
@@ -488,7 +531,21 @@
                     <p><?php echo $packingme_posts[$i]["type"]; ?></p>
                     <!-- <p></p> -->
                     <span>Category</span>
-                    <p><?php echo $packingme_posts[$i]["category_id"]; ?></p>
+                    <?php if($packingme_posts[$i]["category_id"]==1){?>
+                        <p>1ヶ月以上</p>
+                      <?php }?>
+                      <?php if($packingme_posts[$i]["category_id"]==2){?>
+                        <p>2週間以上</p>
+                      <?php }?>
+                      <?php if($packingme_posts[$i]["category_id"]==3){?>
+                        <p>2週間以内</p>
+                      <?php }?>
+                      <?php if($packingme_posts[$i]["category_id"]==4){?>
+                        <p>1週間以内</p>
+                      <?php }?>
+                    <?php if($packingme_posts[$i]["category_id"]==5){?>
+                        <p>3日以内</p>
+                      <?php }?>
                     <!-- <p></p> -->
                     <span>場所</span>
                     <p><?php echo $packingme_posts[$i]["place"]; ?></p>
@@ -497,7 +554,7 @@
                     <span>backpack</span>
                     <p><?php echo $packingme_posts[$i]["backpack"]; ?></p>
                     <span>重量</span>
-                    <p><?php echo $packingme_posts[$i]["weight"]; ?></p>
+                    <p><?php echo $packingme_posts[$i]["weight"]; ?>kg</p>
                     <span>中身詳細</span>
                     <p><?php echo $packingme_posts[$i]["detail"]; ?></p>
                   </div>

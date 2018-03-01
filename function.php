@@ -25,12 +25,12 @@ function delete_tweet(){
 	require('dbconnect.php');
 
 	// 削除したいtweet_id
-	$delete_tweet_id = $_GET['tweet_id'];
+	$delete_post_id = $_GET['post_id'];
 
 	// 論理削除用のUPDATE文
 
 
-	$sql = "UPDATE `tweets` SET `delete_flag` = '1' WHERE `tweets`.`tweet_id` = ".$delete_tweet_id;
+	$sql = "UPDATE `packingme_posts` SET `delete_flag` = '1' WHERE `packingme_posts`.`post_id` = ".$delete_post_id;
 
 
 	// SQL実行
@@ -40,7 +40,7 @@ function delete_tweet(){
 
 
 	// 一覧画面に戻る
-	header("Location: index.php");
+	header("Location: mypage.php=".$_SESSION["id"]);
 	exit();
 }
 
