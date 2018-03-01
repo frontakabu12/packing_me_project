@@ -280,7 +280,7 @@
         <?php if($page == $all_page_number){?>
         <li class="change-page-btn">></li>
         <?php }else{?>
-        <li class="active-li"><a  href="mypage.php?page=<?php echo $page+1;?>&user_id=<?php echo $all_page_number;?>">></a></li>
+        <li class="active-li"><a  href="mypage.php?page=<?php echo $page+1;?>&user_id=<?php echo $_SESSION["id"];?>">></a></li>
         <?php }?>
 
       </ul>

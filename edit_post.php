@@ -155,7 +155,7 @@ if(isset($_POST) && !empty($_POST)){
               <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="mypage.php">My Page</a>
+              <a class="nav-link js-scroll-trigger" href="mypage.php?user_id=<?php echo $_SESSION["id"];?>">My Page</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
@@ -186,7 +186,24 @@ if(isset($_POST) && !empty($_POST)){
           </select>
           <select name="category_id">
           
-            <option value="" selected=""><?php echo $one_post["category_id"];?></option> 
+            <option value="" selected="">
+              <?php if($one_post["category_id"]==1){?>
+                <p>1ヶ月以上</p>
+              <?php }?>
+              <?php if($one_post["category_id"]==2){?>
+                <p>2週間以上</p>
+              <?php }?>
+              <?php if($one_post["category_id"]==3){?>
+                <p>2週間以内</p>
+              <?php }?>
+              <?php if($one_post["category_id"]==4){?>
+                <p>1週間以内</p>
+              <?php }?>
+              <?php if($one_post["category_id"]==5){?>
+                <p>3日以内</p>
+              <?php }?>
+
+            </option> 
             <option value="5">3日以内</option> 
             <option value="4" >1週間以内</option> 
             <option value="3">2週間以内</option> 
