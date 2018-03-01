@@ -15,7 +15,7 @@ function login_check(){
   	}else{
     // ログインしていない
     // ログイン画面へ飛ばす
-    header("Location: login.php");
+    header("Location: top.php");
     exit();
   }
 

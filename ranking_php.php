@@ -73,7 +73,7 @@
               <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="home.php">Log out</a>
+              <a class="nav-link js-scroll-trigger" href="logout.php">Log out</a>
             </li>
           </ul>
         </div>
