@@ -352,7 +352,7 @@
                     </li>
                   </ul>
                   <div class="edit-delete">
-                    <button href="delete.php?post_id=<?php echo$one_post["post_id"];?>" class="delete-button" onclick="return confirm('削除します、よろしいですか？')">delete</button>
+                    <a href="delete.php?post_id=<?php echo$one_post["post_id"];?>"><button class="delete-button" onclick="return confirm('削除します、よろしいですか？')">delete</button></a>
                     <a href="edit_post.php?post_id=<?php echo$one_post["post_id"]?>"><button class="edit-button">edit</button>
                   </div></a>
                   <button class="btn btn-primary" data-dismiss="modal" type="button">
