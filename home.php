@@ -405,7 +405,7 @@
                   <img class="img-fluid d-block mx-auto" src="pic/<?php echo $one_post["pic"];?>" alt="">
                   <div class="mypage-texts">
                   <span>Type</span>
-                    <p><?php $one_post["type"]; ?></p>
+                    <p><?php echo $one_post["type"]; ?></p>
                     <!-- <p></p> -->
                     <span>Category</span>
                       <?php if($one_post["category_id"]==1){?>
