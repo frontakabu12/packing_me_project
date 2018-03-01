@@ -63,7 +63,7 @@
                   <h1>Registration Successful!</h1>
                   <h1>Thank you !</h1>
                     <br>               
-                  <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="login.php">START</a>
+                  <a class="logIn btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="top.php">START</a>
                 </div>     
               </div>
               </div> 
