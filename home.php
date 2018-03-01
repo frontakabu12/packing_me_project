@@ -25,7 +25,7 @@
 
 
   // １ページ分の表示件数
-  $page_row = 10;
+  $page_row = 5;
 
   // データの件数から最大ページ数を計算する
   $page_sql = "SELECT COUNT(*) AS `cnt` FROM`packingme_posts`WHERE`category_id`=".$_GET["category_id"];
@@ -47,7 +47,7 @@
             FROM `packingme_posts`
             INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`
             WHERE `category_id`=? 
-            ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",10";
+            ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",5";
 
 
     // 実行
@@ -93,6 +93,7 @@
       $one_post["login_like_flag"] = $login_like_number["like_flag"];
       // データ取得できている      $tweet_list[] = $one_tweet;
       $post_list[] = $one_post;
+      $a = 1;
     }
   }
 
@@ -179,6 +180,7 @@
         $one_post["login_like_flag"] = $login_like_number["like_flag"];
         // データ取得できている      $tweet_list[] = $one_tweet;
         $post_list[] = $one_post;
+        $a = 0;
       }
     }
   }
@@ -337,7 +339,7 @@
             <! <span class="sr-only">Loading...</span> -->
           <!-- </div> -->
           <ul class="pager">
-
+          <?php if($a==0){?>
             <?php if($page == 1){?>
             <li class="change-page-btn"><</li>
             <?php }else{?>
@@ -353,6 +355,25 @@
             <?php }else{?>
             <li class="active-li"><a  href="home.php?page=<?php echo $page+1;?>">></a></li>
             <?php }?>
+
+          <?php }else{?>
+            <?php if($page == 1){?>
+            <li class="change-page-btn"><</li>
+            <?php }else{?>
+            <li class="active-li"><a  href="home.php?category_id=<?php echo $_GET["category_id"];?>&page=<?php echo $page-1;?>"><</a></li>
+            <?php }?>
+
+            <?php for($i=1;$i<=$all_page_number;$i++){?>
+            <li class="active-li"><a href="home.php?category_id=<?php echo $_GET["category_id"];?>&page=<?php echo $i;?>"><?php echo $i;?></a></li>
+            <?php  } ?>
+
+            <?php if($page == $all_page_number){?>
+            <li class="change-page-btn">></li>
+            <?php }else{?>
+            <li class="active-li"><a  href="home.php?category_id=<?php echo $_GET["category_id"];?>&page=<?php echo $page+1;?>">></a></li>
+            <?php }?>
+            
+          <?php }?>
 
           </ul>
           </div>
