@@ -12,7 +12,16 @@
   }else{
     // 存在していない時はページ番号を１とする
     $page = 1;
-    }
+  }
+
+  // 投稿があるかないかの判定
+  // $sql = "SELECT * FROM `packingme_posts` WHERE
+  //  `user_id`=".$_GET['user_id']."";
+  // $stmt = $dbh->prepare($sql);
+  // $stmt->execute();
+  // $post = $stmt->fetch(PDO::FETCH_ASSOC);
+  // var_dump($post);
+
 
   // １以下のイレギュラーな数字が入ってきたときページ番号を強制的に１にする
     // Max カンマ区切りで羅列された数字の中から最大の数字を取得
@@ -40,11 +49,13 @@
 
 
 
+
   if(isset($_GET) && !empty($_GET)){
     $p_sql ="SELECT * FROM`packingme_users`WHERE`id`=".$_GET["user_id"];
     $p_stmt = $dbh->prepare($p_sql);
     $p_stmt->execute();
     $user = $p_stmt->fetch(PDO::FETCH_ASSOC);
+    // var_dump($user);exit;
   }
   // if(!empty($_SESSION)){
   //   // 一行データ取得するsql
@@ -55,6 +66,8 @@
   //   // フェッチ
   //   $user = $one_stmt->fetch(PDO::FETCH_ASSOC);
   // }
+
+
   // 個人の投稿を取得するsql
   $sql = "SELECT * FROM`packingme_posts`WHERE`user_id`=? 
           ORDER BY `packingme_posts`.`modified` DESC LIMIT ".$start.",4";
@@ -156,9 +169,11 @@
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="home.php">Home</a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="mypage.php?user_id=<?php echo $_SESSION["id"];?>">My Page</a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="post.php">投稿する</a>
             </li>
@@ -175,16 +190,19 @@
       <div class="right-caram">
         <div class="profile-imgs">
           <div class="top-image"><img src="picture_path/<?php echo $user["picture_path"];?>"></div>
+
           <h3><?php echo $user["user_name"];?></h3>
         </div>
         <br>        
         <div class="profile-texts">
+          <div style="color:#c9cbe0; font-size: 15px;"><center>SELF INTRODUCE</center></div>
           <p>
           <center><?php echo $user["self_intro"];?></center>
           </p>
         </div>
         <div class="profile-texts">
-          
+          <div style="color:#c9cbe0;"><center>WEBSITE</center></div>
+
           <span><?php echo $user["web_site"];?></span>
         </div>
         <?php if($_GET["user_id"] == $_SESSION["id"]){ ?>
@@ -306,7 +324,7 @@
                       <?php if($one_post["category_id"]==4){?>
                         <p>1週間以内</p>
                       <?php }?>
-                    <?php if($one_post["category_id"]==5){?>
+                      <?php if($one_post["category_id"]==5){?>
                         <p>3日以内</p>
                       <?php }?>
 

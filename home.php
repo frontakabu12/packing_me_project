@@ -1,8 +1,13 @@
 <?php 
-  session_start();
+  // session_start();
   require('dbconnect.php');
+  require('function.php');
+  login_check();
 
-  // ページング処理ーーーーーーーーーー
+ 
+
+  if(isset($_GET["category_id"]) && !empty($_GET["category_id"])){
+     // ページング処理ーーーーーーーーーー
 // 
   $page = "";
 
@@ -23,7 +28,7 @@
   $page_row = 10;
 
   // データの件数から最大ページ数を計算する
-  $page_sql = "SELECT COUNT(*) AS `cnt` FROM`packingme_posts`";
+  $page_sql = "SELECT COUNT(*) AS `cnt` FROM`packingme_posts`WHERE`category_id`=".$_GET["category_id"];
   $page_stmt = $dbh->prepare($page_sql);
   $page_stmt->execute();
 
@@ -38,8 +43,6 @@
   // 表皮するデータを取得開始場所
   $start = ($page-1)*$page_row;
 
-
-  if(isset($_GET["category_id"]) && !empty($_GET["category_id"])){
     $sql = "SELECT * 
             FROM `packingme_posts`
             INNER JOIN `packingme_users` ON `packingme_posts`.`user_id`=`packingme_users`.`id`
@@ -94,6 +97,41 @@
   }
 
   }else{
+     // ページング処理ーーーーーーーーーー
+// 
+  $page = "";
+
+  // パラメータが存在していたらページ番号代入
+  if(isset($_GET["page"])){
+    $page = $_GET["page"];
+  }else{
+    // 存在していない時はページ番号を１とする
+    $page = 1;
+    }
+
+  // １以下のイレギュラーな数字が入ってきたときページ番号を強制的に１にする
+    // Max カンマ区切りで羅列された数字の中から最大の数字を取得
+  $page = max($page,1);
+
+
+  // １ページ分の表示件数
+  $page_row = 10;
+
+  // データの件数から最大ページ数を計算する
+  $page_sql = "SELECT COUNT(*) AS `cnt` FROM`packingme_posts`";
+  $page_stmt = $dbh->prepare($page_sql);
+  $page_stmt->execute();
+
+  $record_count = $page_stmt->fetch(PDO::FETCH_ASSOC);
+  // ceil 小数点の切り上げ
+  $all_page_number = ceil($record_count['cnt'] / $page_row);
+
+  // パラメータのページ番号が最大ページを超えていれば強雨静的に最後のページとする
+  // min カンマ区切りの数字の羅列の中から、最小の数字を取得する
+  $page = min($page,$all_page_number);
+
+  // 表皮するデータを取得開始場所
+  $start = ($page-1)*$page_row;
   // ログインユーザーIDからMembersテーブルとPostテーブルを結合して全件取得するsql
     $sql = "SELECT `packingme_posts`.*,`packingme_users`.`user_name`,`picture_path` 
             FROM`packingme_posts` 
@@ -346,10 +384,24 @@
                   <img class="img-fluid d-block mx-auto" src="pic/<?php echo $one_post["pic"];?>" alt="">
                   <div class="mypage-texts">
                   <span>Type</span>
-                    <p>Traveler</p>
+                    <p><?php $one_post["type"]; ?></p>
                     <!-- <p></p> -->
                     <span>Category</span>
-                    <p>2週間以内</p>
+                      <?php if($one_post["category_id"]==1){?>
+                        <p>1ヶ月以上</p>
+                      <?php }?>
+                      <?php if($one_post["category_id"]==2){?>
+                        <p>2週間以上</p>
+                      <?php }?>
+                      <?php if($one_post["category_id"]==3){?>
+                        <p>2週間以内</p>
+                      <?php }?>
+                      <?php if($one_post["category_id"]==4){?>
+                        <p>1週間以内</p>
+                      <?php }?>
+                      <?php if($one_post["category_id"]==5){?>
+                        <p>3日以内</p>
+                      <?php }?>
                     <!-- <p></p> -->
                     <span>場所</span>
                     <p><?php echo $one_post["place"];?></p>
